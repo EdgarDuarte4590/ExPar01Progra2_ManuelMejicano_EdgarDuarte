@@ -1,12 +1,21 @@
 package vista;
 
 import java.awt.Color;
+import java.awt.Font;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import vista.administrador.VistaAdmin;
+import vista.oficiales.VistaOficiales;
+
 public class MenuPrincipal extends JFrame{
+
+    VistaAdmin vistaAdmin;
+    VistaOficiales vistaOficiales;
 
     public MenuPrincipal(){
         setTitle("Menu Principal");
@@ -19,12 +28,51 @@ public class MenuPrincipal extends JFrame{
     }
 
     private void inicializarComponentes() {
+        vistaAdmin = new VistaAdmin();
+        vistaOficiales = new VistaOficiales();  
+
         JPanel panelPrincipal = new JPanel();
         panelPrincipal.setLayout(null); // Establecer el diseño nulo para el panel principal
-        panelPrincipal.setBounds(433, 160,500, 400); // Establecer el tamaño del panel principal
-
-        panelPrincipal.setBackground(Color.BLUE); // Color de fondo transparente
+        panelPrincipal.setBounds(383,150 ,600, 400); // Establecer el tamaño del panel principal
+        panelPrincipal.setBackground(new Color(0xFFE4FFDF)); // Color de fondo transparente
         super.add(panelPrincipal); // Agregar el panel principal a la ventana
+
+        JLabel label = new JLabel("Bienvenido al Sistema de Control de Ingresos y Salidad del CTP UPALA");
+        label.setBounds(40, 50, 500, 30); // Establecer la posición y el tamaño del JLabel
+        label.setFont(new Font("Arial", Font.BOLD, 14)); // Establecer la fuente del JLabel
+        panelPrincipal.add(label); // Agregar el JLabel al panel principal
+
+        JLabel label2 = new JLabel("Seleccione una opción:");
+        label2.setBounds(240, 100, 500, 30); // Establecer la posición y el tamaño del JLabel
+        panelPrincipal.add(label2); // Agregar el JLabel al panel principal
+
+        JButton btnEstudiante = new JButton("Estudiante");
+        btnEstudiante.setBounds(230, 150, 150, 30); // Establecer la posición y el tamaño del botón
+        btnEstudiante.setFont(new Font("Arial", Font.BOLD, 12)); // Establecer la fuente del botón
+        panelPrincipal.add(btnEstudiante); 
+
+        JButton btnGuarda = new JButton("Oficial de Seguridad");
+        btnGuarda.setBounds(230, 200, 150, 30); // Establecer la posición y el tamaño del botón
+        btnGuarda.setFont(new Font("Arial", Font.BOLD, 12)); // Establecer la fuente del botón
+        panelPrincipal.add(btnGuarda);
+        btnGuarda.addActionListener(e -> {
+            vistaOficiales.mostrar(); // Mostrar la vista de los oficiales al hacer clic en el botón
+            //this.dispose(); // Cerrar la ventana actual
+        });
+
+        JButton btnAdmin = new JButton("Administrador");
+        btnAdmin.setBounds(230, 250, 150, 30); // Establecer la posición y el tamaño del botón
+        btnAdmin.setFont(new Font("Arial", Font.BOLD, 12)); // Establecer la fuente del botón
+        panelPrincipal.add(btnAdmin);
+        btnAdmin.addActionListener(e -> {
+            vistaAdmin.mostrar(); // Mostrar la vista del administrador al hacer clic en el botón
+            //this.dispose(); // Cerrar la ventana actual
+        });
+
+
+
+
+
         
     }
     
