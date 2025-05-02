@@ -1,8 +1,11 @@
+import java.util.ResourceBundle.Control;
+
 import javax.swing.UIManager;
 
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
+import controlador.Controlador;
 import vista.MenuPrincipal;
 
 public class App {
@@ -12,7 +15,9 @@ public class App {
         } catch (Exception e) {
            System.out.println("Algo salio mal");
         }
-        MenuPrincipal main = new MenuPrincipal();
+        Controlador controlador = new Controlador();
+        
+        MenuPrincipal main = new MenuPrincipal(controlador);
         main.setVisible(true);
         main.setLocationRelativeTo(null); 
         main.setResizable(false); 

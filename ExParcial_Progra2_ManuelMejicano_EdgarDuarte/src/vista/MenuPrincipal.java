@@ -2,6 +2,7 @@ package vista;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ResourceBundle.Control;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -9,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import controlador.Controlador;
 import vista.administrador.VistaAdmin;
 import vista.oficiales.VistaOficiales;
 import vista.estudiantes.VistaEstudiante;
@@ -19,7 +21,10 @@ public class MenuPrincipal extends JFrame{
     VistaOficiales vistaOficiales;
     VistaEstudiante vistaEstudiante;
 
-    public MenuPrincipal(){
+    Controlador controlador; // Instancia del controlador
+
+    public MenuPrincipal(Controlador controlador) {
+        this.controlador = controlador; // Inicializar el controlador
         setTitle("Menu Principal");
         setSize(1366, 720);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,7 +35,7 @@ public class MenuPrincipal extends JFrame{
     }
 
     private void inicializarComponentes() {
-        vistaAdmin = new VistaAdmin();
+        vistaAdmin = new VistaAdmin(this.controlador);
         vistaOficiales = new VistaOficiales();  
 
         JPanel panelPrincipal = new JPanel();

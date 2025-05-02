@@ -1,16 +1,24 @@
 package vista.administrador;
 
+import java.security.Guard;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
+import controlador.Controlador;
+import modelo.Guarda;
+
 public class VistaAdmin extends JFrame{
+    Controlador controlador; // Instancia del controlador
 
     JTabbedPane tabbedPane = new JTabbedPane();
     
-        public VistaAdmin() {
+        public VistaAdmin(Controlador controlador) {
+            this.controlador = controlador; 
             setTitle("Vista Administrador");
             setSize(1366, 720);
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -99,7 +107,23 @@ public class VistaAdmin extends JFrame{
             textFieldContrasena.setBounds(250, 300, 200, 30); // Establecer la posición y el tamaño del JTextField
             panelOficiales.add(textFieldContrasena); // Agregar el JTextField al panel de oficiales
 
+            JButton btnAgregar = new JButton("Agregar Oficial");
+            btnAgregar.setBounds(250, 350, 150, 30); // Establecer la posición y el tamaño del botón
+            btnAgregar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12)); // Establecer la fuente del botón
+            panelOficiales.add(btnAgregar); // Agregar el botón al panel de oficiales
+            btnAgregar.addActionListener(e -> {
+                // Lógica para agregar el oficial
+                String nombre = textFieldNombre.getText();
+                int id = Integer.parseInt(textFieldID.getText());
+                int telefono = Integer.parseInt(textFieldTelefono.getText());
+                int idAcceso = Integer.parseInt(textFieldIDAcceso.getText());
+                String contrasena = textFieldContrasena.getText();
 
+                // Aquí puedes llamar al controlador para agregar el oficial
+                Guarda nuevoOficial = new Guarda(nombre, id, idAcceso, contrasena, telefono);
+                controlador.agregarOficial(nuevoOficial);
+                
+            });
             return panelOficiales;
         }
 }
