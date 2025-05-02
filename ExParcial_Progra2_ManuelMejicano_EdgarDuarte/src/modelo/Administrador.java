@@ -1,8 +1,8 @@
 package modelo;
 
 public class Administrador extends Persona {
-   pr String contrasena;
-    String usuario;
+   private String contrasena;
+    private String usuario;
 
     public Administrador(String nombre, int iD, String contrasena, String usuario) {
         super(nombre, iD);
