@@ -11,11 +11,13 @@ import javax.swing.JTabbedPane;
 
 import vista.administrador.VistaAdmin;
 import vista.oficiales.VistaOficiales;
+import vista.estudiantes.VistaEstudiante;
 
 public class MenuPrincipal extends JFrame{
 
     VistaAdmin vistaAdmin;
     VistaOficiales vistaOficiales;
+    VistaEstudiante vistaEstudiante;
 
     public MenuPrincipal(){
         setTitle("Menu Principal");
@@ -50,6 +52,11 @@ public class MenuPrincipal extends JFrame{
         btnEstudiante.setBounds(230, 150, 150, 30); // Establecer la posición y el tamaño del botón
         btnEstudiante.setFont(new Font("Arial", Font.BOLD, 12)); // Establecer la fuente del botón
         panelPrincipal.add(btnEstudiante); 
+        btnEstudiante.addActionListener(e -> {
+            vistaEstudiante = new VistaEstudiante(); // Crear una nueva instancia de VistaEstudiante
+            vistaEstudiante.mostrar(); // Mostrar la vista del estudiante al hacer clic en el botón
+            //this.dispose(); // Cerrar la ventana actual
+        });
 
         JButton btnGuarda = new JButton("Oficial de Seguridad");
         btnGuarda.setBounds(230, 200, 150, 30); // Establecer la posición y el tamaño del botón
