@@ -1,0 +1,62 @@
+package modelo;
+
+public class Salida {
+
+    private String fechaSalida;
+    private String horaSalida;
+    private String motivoSalida;
+    private Persona persona;
+    private Guarda guarda;
+
+    public Salida(String fechaSalida, String horaSalida, String motivoSalida, Persona persona, Guarda guarda) {
+        this.fechaSalida = fechaSalida;
+        this.horaSalida = horaSalida;
+        this.motivoSalida = motivoSalida;
+        this.persona = persona;
+        this.guarda = guarda;
+    }
+
+    public String getFechaSalida() {
+        return fechaSalida;
+    }
+
+    public void setFechaSalida(String fechaSalida) {
+        this.fechaSalida = fechaSalida;
+    }
+
+    public String getHoraSalida() {
+        return horaSalida;
+    }
+
+    public void setHoraSalida(String horaSalida) {
+        this.horaSalida = horaSalida;
+    }
+
+    public String getMotivoSalida() {
+        return motivoSalida;
+    }
+
+    public void setMotivoSalida(String motivoSalida) {
+        this.motivoSalida = motivoSalida;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
+    public Guarda getGuarda() {
+        return guarda;
+    }
+
+    public void setGuarda(Guarda guarda) {
+        this.guarda = guarda;
+    }
+
+    
+    
+
+}
