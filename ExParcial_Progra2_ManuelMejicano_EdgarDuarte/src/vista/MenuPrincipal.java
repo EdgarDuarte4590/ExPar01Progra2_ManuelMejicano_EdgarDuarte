@@ -1,6 +1,7 @@
 package vista;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 public class MenuPrincipal extends JFrame{
@@ -14,18 +15,13 @@ public class MenuPrincipal extends JFrame{
         inicializarComponentes();
     }
 
-    JTabbedPane tabbedPane; 
-    PanelIngresos panelIngresos;
+    private void inicializarComponentes() {
+        JPanel panelPrincipal = new JPanel();
+        panelPrincipal.setLayout(null); // Establecer el diseño nulo para el panel principal
+        panelPrincipal.setBounds(0, 0, 500, 720); // Establecer el tamaño del panel principal
+        
 
-   public void inicializarComponentes(){
-        setLayout(null);
-        setResizable(false);  
-        tabbedPane = new JTabbedPane();
-        tabbedPane.setBounds(0, 0, 1366, 720); 
-        add(tabbedPane);
-        panelIngresos = new PanelIngresos();
-
-        tabbedPane.addTab("Pestaña de Inicio", panelIngresos);
-    } 
+    }
+    
 }
 
