@@ -1,14 +1,13 @@
 import javax.swing.UIManager;
 
-
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import vista.MenuPrincipal;
 
 public class App {
     public static void main(String[] args) throws Exception {
         try {
-            UIManager.setLookAndFeel(new FlatMacDarkLaf());
+            UIManager.setLookAndFeel(new FlatMacLightLaf());
         } catch (Exception e) {
            System.out.println("Algo salio mal");
         }
