@@ -1,31 +1,28 @@
 package modelo;
 
-public class Guarda {
-    String nombre;
-    int ID;
-    String contrasena;
+public class Guarda extends Persona {
 
-    
-    public Guarda(String nombre, int iD, String contrasena) {
-        this.nombre = nombre;
-        ID = iD;
+    private int IDAcceso;
+    private String contrasena;
+
+    public Guarda(String nombre, int iD, int iDAcceso, String contrasena) {
+        super(nombre, iD);
+        IDAcceso = iDAcceso;
         this.contrasena = contrasena;
     }
-    public String getNombre() {
-        return nombre;
+
+    public int getIDAcceso() {
+        return IDAcceso;
     }
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+
+    public void setIDAcceso(int iDAcceso) {
+        IDAcceso = iDAcceso;
     }
-    public int getID() {
-        return ID;
-    }
-    public void setID(int iD) {
-        ID = iD;
-    }
+
     public String getContrasena() {
         return contrasena;
     }
+
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
