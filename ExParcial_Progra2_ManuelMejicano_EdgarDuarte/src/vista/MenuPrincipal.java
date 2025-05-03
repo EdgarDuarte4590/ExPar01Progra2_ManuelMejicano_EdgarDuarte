@@ -12,6 +12,7 @@ import javax.swing.JTabbedPane;
 
 import controlador.Controlador;
 import vista.administrador.VistaAdmin;
+import vista.oficiales.Login;
 import vista.oficiales.VistaOficiales;
 import vista.estudiantes.VistaEstudiante;
 
@@ -41,7 +42,7 @@ public class MenuPrincipal extends JFrame{
         JPanel panelPrincipal = new JPanel();
         panelPrincipal.setLayout(null); // Establecer el diseño nulo para el panel principal
         panelPrincipal.setBounds(383,150 ,600, 400); // Establecer el tamaño del panel principal
-        panelPrincipal.setBackground(new Color(0xFFE4FFDF)); // Color de fondo transparente
+        panelPrincipal.setBackground(new Color(0xFFD8D8D8)); // Color de fondo transparente
         super.add(panelPrincipal); // Agregar el panel principal a la ventana
 
         JLabel label = new JLabel("Bienvenido al Sistema de Control de Ingresos y Salidad del CTP UPALA");
@@ -68,7 +69,12 @@ public class MenuPrincipal extends JFrame{
         btnGuarda.setFont(new Font("Arial", Font.BOLD, 12)); // Establecer la fuente del botón
         panelPrincipal.add(btnGuarda);
         btnGuarda.addActionListener(e -> {
-            vistaOficiales.mostrar(); // Mostrar la vista de los oficiales al hacer clic en el botón
+            if (!controlador.isSesionIniciada()) {
+                Login login = new Login(controlador); // Crear una nueva instancia de Login
+                login.setVisible(true);
+                login.setLocationRelativeTo(null); 
+            }
+           // vistaOficiales.mostrar(); // Mostrar la vista de los oficiales al hacer clic en el botón
             //this.dispose(); // Cerrar la ventana actual
         });
 
@@ -76,17 +82,17 @@ public class MenuPrincipal extends JFrame{
         btnAdmin.setBounds(230, 250, 150, 30); // Establecer la posición y el tamaño del botón
         btnAdmin.setFont(new Font("Arial", Font.BOLD, 12)); // Establecer la fuente del botón
         panelPrincipal.add(btnAdmin);
-        btnAdmin.addActionListener(e -> {
+        btnAdmin.addActionListener(e -> { 
             vistaAdmin.mostrar(); // Mostrar la vista del administrador al hacer clic en el botón
             //this.dispose(); // Cerrar la ventana actual
         });
 
 
 
-
-
         
     }
+
+    
     
 }
 

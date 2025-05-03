@@ -6,8 +6,13 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+import com.formdev.flatlaf.ui.FlatListCellBorder.Default;
 
 import controlador.Controlador;
 import modelo.Guarda;
@@ -16,6 +21,9 @@ public class VistaAdmin extends JFrame{
     Controlador controlador; // Instancia del controlador
 
     JTabbedPane tabbedPane = new JTabbedPane();
+    JTable tablaOficiales = new JTable(); 
+
+    DefaultTableModel modeloTablaOficiales = new DefaultTableModel(); 
     
         public VistaAdmin(Controlador controlador) {
             this.controlador = controlador; 
@@ -57,7 +65,14 @@ public class VistaAdmin extends JFrame{
         }
 
         public JPanel panelOficiales() {
+            String[] nombreColumnas = {"Nombre", "ID", "Teléfono", "ID Acceso", "Contraseña"};
+            modeloTablaOficiales = new DefaultTableModel(); 
+            modeloTablaOficiales.setColumnIdentifiers(nombreColumnas); 
+            tablaOficiales = new JTable(); 
+            tablaOficiales.setModel(modeloTablaOficiales);
+
             JPanel panelOficiales = new JPanel();
+
             panelOficiales.setLayout(null); // Establecer el diseño nulo para el panel de oficiales
             panelOficiales.setBounds(0, 0, 1366, 720); // Establecer el tamaño del panel de oficiales
             
@@ -122,8 +137,28 @@ public class VistaAdmin extends JFrame{
                 // Aquí puedes llamar al controlador para agregar el oficial
                 Guarda nuevoOficial = new Guarda(nombre, id, idAcceso, contrasena, telefono);
                 controlador.agregarOficial(nuevoOficial);
+                generarTablaOficiales(); 
                 
             });
+
+            JScrollPane scrollPane = new JScrollPane(tablaOficiales);
+            scrollPane.setBounds(500, 100, 800, 500); 
+            tablaOficiales.setBounds(0,0, 800, 500); 
+            panelOficiales.add(scrollPane); 
+            
             return panelOficiales;
+        }
+
+        public void generarTablaOficiales(){
+            modeloTablaOficiales.setRowCount(0);
+            for(Guarda guarda: controlador.getOficiales()){
+                modeloTablaOficiales.addRow(new Object[]{
+                    guarda.getNombre(),
+                    guarda.getID(),
+                    guarda.getNumeroTelefono(),
+                    guarda.getIDAcceso(),
+                    guarda.getContrasena()
+                });
+            }
         }
 }
