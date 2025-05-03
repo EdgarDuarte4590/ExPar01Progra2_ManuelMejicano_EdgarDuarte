@@ -61,6 +61,19 @@ public class Login extends JFrame{
             btnIniciar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
             btnIniciar.setBackground(new Color(0xFF020123));
             btnIniciar.setForeground(Color.WHITE);
+            btnIniciar.setBorderPainted(false);
+            btnIniciar.addActionListener(e->{
+                String id = idAcceso.getText();
+                String contra = contrasena.getText();
+                controlador.loginOficial(id, contra); // Método para iniciar sesión
+                if (controlador.isSesionIniciada()) {
+                    System.out.println("Sesión iniciada correctamente.");
+                    this.dispose(); // Cerrar la ventana de inicio de sesión
+                    controlador.menuPrincipal.vistaOficiales.setVisible(true);; // Abrir la vista de oficiales
+                } else {
+                    System.out.println("Error al iniciar sesión. Verifique sus credenciales.");
+                }
+            });
             container.add(btnIniciar);
         }
     

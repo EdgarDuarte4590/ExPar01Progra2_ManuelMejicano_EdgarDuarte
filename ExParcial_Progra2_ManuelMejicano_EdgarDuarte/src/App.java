@@ -16,11 +16,7 @@ public class App {
            System.out.println("Algo salio mal");
         }
         Controlador controlador = new Controlador();
-        
-        MenuPrincipal main = new MenuPrincipal(controlador);
-        main.setVisible(true);
-        main.setLocationRelativeTo(null); 
-        main.setResizable(false); 
+         
     }
 
 }
