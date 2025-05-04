@@ -2,8 +2,10 @@ package vista.administrador;
 
 import java.awt.Color;
 import java.security.Guard;
+import java.time.LocalDate;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -14,9 +16,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import com.formdev.flatlaf.ui.FlatListCellBorder.Default;
+import com.toedter.calendar.JDateChooser;
 
 import controlador.Controlador;
+import modelo.Estudiante;
 import modelo.Guarda;
 
 public class VistaAdmin extends JFrame {
@@ -24,8 +27,10 @@ public class VistaAdmin extends JFrame {
 
     JTabbedPane tabbedPane = new JTabbedPane();
     JTable tablaOficiales = new JTable();
+    JTable tablaEstudiantes = new JTable();
 
     DefaultTableModel modeloTablaOficiales = new DefaultTableModel();
+    DefaultTableModel modeloTablaEstudiantes = new DefaultTableModel();
 
     public VistaAdmin(Controlador controlador) {
         this.controlador = controlador;
@@ -48,8 +53,8 @@ public class VistaAdmin extends JFrame {
         tabbedPane.setBounds(0, 0, 1366, 720); // Establecer el tamaño del JTabbedPane
         super.add(tabbedPane); // Agregar el JTabbedPane a la ventana
         tabbedPane.add("Menu Administrativo", panelAdministradores());
-        tabbedPane.add("Oficiales", panelOficiales()); 
-        tabbedPane.add("Estudiantes", panelEstudiantes()); 
+        tabbedPane.add("Oficiales", panelOficiales());
+        tabbedPane.add("Estudiantes", panelEstudiantes());
 
     }
 
@@ -140,7 +145,7 @@ public class VistaAdmin extends JFrame {
         ;
 
         JButton btnAgregar = new JButton("Agregar Oficial");
-        btnAgregar.setBounds(250, 350, 150, 30); // Establecer la posición y el tamaño del botón
+        btnAgregar.setBounds(300, 350, 150, 30); // Establecer la posición y el tamaño del botón
         btnAgregar.setBackground(new Color(0xFF054FBE));
         btnAgregar.setForeground(Color.WHITE); // Establecer el color del texto del botón
         btnAgregar.setBorderPainted(false); // Quitar el borde del botón
@@ -189,6 +194,19 @@ public class VistaAdmin extends JFrame {
         return panelOficiales;
     }
 
+    public void agregarOficial(String nombre, String idAcceso, String contrasena, String telefono, int id) {
+        // Lógica para agregar el oficial
+
+        if (nombre.isEmpty() || idAcceso.isEmpty() || contrasena.isEmpty() || telefono.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
+            return;
+        }
+
+        Guarda nuevoOficial = new Guarda(nombre, id, idAcceso, contrasena, telefono);
+        controlador.agregarOficial(nuevoOficial);
+        generarTablaOficiales();
+    }
+
     public JPanel panelEstudiantes() {
         JPanel panelEstudiantes = new JPanel();
         panelEstudiantes.setLayout(null); // Establecer el diseño nulo para el panel de estudiantes
@@ -216,26 +234,117 @@ public class VistaAdmin extends JFrame {
         panelEstudiantes.add(textFieldID);
 
         JLabel label4 = new JLabel("Fecha de nacimiento:");
-        label4.setBounds(40, 200, 500, 30); // Establecer la posición y el tamaño del JLabel
+        label4.setBounds(40, 200, 200, 30); // Establecer la posición y el tamaño del JLabel
         panelEstudiantes.add(label4);
 
-        JDateS
+        JDateChooser jDateChooser = new JDateChooser();
+        jDateChooser.setDateFormatString("dd/mm/yyyy");
+        jDateChooser.setBounds(250, 200, 200, 30);
+        panelEstudiantes.add(jDateChooser);
+
+        JLabel jLabel5 = new JLabel("Carnet estudiantil: ");
+        jLabel5.setBounds(40, 250, 200, 30  );
+        panelEstudiantes.add(jLabel5);
+
+        JTextField textFieldCarnet = new JTextField();
+        textFieldCarnet.setBounds(250,250, 200,30);
+        panelEstudiantes.add(textFieldCarnet);
+
+        JLabel label6 = new JLabel("Nacionalidad:");
+        label6.setBounds(40, 300, 200, 30);
+        panelEstudiantes.add(label6);
+
+        JComboBox jComboBoxEstudiante = new JComboBox<>(new String[]{"Costarricense", "Nicaraguense", "Panameño", "Estadounidense", "Mexicano", "Hondureño", "Salvadoreño"});
+        jComboBoxEstudiante.setBounds(250, 300, 200, 30);
+        panelEstudiantes.add(jComboBoxEstudiante);
+
+        JLabel label7 = new JLabel("ID Acceso:");
+        label7.setBounds(40, 350, 200, 30);
+        panelEstudiantes.add(label7);
+
+        JTextField textFieldIDAcceso = new JTextField();
+        textFieldIDAcceso.setBounds(250,350, 200,30);
+        panelEstudiantes.add(textFieldIDAcceso);
+
+        JButton btnAgregar = new JButton("Guardar estudiante");
+        btnAgregar.setBounds(300, 400, 150, 30);
+        btnAgregar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+        btnAgregar.setBackground(new Color(0xFF054FBE));
+        btnAgregar.setForeground(Color.WHITE); 
+        btnAgregar.setBorderPainted(false);
+        btnAgregar.addActionListener(e -> {
+            // Lógica para agregar el estudiante
+            if (textFieldID == null || textFieldID.getText().isEmpty() ||
+                jDateChooser.getDate() == null || textFieldCarnet.getText().isEmpty() ||
+                 textFieldIDAcceso.getText().isEmpty() || textFieldNombre.getText().isEmpty() ) { 
+                JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
+                return;
+            }
+            LocalDate fechaN = jDateChooser.getDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+            controlador.getEstudiantes().add(new Estudiante(
+                textFieldNombre.getText(),
+                Integer.parseInt(textFieldID.getText()),
+                textFieldCarnet.getText(),
+                textFieldIDAcceso.getText(),
+                fechaN,
+                jComboBoxEstudiante.getSelectedItem().toString()
+                ));
+
+                generarTablaEstudiantes();
+                textFieldNombre.setText(""); // Limpiar el campo de texto
+                textFieldCarnet.setText("");
+                textFieldIDAcceso.setText("");
+                textFieldID.setText("");
+                jDateChooser.setDate(null);
+                jComboBoxEstudiante.setSelectedIndex(-1);
+
+        });
+
+        panelEstudiantes.add(btnAgregar);
+
+        //Creacion de tabla de estudiantes
+        tablaEstudiantes = new JTable();
+        tablaEstudiantes.setBounds(0, 0, 800, 400);
+        JScrollPane scrollPane = new JScrollPane(tablaEstudiantes);
+        scrollPane.setBounds(500, 100, 800, 400);
+        panelEstudiantes.add(scrollPane); 
+        modeloTablaEstudiantes.setColumnIdentifiers(new String[]{"Nombre completo", "Identificación","Fecha de nacimiento", "Nacionalidad", "Carnet estudiantil", "ID Acceso" });
+        tablaEstudiantes.setModel(modeloTablaEstudiantes);
+        JButton btnEliminar = new JButton("Eliminar Estudiante");
+        btnEliminar.setBounds(1150, 550, 150, 30);
+        panelEstudiantes.add(btnEliminar);
+        btnEliminar.addActionListener(e->{
+            int filaSeleccionada = tablaEstudiantes.getSelectedRow();
+            if (filaSeleccionada!= -1) {
+                controlador.getEstudiantes().remove(filaSeleccionada);
+                modeloTablaEstudiantes.removeRow(filaSeleccionada);
+                JOptionPane.showMessageDialog(null, "Estudiante eliminado correctamente.");
+                generarTablaEstudiantes();
+            }else{
+                JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna fila para eliminar");
+            }
+                
+        });
+    
+
 
         return panelEstudiantes;
 
     }
 
-    public void agregarOficial(String nombre, String idAcceso, String contrasena, String telefono, int id) {
-        // Lógica para agregar el oficial
+    public void generarTablaEstudiantes() {
+        modeloTablaEstudiantes.setRowCount(0);
+        for (Estudiante estudiante : controlador.getEstudiantes()) {
+            modeloTablaEstudiantes.addRow(new Object[] {
+                    estudiante.getNombre(),
+                    estudiante.getId(),
+                    estudiante.getFechaNacimiento(),
+                    estudiante.getNacionalidad(),
+                    estudiante.getCarnet(),
+                    estudiante.getCodigoAcceso()
+            });
 
-        if (nombre.isEmpty() || idAcceso.isEmpty() || contrasena.isEmpty() || telefono.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
-            return;
         }
-
-        Guarda nuevoOficial = new Guarda(nombre, id, idAcceso, contrasena, telefono);
-        controlador.agregarOficial(nuevoOficial);
-        generarTablaOficiales();
     }
 
     public void generarTablaOficiales() {
@@ -243,7 +352,7 @@ public class VistaAdmin extends JFrame {
         for (Guarda guarda : controlador.getOficiales()) {
             modeloTablaOficiales.addRow(new Object[] {
                     guarda.getNombre(),
-                    guarda.getID(),
+                    guarda.getId(),
                     guarda.getNumeroTelefono(),
                     guarda.getIDAcceso(),
                     guarda.getContrasena()

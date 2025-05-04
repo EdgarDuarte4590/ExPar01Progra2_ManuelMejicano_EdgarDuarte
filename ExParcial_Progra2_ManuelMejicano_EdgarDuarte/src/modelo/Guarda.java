@@ -8,8 +8,8 @@ public class Guarda extends Persona {
 
 
 
-    public Guarda(String nombre, int iD, String iDAcceso, String contrasena, String numeroTelefono) {
-        super(nombre, iD);
+    public Guarda(String nombre, int id,String iDAcceso, String contrasena, String numeroTelefono) {
+        super(nombre, id);
         IDAcceso = iDAcceso;
         this.contrasena = contrasena;
         this.numeroTelefono = numeroTelefono;
