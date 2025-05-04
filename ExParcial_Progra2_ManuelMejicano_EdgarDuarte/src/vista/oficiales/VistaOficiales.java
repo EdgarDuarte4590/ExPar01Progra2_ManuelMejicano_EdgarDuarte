@@ -315,6 +315,12 @@ public class VistaOficiales extends javax.swing.JFrame {
         return panelIngreso;
     }
 
+    public JPanel panelSalidaEstudiantes(){
+
+        return null;
+    }
+    
+
     public void setControlador(Controlador controlador) {
         this.controlador = controlador;
     }
