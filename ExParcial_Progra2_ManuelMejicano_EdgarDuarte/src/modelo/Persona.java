@@ -2,12 +2,15 @@ package modelo;
 
 public class Persona {
 protected String nombre;
-protected  int ID;
+protected  int id;
+protected String nacionalidad;
+protected int edad;
 
 
-public Persona(String nombre, int iD) {
+public Persona(String nombre, int id) {  
     this.nombre = nombre;
-    ID = iD;
+    this.id = id;
+    
 }
 
 
@@ -21,13 +24,13 @@ public void setNombre(String nombre) {
 }
 
 
-public int getID() {
-    return ID;
+public int getId() {
+    return id;
 }
 
 
-public void setID(int iD) {
-    ID = iD;
+public void setId(int iD) {
+    id = iD;
 }
 
 

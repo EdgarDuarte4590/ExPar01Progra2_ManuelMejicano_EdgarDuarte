@@ -2,26 +2,19 @@ package modelo;
 
 public class Guarda extends Persona {
 
-    private int IDAcceso;
+    private String IDAcceso;
     private String contrasena;
-    private int numeroTelefono;
+    private String numeroTelefono;
 
 
 
-    public Guarda(String nombre, int iD, int iDAcceso, String contrasena, int numeroTelefono) {
-        super(nombre, iD);
+    public Guarda(String nombre, int id,String iDAcceso, String contrasena, String numeroTelefono) {
+        super(nombre, id);
         IDAcceso = iDAcceso;
         this.contrasena = contrasena;
         this.numeroTelefono = numeroTelefono;
     }
 
-    public int getIDAcceso() {
-        return IDAcceso;
-    }
-
-    public void setIDAcceso(int iDAcceso) {
-        IDAcceso = iDAcceso;
-    }
 
     public String getContrasena() {
         return contrasena;
@@ -31,13 +24,26 @@ public class Guarda extends Persona {
         this.contrasena = contrasena;
     }
 
-    public int getNumeroTelefono() {
+
+    public String getIDAcceso() {
+        return IDAcceso;
+    }
+
+
+    public void setIDAcceso(String iDAcceso) {
+        IDAcceso = iDAcceso;
+    }
+
+
+    public String getNumeroTelefono() {
         return numeroTelefono;
     }
 
-    public void setNumeroTelefono(int numeroTelefono) {
+
+    public void setNumeroTelefono(String numeroTelefono) {
         this.numeroTelefono = numeroTelefono;
     }
+
 
     
 
