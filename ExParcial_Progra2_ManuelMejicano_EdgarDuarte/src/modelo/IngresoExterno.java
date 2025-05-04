@@ -1,17 +1,15 @@
 package modelo;
 
+import java.time.LocalDate;
+
 public class IngresoExterno {
-
-    private String motivo,
-            fechaIngreso,
-            horaIngreso,horaSalida;
-
+    LocalDate fechaIngreso;
+    private String motivo, horaIngreso, horaSalida;
+    private Persona visitante;
     private VehiculoExterno vehiculoExterno;
     private Guarda guarda;
 
-
-
-    public IngresoExterno(String motivo, String fechaIngreso, String horaIngreso, String horaSalida,
+    public IngresoExterno(String motivo, LocalDate fechaIngreso, String horaIngreso, String horaSalida,
             VehiculoExterno vehiculoExterno, Guarda guarda) {
         this.motivo = motivo;
         this.fechaIngreso = fechaIngreso;
@@ -27,14 +25,6 @@ public class IngresoExterno {
 
     public void setMotivo(String motivo) {
         this.motivo = motivo;
-    }
-
-    public String getFechaIngreso() {
-        return fechaIngreso;
-    }
-
-    public void setFechaIngreso(String fechaIngreso) {
-        this.fechaIngreso = fechaIngreso;
     }
 
     public String getHoraIngreso() {
@@ -69,6 +59,20 @@ public class IngresoExterno {
         this.horaSalida = horaSalida;
     }
 
-    
+    public LocalDate getFechaIngreso() {
+        return fechaIngreso;
+    }
+
+    public void setFechaIngreso(LocalDate fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
+    }
+
+    public Persona getVisitante() {
+        return visitante;
+    }
+
+    public void setVisitante(Persona visitante) {
+        this.visitante = visitante;
+    }
 
 }

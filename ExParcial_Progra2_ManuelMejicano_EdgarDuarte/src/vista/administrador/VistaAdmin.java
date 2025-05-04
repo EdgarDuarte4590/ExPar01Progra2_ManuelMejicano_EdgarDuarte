@@ -1,7 +1,6 @@
 package vista.administrador;
 
 import java.awt.Color;
-import java.security.Guard;
 import java.time.LocalDate;
 
 import javax.swing.JButton;

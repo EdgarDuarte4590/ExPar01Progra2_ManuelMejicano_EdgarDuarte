@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import modelo.Estudiante;
+import modelo.Funcionario;
 import modelo.Guarda;
 import vista.MenuPrincipal;
 
@@ -13,7 +14,8 @@ public class Controlador {
     private ArrayList<modelo.Administrador> administradores;
     private ArrayList<Guarda> oficiales;
     private ArrayList<Estudiante> estudiantes;
-    private boolean sesionIniciada = false;
+    private ArrayList<Funcionario> funcionarios;
+    private boolean sesionIniciada = true;
     private String idOficialActual;
     public MenuPrincipal menuPrincipal;
 
@@ -25,7 +27,24 @@ public class Controlador {
         administradores = new ArrayList<>();
         oficiales = new ArrayList<>();
         estudiantes = new ArrayList<>();
+        funcionarios = new ArrayList<>();
         
+    }
+
+    public ArrayList<Funcionario> getFuncionarios() {
+        return funcionarios;
+    }
+
+    public void setFuncionarios(ArrayList<Funcionario> funcionarios) {
+        this.funcionarios = funcionarios;
+    }
+
+    public MenuPrincipal getMenuPrincipal() {
+        return menuPrincipal;
+    }
+
+    public void setMenuPrincipal(MenuPrincipal menuPrincipal) {
+        this.menuPrincipal = menuPrincipal;
     }
 
     public void agregarOficial(Guarda oficial) {

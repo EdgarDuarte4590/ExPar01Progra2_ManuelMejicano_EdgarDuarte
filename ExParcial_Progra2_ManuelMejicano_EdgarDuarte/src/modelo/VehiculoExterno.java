@@ -1,15 +1,15 @@
 package modelo;
 
-public class VehiculoExterno {
+public class VehiculoExterno extends Vehiculo {
 
     private String nombreChofer;
-    private String placa;
     private int cantidadPasajeros;
     private String compania;
 
-    public VehiculoExterno(String nombreChofer, String placa, int cantidadPasajeros, String compania) {
+    public VehiculoExterno(String placa, String tipoVehiculo, String nombreChofer, int cantidadPasajeros,
+            String compania) {
+        super(placa, tipoVehiculo);
         this.nombreChofer = nombreChofer;
-        this.placa = placa;
         this.cantidadPasajeros = cantidadPasajeros;
         this.compania = compania;
     }
@@ -20,14 +20,6 @@ public class VehiculoExterno {
 
     public void setNombreChofer(String nombreChofer) {
         this.nombreChofer = nombreChofer;
-    }
-
-    public String getPlaca() {
-        return placa;
-    }
-
-    public void setPlaca(String placa) {
-        this.placa = placa;
     }
 
     public int getCantidadPasajeros() {

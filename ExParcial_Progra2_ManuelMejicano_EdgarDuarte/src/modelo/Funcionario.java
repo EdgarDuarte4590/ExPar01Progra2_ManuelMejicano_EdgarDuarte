@@ -2,12 +2,13 @@ package modelo;
 
 public class Funcionario extends Persona {
     private String puesto;
-    private int IDFuncionario;
+    private Vehiculo vehiculo;
+   
 
-    public Funcionario(String nombre, int iD, String puesto, int IDFuncionario) {
+    public Funcionario(String nombre, int iD, String puesto) {
         super(nombre, iD);
         this.puesto = puesto;
-        this.IDFuncionario = IDFuncionario;
+    
     }
 
     public String getPuesto() {
@@ -18,12 +19,12 @@ public class Funcionario extends Persona {
         this.puesto = puesto;
     }
 
-    public int getIDFuncionario() {
-        return IDFuncionario;
+    public Vehiculo getVehiculo() {
+        return vehiculo;
     }
 
-    public void setIDFuncionario(int iDFuncionario) {
-        IDFuncionario = iDFuncionario;
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
     }
 
     
