@@ -9,16 +9,16 @@ private LocalDate fechaIngreso;
 private String motivo;
 private LocalTime horaIngreso;
 private Persona persona;
-private Guarda guarda;
+private String nombreGuarda;
 private String tipoVehiculo;
 private String placaVehiculo;
 
-public Ingreso(LocalDate fechaIngreso, String motivo, LocalTime horaIngreso, Persona persona, Guarda guarda) {
+public Ingreso(LocalDate fechaIngreso, String motivo, LocalTime horaIngreso, Persona persona, String guarda) {
     this.fechaIngreso = fechaIngreso;
     this.motivo = motivo;
     this.horaIngreso = horaIngreso;
     this.persona = persona;
-    this.guarda = guarda;
+    this.nombreGuarda = guarda;
 }
 
 
@@ -65,14 +65,6 @@ public void setPersona(Persona persona) {
     this.persona = persona;
 }
 
-public Guarda getGuarda() {
-    return guarda;
-}
-
-public void setGuarda(Guarda guarda) {
-    this.guarda = guarda;
-}
-
 
 
 public LocalDate getFechaIngreso() {
@@ -95,6 +87,18 @@ public LocalTime getHoraIngreso() {
 
 public void setHoraIngreso(LocalTime horaIngreso) {
     this.horaIngreso = horaIngreso;
+}
+
+
+
+public String getNombreGuarda() {
+    return nombreGuarda;
+}
+
+
+
+public void setNombreGuarda(String nombreGuarda) {
+    this.nombreGuarda = nombreGuarda;
 }
 
 
