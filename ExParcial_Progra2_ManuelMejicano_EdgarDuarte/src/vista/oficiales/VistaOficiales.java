@@ -1,19 +1,5 @@
 package vista.oficiales;
 
-<<<<<<< HEAD
-import controlador.Controlador;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-
-public class VistaOficiales extends javax.swing.JFrame {
-
-    Controlador controlador; // Instancia del controlador
-
-    public VistaOficiales(Controlador controlador) {
-        this.controlador = controlador; // Inicializar el controlador
-=======
 import java.awt.Color;
 import java.awt.ScrollPane;
 import java.util.ResourceBundle.Control;
@@ -44,7 +30,6 @@ public class VistaOficiales extends javax.swing.JFrame {
 
     public VistaOficiales(Controlador controlador) {
         this.controlador = controlador;
->>>>>>> f03822f3e1baf9989b71a9d9038b6e4d54f1f5e2
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
@@ -55,17 +40,6 @@ public class VistaOficiales extends javax.swing.JFrame {
         setSize(1366, 720);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(null);
-<<<<<<< HEAD
-        setLocationRelativeTo(null);// Centrar la ventana en la pantalla
-        JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.setBounds(0, 0, 1366, 720); // Establecer el tamaño del JTabbedPane
-        tabbedPane.addTab("Funcionario", panelIngresoFuncionario());
-        tabbedPane.addTab("Persona extena", IngresoPersonaExterna());
-        tabbedPane.addTab("Vehiculo Externo", panelIngresoVehiculo());
-
-        add(tabbedPane);
-
-=======
         tabbedPane = new JTabbedPane();
         tabbedPane.setBounds(0, 0, 1366, 720);
         super.add(tabbedPane);
@@ -193,7 +167,6 @@ public class VistaOficiales extends javax.swing.JFrame {
                 funcionario.getVehiculo().getPlaca()
             });
         }
->>>>>>> f03822f3e1baf9989b71a9d9038b6e4d54f1f5e2
     }
 
     public void mostrar() {
