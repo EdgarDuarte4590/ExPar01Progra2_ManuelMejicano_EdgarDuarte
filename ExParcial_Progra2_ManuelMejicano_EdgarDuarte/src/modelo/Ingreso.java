@@ -1,13 +1,19 @@
 package modelo;
 
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class Ingreso {
-private String fechaIngreso;
+private LocalDate fechaIngreso;
 private String motivo;
-private String horaIngreso;
+private LocalTime horaIngreso;
 private Persona persona;
 private Guarda guarda;
+private String tipoVehiculo;
+private String placaVehiculo;
 
-public Ingreso(String fechaIngreso, String motivo, String horaIngreso, Persona persona, Guarda guarda) {
+public Ingreso(LocalDate fechaIngreso, String motivo, LocalTime horaIngreso, Persona persona, Guarda guarda) {
     this.fechaIngreso = fechaIngreso;
     this.motivo = motivo;
     this.horaIngreso = horaIngreso;
@@ -15,13 +21,31 @@ public Ingreso(String fechaIngreso, String motivo, String horaIngreso, Persona p
     this.guarda = guarda;
 }
 
-public String getFechaIngreso() {
-    return fechaIngreso;
+
+
+public String getTipoVehiculo() {
+    return tipoVehiculo;
 }
 
-public void setFechaIngreso(String fechaIngreso) {
-    this.fechaIngreso = fechaIngreso;
+
+
+public void setTipoVehiculo(String tipoVehiculo) {
+    this.tipoVehiculo = tipoVehiculo;
 }
+
+
+
+public String getPlacaVehiculo() {
+    return placaVehiculo;
+}
+
+
+
+public void setPlacaVehiculo(String placaVehiculo) {
+    this.placaVehiculo = placaVehiculo;
+}
+
+
 
 public String getMotivo() {
     return motivo;
@@ -31,13 +55,7 @@ public void setMotivo(String motivo) {
     this.motivo = motivo;
 }
 
-public String getHoraIngreso() {
-    return horaIngreso;
-}
 
-public void setHoraIngreso(String horaIngreso) {
-    this.horaIngreso = horaIngreso;
-}
 
 public Persona getPersona() {
     return persona;
@@ -53,6 +71,30 @@ public Guarda getGuarda() {
 
 public void setGuarda(Guarda guarda) {
     this.guarda = guarda;
+}
+
+
+
+public LocalDate getFechaIngreso() {
+    return fechaIngreso;
+}
+
+
+
+public void setFechaIngreso(LocalDate fechaIngreso) {
+    this.fechaIngreso = fechaIngreso;
+}
+
+
+
+public LocalTime getHoraIngreso() {
+    return horaIngreso;
+}
+
+
+
+public void setHoraIngreso(LocalTime horaIngreso) {
+    this.horaIngreso = horaIngreso;
 }
 
 

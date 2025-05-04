@@ -33,7 +33,11 @@ public class MenuPrincipal extends JFrame{
 
     private void inicializarComponentes() {
         vistaAdmin = new VistaAdmin(this.controlador);
+<<<<<<< HEAD
         vistaOficiales = new VistaOficiales(this.controlador);  
+=======
+        vistaOficiales = new VistaOficiales(controlador);  
+>>>>>>> f03822f3e1baf9989b71a9d9038b6e4d54f1f5e2
         vistaEstudiante = new VistaEstudiante();
 
         JPanel panelFondo = new JPanel();
@@ -76,6 +80,8 @@ public class MenuPrincipal extends JFrame{
                 Login login = new Login(controlador); // Crear una nueva instancia de Login
                 login.setVisible(true);
                 login.setLocationRelativeTo(null); 
+            } else{
+                vistaOficiales.setVisible(true);
             }
            // vistaOficiales.mostrar(); // Mostrar la vista de los oficiales al hacer clic en el botón
             //this.dispose(); // Cerrar la ventana actual
