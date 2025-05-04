@@ -6,16 +6,19 @@ public class IngresoExterno {
     LocalDate fechaIngreso;
     private String motivo, horaIngreso, horaSalida;
     private Persona visitante;
-    private VehiculoExterno vehiculoExterno;
+    private boolean estado;
     private Guarda guarda;
 
-    public IngresoExterno(String motivo, LocalDate fechaIngreso, String horaIngreso, String horaSalida,
-            VehiculoExterno vehiculoExterno, Guarda guarda) {
-        this.motivo = motivo;
+  
+
+    public IngresoExterno(LocalDate fechaIngreso, String motivo, String horaIngreso, String horaSalida,
+            Persona visitante, boolean estado, Guarda guarda) {
         this.fechaIngreso = fechaIngreso;
+        this.motivo = motivo;
         this.horaIngreso = horaIngreso;
         this.horaSalida = horaSalida;
-        this.vehiculoExterno = vehiculoExterno;
+        this.visitante = visitante;
+        this.estado = false;
         this.guarda = guarda;
     }
 
@@ -35,13 +38,7 @@ public class IngresoExterno {
         this.horaIngreso = horaIngreso;
     }
 
-    public VehiculoExterno getVehiculoExterno() {
-        return vehiculoExterno;
-    }
-
-    public void setVehiculoExterno(VehiculoExterno vehiculoExterno) {
-        this.vehiculoExterno = vehiculoExterno;
-    }
+   
 
     public Guarda getGuarda() {
         return guarda;
@@ -73,6 +70,14 @@ public class IngresoExterno {
 
     public void setVisitante(Persona visitante) {
         this.visitante = visitante;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 
 }

@@ -1,25 +1,23 @@
 package modelo;
 
-public class VehiculoExterno extends Vehiculo {
+import java.time.LocalDate;
 
-    private String nombreChofer;
+public class VehiculoExterno extends IngresoExterno  {
+
+    
     private int cantidadPasajeros;
     private String compania;
+    private Vehiculo vehiculo;
+    
 
-    public VehiculoExterno(String placa, String tipoVehiculo, String nombreChofer, int cantidadPasajeros,
-            String compania) {
-        super(placa, tipoVehiculo);
-        this.nombreChofer = nombreChofer;
+
+    public VehiculoExterno(LocalDate fechaIngreso, String motivo, String horaIngreso, String horaSalida,
+            Persona visitante, boolean estado, Guarda guarda, int cantidadPasajeros, String compania,
+            Vehiculo vehiculo) {
+        super(fechaIngreso, motivo, horaIngreso, horaSalida, visitante, estado, guarda);
         this.cantidadPasajeros = cantidadPasajeros;
         this.compania = compania;
-    }
-
-    public String getNombreChofer() {
-        return nombreChofer;
-    }
-
-    public void setNombreChofer(String nombreChofer) {
-        this.nombreChofer = nombreChofer;
+        this.vehiculo = vehiculo;
     }
 
     public int getCantidadPasajeros() {
@@ -36,6 +34,14 @@ public class VehiculoExterno extends Vehiculo {
 
     public void setCompania(String compania) {
         this.compania = compania;
+    }
+
+    public Vehiculo getVehiculo() {
+        return vehiculo;
+    }
+
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
     }
 
 }
