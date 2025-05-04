@@ -1,16 +1,16 @@
 package vista;
 
+import controlador.Controlador;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import controlador.Controlador;
 import vista.administrador.VistaAdmin;
+import vista.estudiantes.VistaEstudiante;
 import vista.oficiales.Login;
 import vista.oficiales.VistaOficiales;
-import vista.estudiantes.VistaEstudiante;
 
 public class MenuPrincipal extends JFrame{
 
@@ -33,7 +33,7 @@ public class MenuPrincipal extends JFrame{
 
     private void inicializarComponentes() {
         vistaAdmin = new VistaAdmin(this.controlador);
-        vistaOficiales = new VistaOficiales();  
+        vistaOficiales = new VistaOficiales(this.controlador);  
         vistaEstudiante = new VistaEstudiante();
 
         JPanel panelFondo = new JPanel();
