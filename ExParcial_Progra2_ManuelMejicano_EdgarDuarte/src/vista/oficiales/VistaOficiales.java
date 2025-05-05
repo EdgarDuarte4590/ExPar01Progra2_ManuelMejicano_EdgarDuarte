@@ -61,6 +61,7 @@ public class VistaOficiales extends javax.swing.JFrame {
         tabbedPane.addTab("Registro de Ingreso", panelIngresoRegistro());
         tabbedPane.addTab("Funcionarios", panelFuncionarios());
         tabbedPane.addTab("Ingreso Funcionario", panelIngresoFuncionario());
+        tabbedPane.addTab("Ingreso Externo", IngresoPersonaExterna());
     }
 
     public JPanel panelIngresoRegistro() {
