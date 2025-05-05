@@ -9,38 +9,13 @@ private LocalDate fechaIngreso;
 private String motivo;
 private LocalTime horaIngreso;
 private String nombreGuarda;
-private String tipoVehiculo;
-private String placaVehiculo;
+
 
 public Ingreso(LocalDate fechaIngreso, String motivo, LocalTime horaIngreso, String nombreGuarda) {
     this.fechaIngreso = fechaIngreso;
     this.motivo = motivo;
     this.horaIngreso = horaIngreso;
     this.nombreGuarda = nombreGuarda;
-}
-
-
-
-public String getTipoVehiculo() {
-    return tipoVehiculo;
-}
-
-
-
-public void setTipoVehiculo(String tipoVehiculo) {
-    this.tipoVehiculo = tipoVehiculo;
-}
-
-
-
-public String getPlacaVehiculo() {
-    return placaVehiculo;
-}
-
-
-
-public void setPlacaVehiculo(String placaVehiculo) {
-    this.placaVehiculo = placaVehiculo;
 }
 
 

@@ -280,10 +280,8 @@ public class VistaOficiales extends javax.swing.JFrame {
                     ingreso.getFuncionario().getPuesto(),
                     ingreso.getFuncionario().getVehiculo().getTipoVehiculo(),
                     ingreso.getFuncionario().getVehiculo().getPlaca(),
-                    ingreso.getTipoVehiculo(),
-                    ingreso.getPlacaVehiculo(),
                     ingreso.getFechaIngreso(),
-                    ingreso.getHoraIngreso(),
+                    ingreso.getHoraIngreso().format(controlador.formato),
                     ingreso.getNombreGuarda()
             });
 
