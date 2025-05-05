@@ -8,11 +8,12 @@ public class IngresoExterno extends Ingreso {
     private boolean estado;
 
     
-    public IngresoExterno(LocalDate fechaIngreso, String motivo, LocalTime horaIngreso, Persona persona, String guarda,
-            Persona visitante) {
-        super(fechaIngreso, motivo, horaIngreso, persona, guarda);
+   
+    public IngresoExterno(LocalDate fechaIngreso, String motivo, LocalTime horaIngreso, String nombreGuarda,
+            Persona visitante, boolean estado) {
+        super(fechaIngreso, motivo, horaIngreso, nombreGuarda);
         this.visitante = visitante;
-        this.estado = false;
+        this.estado = estado;
     }
 
     public Persona getVisitante() {

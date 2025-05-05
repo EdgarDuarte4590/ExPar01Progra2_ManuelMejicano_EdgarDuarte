@@ -11,9 +11,11 @@ public class VehiculoExterno extends IngresoExterno  {
     
 
     
-    public VehiculoExterno(LocalDate fechaIngreso, String motivo, LocalTime horaIngreso, Persona persona, String guarda,
-            Persona visitante, int cantidadPasajeros, String compania, Vehiculo vehiculo) {
-        super(fechaIngreso, motivo, horaIngreso, persona, guarda, visitante);
+    
+
+    public VehiculoExterno(LocalDate fechaIngreso, String motivo, LocalTime horaIngreso, String nombreGuarda,
+            Persona visitante, boolean estado, int cantidadPasajeros, String compania, Vehiculo vehiculo) {
+        super(fechaIngreso, motivo, horaIngreso, nombreGuarda, visitante, estado);
         this.cantidadPasajeros = cantidadPasajeros;
         this.compania = compania;
         this.vehiculo = vehiculo;
