@@ -126,7 +126,7 @@ public class VistaAdmin extends JFrame {
         JTextField textFieldContrasena = new JTextField();
         textFieldContrasena.setBounds(250, 300, 200, 30); // Establecer la posición y el tamaño del JTextField
         panelOficiales.add(textFieldContrasena); // Agregar el JTextField al panel de oficiales}
-        textFieldContrasena.addActionListener(e -> {
+        textFieldContrasena.addActionListener(_ -> {
             // Lógica para agregar el oficial
             if (textFieldID == null || textFieldID.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
@@ -150,7 +150,7 @@ public class VistaAdmin extends JFrame {
         btnAgregar.setBorderPainted(false); // Quitar el borde del botón
         btnAgregar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12)); // Establecer la fuente del botón
         panelOficiales.add(btnAgregar); // Agregar el botón al panel de oficiales
-        btnAgregar.addActionListener(e -> {
+        btnAgregar.addActionListener(_ -> {
             // Lógica para agregar el oficial
             if (textFieldID == null || textFieldID.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
@@ -178,7 +178,7 @@ public class VistaAdmin extends JFrame {
         btnEliminar.setBorderPainted(false);
         btnEliminar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
         panelOficiales.add(btnEliminar);
-        btnEliminar.addActionListener(e -> {
+        btnEliminar.addActionListener(_ -> {
             int filaSeleccionada = tablaOficiales.getSelectedRow(); // Obtener la fila seleccionada
             if (filaSeleccionada != -1) { // Verificar si hay una fila seleccionada
                 controlador.eliminarOficial(filaSeleccionada);
@@ -325,7 +325,6 @@ public class VistaAdmin extends JFrame {
                 
         });
     
-
 
         return panelEstudiantes;
 

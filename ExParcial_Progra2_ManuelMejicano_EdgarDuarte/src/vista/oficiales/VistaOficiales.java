@@ -58,13 +58,13 @@ public class VistaOficiales extends javax.swing.JFrame {
         tabbedPane.setBounds(0, 0, 1366, 720);
         super.add(tabbedPane);
 
-        tabbedPane.addTab("Registro de Ingreso", panelIngresoRegistro());
+        tabbedPane.addTab("Salida de Estudiantes", panelEstudiantes());
         tabbedPane.addTab("Funcionarios", panelFuncionarios());
         tabbedPane.addTab("Ingreso Funcionario", panelIngresoFuncionario());
         tabbedPane.addTab("Ingreso Externo", IngresoPersonaExterna());
     }
 
-    public JPanel panelIngresoRegistro() {
+    public JPanel panelEstudiantes() {
         JPanel panelIngreso = new JPanel();
         panelIngreso.setLayout(null); // Establecer el diseño nulo para el panel de ingreso
         panelIngreso.setBounds(0, 0, 1366, 720);
@@ -131,7 +131,7 @@ public class VistaOficiales extends javax.swing.JFrame {
         panelFuncionarios.add(placaField);
         placaField.setToolTipText("Escriba el número de placa del vehículo, si aplica");
 
-        JButton btnRegistrar = new JButton("Registrar Funcionario");
+        JButton btnRegistrar = new JButton("Registrar funcionario");
 
         btnRegistrar.setBounds(50, 450, 200, 30);
         btnRegistrar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
@@ -251,10 +251,10 @@ public class VistaOficiales extends javax.swing.JFrame {
         panelIngreso.add(scrollPane);
 
         btnAgregar.addActionListener((actionEvent) -> {
-            Funcionario funcionario = buscarFuncionarioPorPlaca(txtPlaca.getText());
+            Funcionario funcionario = controlador.buscarFuncionarioPorPlaca(txtPlaca.getText());
             String motivo = "Trabaja de: " + funcionario.getPuesto();
             LocalTime hora = LocalTime.now();
-            Guarda guarda = buscarGuardaPorID(controlador.getIdOficialActual());
+            Guarda guarda = controlador.buscarGuardaPorID(controlador.getIdOficialActual());
             String nombreGuarda = guarda.getNombre();
 
             LocalDate fecha = LocalDate.now();
@@ -289,24 +289,7 @@ public class VistaOficiales extends javax.swing.JFrame {
 
     }
 
-    public Funcionario buscarFuncionarioPorPlaca(String placa) {
-        for (Funcionario funcionario : controlador.getFuncionarios()) {
-            if (funcionario.getVehiculo() != null && funcionario.getVehiculo().getPlaca().equals(placa)) {
-                return funcionario;
-            }
-        }
-                JOptionPane.showMessageDialog(null, "Funcionario no encontrado con la placa: " + placa);
-        return null; // Si no se encuentra el funcionario
-    }
-
-    public Guarda buscarGuardaPorID(String id) {
-        for (Guarda guarda : controlador.getOficiales()) {
-            if (guarda.getIDAcceso().equals(id)) {
-                return guarda;
-            }
-        }
-        return null; // Si no se encuentra el guarda
-    }
+  
 
     public JPanel IngresoPersonaExterna() {
         JPanel panelIngreso = new JPanel();

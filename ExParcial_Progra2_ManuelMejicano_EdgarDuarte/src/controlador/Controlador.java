@@ -35,6 +35,25 @@ public class Controlador {
         ingresosFuncionarios=new ArrayList<>();
     }
 
+    public Funcionario buscarFuncionarioPorPlaca(String placa) {
+        for (Funcionario funcionario : getFuncionarios()) {
+            if (funcionario.getVehiculo() != null && funcionario.getVehiculo().getPlaca().equals(placa)) {
+                return funcionario;
+            }
+        }
+                JOptionPane.showMessageDialog(null, "Funcionario no encontrado con la placa: " + placa);
+        return null; // Si no se encuentra el funcionario
+    }
+
+    public Guarda buscarGuardaPorID(String id) {
+        for (Guarda guarda : getOficiales()) {
+            if (guarda.getIDAcceso().equals(id)) {
+                return guarda;
+            }
+        }
+        return null; // Si no se encuentra el guarda
+    }
+
     public void setIngresosFuncionarios(ArrayList<IngresoFuncionario> ingresosFuncionarios) {
         this.ingresosFuncionarios = ingresosFuncionarios;
     }
