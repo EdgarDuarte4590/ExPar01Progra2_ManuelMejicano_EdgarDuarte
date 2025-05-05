@@ -89,7 +89,8 @@ public class VistaOficiales extends javax.swing.JFrame {
         label2.setBounds(50, 100, 500, 30);
         panelFuncionarios.add(label2);
 
-        JComboBox<String> comboBox = new JComboBox<>(new String[]{"Profesor (a)", "Cocinero", "Guarda", "Conserje", "Administrativo", "Otro"});
+        JComboBox<String> comboBox = new JComboBox<>(
+                new String[] { "Profesor (a)", "Cocinero", "Guarda", "Conserje", "Administrativo", "Otro" });
         comboBox.setBounds(50, 130, 200, 30);
         panelFuncionarios.add(comboBox);
 
@@ -113,7 +114,8 @@ public class VistaOficiales extends javax.swing.JFrame {
         label5.setBounds(50, 310, 200, 30);
         panelFuncionarios.add(label5);
 
-        JComboBox<String> vehiculoComboBox = new JComboBox<>(new String[]{"Automóvil", "Camioneta", "Motocicleta", "Bicicleta", "Bicimoto", "Otro"});
+        JComboBox<String> vehiculoComboBox = new JComboBox<>(
+                new String[] { "Automóvil", "Camioneta", "Motocicleta", "Bicicleta", "Bicimoto", "Otro" });
         vehiculoComboBox.setBounds(50, 340, 200, 30);
         panelFuncionarios.add(vehiculoComboBox);
 
@@ -140,7 +142,8 @@ public class VistaOficiales extends javax.swing.JFrame {
         panelFuncionarios.add(scrollPane);
         tablaFuncionarios.setBounds(0, 0, 100, 500);
 
-        modeloTablaFuncionarios = new DefaultTableModel(new String[]{"Puesto", "Nombre", "ID", "Vehículo", "Placa"}, 0);
+        modeloTablaFuncionarios = new DefaultTableModel(new String[] { "Puesto", "Nombre", "ID", "Vehículo", "Placa" },
+                0);
         tablaFuncionarios.setModel(modeloTablaFuncionarios);
 
         btnRegistrar.addActionListener(e -> {
@@ -170,12 +173,12 @@ public class VistaOficiales extends javax.swing.JFrame {
     public void generarTablaFuncionarios() {
         modeloTablaFuncionarios.setRowCount(0);
         for (Funcionario funcionario : controlador.getFuncionarios()) {
-            modeloTablaFuncionarios.addRow(new Object[]{
-                funcionario.getPuesto(),
-                funcionario.getNombre(),
-                funcionario.getId(),
-                funcionario.getVehiculo().getTipoVehiculo(),
-                funcionario.getVehiculo().getPlaca()
+            modeloTablaFuncionarios.addRow(new Object[] {
+                    funcionario.getPuesto(),
+                    funcionario.getNombre(),
+                    funcionario.getId(),
+                    funcionario.getVehiculo().getTipoVehiculo(),
+                    funcionario.getVehiculo().getPlaca()
             });
         }
     }
@@ -235,57 +238,53 @@ public class VistaOficiales extends javax.swing.JFrame {
             }
         });
 
-        modeloTablaIngresoFuncionarios= new DefaultTableModel(new String[]{"Nombre Funcionario","ID","Puesto","Tipo de Vehiculo","Placa","Nacionalidad","Edad","Fecha Ingreso","Hora ingreso","NombreGuarda",},0);
+        modeloTablaIngresoFuncionarios = new DefaultTableModel(new String[] { "Nombre Funcionario", "ID", "Puesto",
+                "Tipo de Vehiculo", "Placa", "Fecha Ingreso", "Hora ingreso", "Nombre de oficial", }, 0);
 
-        tablaIngresoFuncionarios= new JTable(modeloTablaIngresoFuncionarios);
-      
+        tablaIngresoFuncionarios = new JTable(modeloTablaIngresoFuncionarios);
+
         JScrollPane scrollPane = new JScrollPane(tablaIngresoFuncionarios);
         scrollPane.setBounds(25, 150, 1300, 500);
         panelIngreso.add(scrollPane);
 
         btnAgregar.addActionListener((actionEvent) -> {
-            Funcionario funcionario= buscarFuncionarioPorPlaca(txtPlaca.getText());
-            String motivo= "Trabaja de: " +funcionario.getPuesto();
-            LocalTime hora= LocalTime.now();
-            Guarda guarda= buscarGuardaPorID(controlador.getIdOficialActual());
-            String nombreGuarda= guarda.getNombre();
+            Funcionario funcionario = buscarFuncionarioPorPlaca(txtPlaca.getText());
+            String motivo = "Trabaja de: " + funcionario.getPuesto();
+            LocalTime hora = LocalTime.now();
+            Guarda guarda = buscarGuardaPorID(controlador.getIdOficialActual());
+            String nombreGuarda = guarda.getNombre();
 
-            LocalDate fecha= LocalDate.now();
+            LocalDate fecha = LocalDate.now();
 
-            Ingreso ingreso= new Ingreso(fecha, motivo, hora, guarda, nombreGuarda);
+            Ingreso ingreso = new Ingreso(fecha, motivo, hora, guarda, nombreGuarda);
             controlador.AgregarIngreso(ingreso);
 
             GenerarTablaIngresoFuncionarios(funcionario.getPuesto(), "No se", 25);
 
-            
-
         });
-
-        
-        
 
         return panelIngreso;
     }
 
-    public void GenerarTablaIngresoFuncionarios(String puesto,String nacionalidad,int edad ){
+    public void GenerarTablaIngresoFuncionarios(String puesto, String nacionalidad, int edad) {
 
-modeloTablaFuncionarios.setRowCount(0);
-for (Object ingreso : controlador.getIngresos()) {
-    Ingreso ingresoObj = (Ingreso) ingreso;
-    modeloTablaIngresoFuncionarios.addRow(new Object[]{
-        ingresoObj.getPersona().getNombre(),
-        ingresoObj.getPersona().getId(),
-        puesto,
-        ingresoObj.getTipoVehiculo(),
-        ingresoObj.getPlacaVehiculo(),
-        nacionalidad,
-        edad,
-        ingresoObj.getFechaIngreso(),
-        ingresoObj.getHoraIngreso(),
-        ingresoObj.getNombreGuarda()
-    });
-    
-}
+        modeloTablaFuncionarios.setRowCount(0);
+        for (Object ingreso : controlador.getIngresos()) {
+            Ingreso ingresoObj = (Ingreso) ingreso;
+            modeloTablaIngresoFuncionarios.addRow(new Object[] {
+                    ingresoObj.getPersona().getNombre(),
+                    ingresoObj.getPersona().getId(),
+                    puesto,
+                    ingresoObj.getTipoVehiculo(),
+                    ingresoObj.getPlacaVehiculo(),
+                    nacionalidad,
+                    edad,
+                    ingresoObj.getFechaIngreso(),
+                    ingresoObj.getHoraIngreso(),
+                    ingresoObj.getNombreGuarda()
+            });
+
+        }
 
     }
 
@@ -298,7 +297,7 @@ for (Object ingreso : controlador.getIngresos()) {
         return null; // Si no se encuentra el funcionario
     }
 
-    public Guarda buscarGuardaPorID(String id){
+    public Guarda buscarGuardaPorID(String id) {
         for (Guarda guarda : controlador.getOficiales()) {
             if (guarda.getIDAcceso().equals(id)) {
                 return guarda;
@@ -306,8 +305,6 @@ for (Object ingreso : controlador.getIngresos()) {
         }
         return null; // Si no se encuentra el guarda
     }
-
-    
 
     public JPanel IngresoPersonaExterna() {
         JPanel panelIngreso = new JPanel();
