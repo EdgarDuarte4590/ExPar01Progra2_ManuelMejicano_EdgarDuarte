@@ -4,20 +4,18 @@ package modelo;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Ingreso {
+public abstract class Ingreso {
 private LocalDate fechaIngreso;
 private String motivo;
 private LocalTime horaIngreso;
-private Persona persona;
 private String nombreGuarda;
 private String tipoVehiculo;
 private String placaVehiculo;
 
-public Ingreso(LocalDate fechaIngreso, String motivo, LocalTime horaIngreso, Persona persona, String nombreGuarda) {
+public Ingreso(LocalDate fechaIngreso, String motivo, LocalTime horaIngreso, String nombreGuarda) {
     this.fechaIngreso = fechaIngreso;
     this.motivo = motivo;
     this.horaIngreso = horaIngreso;
-    this.persona = persona;
     this.nombreGuarda = nombreGuarda;
 }
 
@@ -53,16 +51,6 @@ public String getMotivo() {
 
 public void setMotivo(String motivo) {
     this.motivo = motivo;
-}
-
-
-
-public Persona getPersona() {
-    return persona;
-}
-
-public void setPersona(Persona persona) {
-    this.persona = persona;
 }
 
 

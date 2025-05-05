@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 import modelo.Funcionario;
 import modelo.Guarda;
 import modelo.Ingreso;
+import modelo.IngresoFuncionario;
 import modelo.Vehiculo;
 
 public class VistaOficiales extends javax.swing.JFrame {
@@ -38,6 +39,8 @@ public class VistaOficiales extends javax.swing.JFrame {
     private DefaultTableModel modeloTablaIngresoFuncionarios;
     private JTable tablaIngresoExterno;
     private DefaultTableModel modeloTablaIngresoExterno;
+
+    
 
     public VistaOficiales(Controlador controlador) {
         this.controlador = controlador;
@@ -153,7 +156,7 @@ public class VistaOficiales extends javax.swing.JFrame {
             String placa = placaField.getText();
 
             Funcionario funcionario = new Funcionario(nombre, Integer.parseInt(id), rol);
-            Vehiculo vehiculoObj = new Vehiculo(vehiculo, placa);
+            Vehiculo vehiculoObj = new Vehiculo(placa, vehiculo);
             funcionario.setVehiculo(vehiculoObj);
 
             // Limpiar los campos después de registrar
@@ -255,32 +258,32 @@ public class VistaOficiales extends javax.swing.JFrame {
 
             LocalDate fecha = LocalDate.now();
 
-            Ingreso ingreso = new Ingreso(fecha, motivo, hora, guarda, nombreGuarda);
-            controlador.AgregarIngreso(ingreso);
-
-            GenerarTablaIngresoFuncionarios(funcionario.getPuesto(), "No se", 25);
+            IngresoFuncionario ingreso = new IngresoFuncionario(fecha, motivo, hora, nombreGuarda, funcionario);
+            controlador.getIngresosFuncionarios().add(ingreso);
+            GenerarTablaIngresoFuncionarios();
 
         });
 
         return panelIngreso;
     }
 
-    public void GenerarTablaIngresoFuncionarios(String puesto, String nacionalidad, int edad) {
+    public void GenerarTablaIngresoFuncionarios() {
 
         modeloTablaFuncionarios.setRowCount(0);
-        for (Object ingreso : controlador.getIngresos()) {
-            Ingreso ingresoObj = (Ingreso) ingreso;
+    
+        for (IngresoFuncionario ingreso : controlador.getIngresosFuncionarios()) {
+     
             modeloTablaIngresoFuncionarios.addRow(new Object[] {
-                    ingresoObj.getPersona().getNombre(),
-                    ingresoObj.getPersona().getId(),
-                    puesto,
-                    ingresoObj.getTipoVehiculo(),
-                    ingresoObj.getPlacaVehiculo(),
-                    nacionalidad,
-                    edad,
-                    ingresoObj.getFechaIngreso(),
-                    ingresoObj.getHoraIngreso(),
-                    ingresoObj.getNombreGuarda()
+                    ingreso.getFuncionario().getNombre(),
+                    ingreso.getFuncionario().getId(),
+                    ingreso.getFuncionario().getPuesto(),
+                    ingreso.getFuncionario().getVehiculo().getTipoVehiculo(),
+                    ingreso.getFuncionario().getVehiculo().getPlaca(),
+                    ingreso.getTipoVehiculo(),
+                    ingreso.getPlacaVehiculo(),
+                    ingreso.getFechaIngreso(),
+                    ingreso.getHoraIngreso(),
+                    ingreso.getNombreGuarda()
             });
 
         }
@@ -293,6 +296,7 @@ public class VistaOficiales extends javax.swing.JFrame {
                 return funcionario;
             }
         }
+                JOptionPane.showMessageDialog(null, "Funcionario no encontrado con la placa: " + placa);
         return null; // Si no se encuentra el funcionario
     }
 

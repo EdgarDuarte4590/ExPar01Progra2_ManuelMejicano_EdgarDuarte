@@ -1,11 +1,14 @@
 package controlador;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import modelo.Estudiante;
 import modelo.Funcionario;
 import modelo.Guarda;
 import modelo.Ingreso;
+import modelo.IngresoExterno;
+import modelo.IngresoFuncionario;
 import vista.MenuPrincipal;
 
 public class Controlador {
@@ -13,10 +16,12 @@ public class Controlador {
     private ArrayList<Guarda> oficiales;
     private ArrayList<Estudiante> estudiantes;
     private ArrayList<Funcionario> funcionarios;
-    private ArrayList<Ingreso> ingresos;
-    private boolean sesionIniciada = true;
+    private ArrayList<IngresoFuncionario> ingresosFuncionarios;
+    private ArrayList<IngresoExterno> ingresosExternos;
+    private boolean sesionIniciada = false;
     private String idOficialActual;
     public MenuPrincipal menuPrincipal;
+    public DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss"); 
 
     public Controlador() {
         menuPrincipal = new MenuPrincipal(this);
@@ -27,8 +32,19 @@ public class Controlador {
         oficiales = new ArrayList<>();
         estudiantes = new ArrayList<>();
         funcionarios = new ArrayList<>();
-        ingresos=new ArrayList<>();
-        
+        ingresosFuncionarios=new ArrayList<>();
+    }
+
+    public void setIngresosFuncionarios(ArrayList<IngresoFuncionario> ingresosFuncionarios) {
+        this.ingresosFuncionarios = ingresosFuncionarios;
+    }
+
+    public ArrayList<IngresoExterno> getIngresosExternos() {
+        return ingresosExternos;
+    }
+
+    public void setIngresosExternos(ArrayList<IngresoExterno> ingresosExternos) {
+        this.ingresosExternos = ingresosExternos;
     }
 
     public ArrayList<Funcionario> getFuncionarios() {
@@ -112,17 +128,12 @@ public class Controlador {
         this.idOficialActual = idOficialActual;
     }
 
-   public  void AgregarIngreso(Ingreso ingreso) {
-        ingresos.add(ingreso);
-        JOptionPane.showMessageDialog(null, "Ingreso registrado correctamente.");
+    public ArrayList<IngresoFuncionario> getIngresosFuncionarios() {
+        return ingresosFuncionarios;
     }
 
-    public ArrayList<Ingreso> getIngresos() {
-        return ingresos;
-    }
 
-    public void setIngresos(ArrayList<Ingreso> ingresos) {
-        this.ingresos = ingresos;
-    }
+
+    
 
 }
