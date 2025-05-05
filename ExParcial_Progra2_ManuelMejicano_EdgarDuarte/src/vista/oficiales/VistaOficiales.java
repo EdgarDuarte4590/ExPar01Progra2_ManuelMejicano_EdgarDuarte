@@ -224,14 +224,15 @@ public class VistaOficiales extends javax.swing.JFrame {
 
         // Llenar el JComboBox con los nombres de los funcionarios registrados
         if (controlador.getFuncionarios() != null) {
-            for (Funcionario funcionario : controlador.getFuncionarios()) {
-                comboBoxNombres.addItem(funcionario.getNombre());
-            }
+
         } else {
             comboBoxNombres.addItem("No hay funcionario registrados");
         }
 
         btnBuscar.addActionListener(e -> {
+            for (Funcionario funcionario : controlador.getFuncionarios()) {
+                comboBoxNombres.addItem(funcionario.getNombre());
+            }
             String placa = txtPlaca.getText();
             for (Funcionario funcionario : controlador.getFuncionarios()) {
                 if (funcionario.getVehiculo() != null && placa.equals(funcionario.getVehiculo().getPlaca())) {
