@@ -18,15 +18,26 @@ import javax.swing.table.DefaultTableModel;
 import com.formdev.flatlaf.ui.FlatListCellBorder.Default;
 
 import controlador.Controlador;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import javax.swing.JOptionPane;
 import modelo.Funcionario;
+import modelo.Guarda;
+import modelo.Ingreso;
 import modelo.Vehiculo;
 
 public class VistaOficiales extends javax.swing.JFrame {
+
     JTabbedPane tabbedPane;
 
-    private DefaultTableModel  modeloTablaFuncionarios;
+    private DefaultTableModel modeloTablaFuncionarios;
     private JTable tablaFuncionarios;
-    private Controlador controlador; 
+    private Controlador controlador;
+
+    private JTable tablaIngresoFuncionarios;
+    private DefaultTableModel modeloTablaIngresoFuncionarios;
+    private JTable tablaIngresoExterno;
+    private DefaultTableModel modeloTablaIngresoExterno;
 
     public VistaOficiales(Controlador controlador) {
         this.controlador = controlador;
@@ -44,39 +55,40 @@ public class VistaOficiales extends javax.swing.JFrame {
         tabbedPane.setBounds(0, 0, 1366, 720);
         super.add(tabbedPane);
 
-        tabbedPane.addTab("Registro de Ingreso",panelIngresoRegistro());
+        tabbedPane.addTab("Registro de Ingreso", panelIngresoRegistro());
         tabbedPane.addTab("Funcionarios", panelFuncionarios());
+        tabbedPane.addTab("Ingreso Funcionario", panelIngresoFuncionario());
     }
 
-    public JPanel panelIngresoRegistro(){
+    public JPanel panelIngresoRegistro() {
         JPanel panelIngreso = new JPanel();
         panelIngreso.setLayout(null); // Establecer el diseño nulo para el panel de ingreso
         panelIngreso.setBounds(0, 0, 1366, 720);
 
         JLabel label = new JLabel("Registra los ingresos de los funcionarios del CTP UPALA");
-        label.setBounds(25, 50, 550, 30); 
-        label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 15)); 
-        panelIngreso.add(label); 
+        label.setBounds(25, 50, 550, 30);
+        label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 15));
+        panelIngreso.add(label);
 
-        return panelIngreso; 
+        return panelIngreso;
 
     }
 
-    public JPanel panelFuncionarios(){
+    public JPanel panelFuncionarios() {
         JPanel panelFuncionarios = new JPanel();
-        panelFuncionarios.setLayout(null); 
+        panelFuncionarios.setLayout(null);
         panelFuncionarios.setBounds(0, 0, 1366, 720);
 
         JLabel label = new JLabel("Registra los funcionarios del CTP UPALA");
-        label.setBounds(25, 50, 550, 30); 
-        label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 15)); 
-        panelFuncionarios.add(label); 
+        label.setBounds(25, 50, 550, 30);
+        label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 15));
+        panelFuncionarios.add(label);
 
         JLabel label2 = new JLabel("Seleccione el rol del funcionario:");
         label2.setBounds(50, 100, 500, 30);
         panelFuncionarios.add(label2);
 
-        JComboBox<String> comboBox = new JComboBox<>(new String[] {"Profesor (a)", "Cocinero", "Guarda", "Conserje", "Administrativo", "Otro"});
+        JComboBox<String> comboBox = new JComboBox<>(new String[]{"Profesor (a)", "Cocinero", "Guarda", "Conserje", "Administrativo", "Otro"});
         comboBox.setBounds(50, 130, 200, 30);
         panelFuncionarios.add(comboBox);
 
@@ -87,7 +99,7 @@ public class VistaOficiales extends javax.swing.JFrame {
         JTextField nombreField = new JTextField();
         nombreField.setBounds(50, 200, 200, 30);
         panelFuncionarios.add(nombreField);
-        
+
         JLabel label4 = new JLabel("Número de identificación:");
         label4.setBounds(50, 240, 200, 30);
         panelFuncionarios.add(label4);
@@ -100,7 +112,7 @@ public class VistaOficiales extends javax.swing.JFrame {
         label5.setBounds(50, 310, 200, 30);
         panelFuncionarios.add(label5);
 
-        JComboBox<String> vehiculoComboBox = new JComboBox<>(new String[] {"Automóvil", "Camioneta", "Motocicleta", "Bicicleta","Bicimoto", "Otro"});
+        JComboBox<String> vehiculoComboBox = new JComboBox<>(new String[]{"Automóvil", "Camioneta", "Motocicleta", "Bicicleta", "Bicimoto", "Otro"});
         vehiculoComboBox.setBounds(50, 340, 200, 30);
         panelFuncionarios.add(vehiculoComboBox);
 
@@ -114,7 +126,7 @@ public class VistaOficiales extends javax.swing.JFrame {
         placaField.setToolTipText("Escriba el número de placa del vehículo, si aplica");
 
         JButton btnRegistrar = new JButton("Registrar Funcionario");
-        
+
         btnRegistrar.setBounds(50, 450, 200, 30);
         btnRegistrar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
         btnRegistrar.setBackground(new java.awt.Color(0xFF0A1419));
@@ -126,7 +138,6 @@ public class VistaOficiales extends javax.swing.JFrame {
         scrollPane.setBounds(300, 100, 1000, 500);
         panelFuncionarios.add(scrollPane);
         tablaFuncionarios.setBounds(0, 0, 100, 500);
-
 
         modeloTablaFuncionarios = new DefaultTableModel(new String[]{"Puesto", "Nombre", "ID", "Vehículo", "Placa"}, 0);
         tablaFuncionarios.setModel(modeloTablaFuncionarios);
@@ -141,7 +152,6 @@ public class VistaOficiales extends javax.swing.JFrame {
             Funcionario funcionario = new Funcionario(nombre, Integer.parseInt(id), rol);
             Vehiculo vehiculoObj = new Vehiculo(vehiculo, placa);
             funcionario.setVehiculo(vehiculoObj);
-
 
             // Limpiar los campos después de registrar
             comboBox.setSelectedIndex(0);
@@ -177,57 +187,126 @@ public class VistaOficiales extends javax.swing.JFrame {
         setVisible(false);
     }
 
-    public JPanel panelOficiales() {
-        JPanel panelOficiales = new JPanel();
-        panelOficiales.setLayout(null); // Establecer el diseño nulo para el panel principal
-        panelOficiales.setBounds(0, 0, 1366, 720); // Establecer el tamaño del panel principal
-        JLabel label = new JLabel("Bienvendios Oficiales");
-        label.setBounds(25, 50, 550, 30);
-        panelOficiales.add(label);
-
-        return panelOficiales;
-    }
-
     public JPanel panelIngresoFuncionario() {
         JPanel panelIngreso = new JPanel();
         panelIngreso.setLayout(null);
 
-        JLabel titulo = new JLabel("Ingreso Funcionario");
-        titulo.setBounds(25, 50, 550, 30);
-        panelIngreso.add(titulo);
+        JLabel labelPlaca = new JLabel("Número de placa del vehículo:");
+        labelPlaca.setBounds(25, 50, 200, 30);
+        panelIngreso.add(labelPlaca);
 
-        JLabel labelNombre = new JLabel("Nombre Completo del Funcionario:");
-        labelNombre.setBounds(25, 100, 550, 30);
+        JTextField txtPlaca = new JTextField();
+        txtPlaca.setBounds(230, 50, 200, 30);
+        panelIngreso.add(txtPlaca);
+
+        JButton btnBuscar = new JButton("Buscar");
+        btnBuscar.setBounds(450, 50, 100, 30);
+        panelIngreso.add(btnBuscar);
+
+        JLabel labelNombre = new JLabel("Nombre del funcionario:");
+        labelNombre.setBounds(25, 100, 200, 30); // Ajustar posición para alinearlo con los primeros componentes
         panelIngreso.add(labelNombre);
 
-        JTextField txtNombre = new JTextField();
-        txtNombre.setBounds(25, 130, 550, 30);
-        panelIngreso.add(txtNombre);
+        JComboBox<String> comboBoxNombres = new JComboBox<>();
+        comboBoxNombres.setBounds(230, 100, 200, 30); // Ajustar posición para alinearlo con los primeros componentes
+        panelIngreso.add(comboBoxNombres);
 
-        JLabel labelID = new JLabel("ID Funcionario:");
-        labelID.setBounds(25, 170, 550, 30);
-        panelIngreso.add(labelID);
+        JButton btnAgregar = new JButton("Agregar");
+        btnAgregar.setBounds(450, 100, 100, 30); // Ajustar posición para alinearlo con los primeros componentes
+        panelIngreso.add(btnAgregar);
 
-        JTextField txtID = new JTextField();
-        txtID.setBounds(25, 200, 550, 30);
-        panelIngreso.add(txtID);
+        // Llenar el JComboBox con los nombres de los funcionarios registrados
+        if (controlador.getFuncionarios() != null) {
+            for (Funcionario funcionario : controlador.getFuncionarios()) {
+                comboBoxNombres.addItem(funcionario.getNombre());
+            }
+        } else {
+            comboBoxNombres.addItem("No hay funcionario registrados");
+        }
 
-        JLabel labelMotivo = new JLabel("Motivo de Ingreso:");
-        labelMotivo.setBounds(25, 240, 550, 30);
-        panelIngreso.add(labelMotivo);
+        btnBuscar.addActionListener(e -> {
+            String placa = txtPlaca.getText();
+            for (Funcionario funcionario : controlador.getFuncionarios()) {
+                if (funcionario.getVehiculo() != null && placa.equals(funcionario.getVehiculo().getPlaca())) {
+                    comboBoxNombres.setSelectedItem(funcionario.getNombre());
+                    break;
+                }
+            }
+        });
 
-        JTextField txtMotivo= new JTextField();
-        txtMotivo.setBounds(25, 270, 550, 30);
-        panelIngreso.add(txtMotivo);
+        modeloTablaIngresoFuncionarios= new DefaultTableModel(new String[]{"Nombre Funcionario","ID","Puesto","Tipo de Vehiculo","Placa","Nacionalidad","Edad","Fecha Ingreso","Hora ingreso","NombreGuarda",},0);
 
-        JLabel labelHora = new JLabel("Hora de Ingreso:");
-        labelHora.setBounds(25, 310, 550, 30);
-        panelIngreso.add(labelHora);
+        tablaIngresoFuncionarios= new JTable(modeloTablaIngresoFuncionarios);
+      
+        JScrollPane scrollPane = new JScrollPane(tablaIngresoFuncionarios);
+        scrollPane.setBounds(25, 150, 1300, 500);
+        panelIngreso.add(scrollPane);
 
+        btnAgregar.addActionListener((actionEvent) -> {
+            Funcionario funcionario= buscarFuncionarioPorPlaca(txtPlaca.getText());
+            String motivo= "Trabaja de: " +funcionario.getPuesto();
+            LocalTime hora= LocalTime.now();
+            Guarda guarda= buscarGuardaPorID(controlador.getIdOficialActual());
+            String nombreGuarda= guarda.getNombre();
+
+            LocalDate fecha= LocalDate.now();
+
+            Ingreso ingreso= new Ingreso(fecha, motivo, hora, guarda, nombreGuarda);
+            controlador.AgregarIngreso(ingreso);
+
+            GenerarTablaIngresoFuncionarios(funcionario.getPuesto(), "No se", 25);
+
+            
+
+        });
+
+        
         
 
         return panelIngreso;
     }
+
+    public void GenerarTablaIngresoFuncionarios(String puesto,String nacionalidad,int edad ){
+
+modeloTablaFuncionarios.setRowCount(0);
+for (Object ingreso : controlador.getIngresos()) {
+    Ingreso ingresoObj = (Ingreso) ingreso;
+    modeloTablaIngresoFuncionarios.addRow(new Object[]{
+        ingresoObj.getPersona().getNombre(),
+        ingresoObj.getPersona().getId(),
+        puesto,
+        ingresoObj.getTipoVehiculo(),
+        ingresoObj.getPlacaVehiculo(),
+        nacionalidad,
+        edad,
+        ingresoObj.getFechaIngreso(),
+        ingresoObj.getHoraIngreso(),
+        ingresoObj.getNombreGuarda()
+    });
+    
+}
+
+    }
+
+    public Funcionario buscarFuncionarioPorPlaca(String placa) {
+        for (Funcionario funcionario : controlador.getFuncionarios()) {
+            if (funcionario.getVehiculo() != null && funcionario.getVehiculo().getPlaca().equals(placa)) {
+                return funcionario;
+            }
+        }
+        return null; // Si no se encuentra el funcionario
+    }
+
+    public Guarda buscarGuardaPorID(String id){
+        for (Guarda guarda : controlador.getOficiales()) {
+            if (guarda.getIDAcceso().equals(id)) {
+                return guarda;
+            }
+        }
+        return null; // Si no se encuentra el guarda
+    }
+
+    
 
     public JPanel IngresoPersonaExterna() {
         JPanel panelIngreso = new JPanel();
@@ -315,11 +394,10 @@ public class VistaOficiales extends javax.swing.JFrame {
         return panelIngreso;
     }
 
-    public JPanel panelSalidaEstudiantes(){
+    public JPanel panelSalidaEstudiantes() {
 
         return null;
     }
-    
 
     public void setControlador(Controlador controlador) {
         this.controlador = controlador;

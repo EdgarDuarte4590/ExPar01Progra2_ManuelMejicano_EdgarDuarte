@@ -13,12 +13,12 @@ private String nombreGuarda;
 private String tipoVehiculo;
 private String placaVehiculo;
 
-public Ingreso(LocalDate fechaIngreso, String motivo, LocalTime horaIngreso, Persona persona, String guarda) {
+public Ingreso(LocalDate fechaIngreso, String motivo, LocalTime horaIngreso, Persona persona, String nombreGuarda) {
     this.fechaIngreso = fechaIngreso;
     this.motivo = motivo;
     this.horaIngreso = horaIngreso;
     this.persona = persona;
-    this.nombreGuarda = guarda;
+    this.nombreGuarda = nombreGuarda;
 }
 
 

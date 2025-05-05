@@ -1,13 +1,11 @@
 package controlador;
 
-import java.awt.Menu;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
-
 import modelo.Estudiante;
 import modelo.Funcionario;
 import modelo.Guarda;
+import modelo.Ingreso;
 import vista.MenuPrincipal;
 
 public class Controlador {
@@ -15,6 +13,7 @@ public class Controlador {
     private ArrayList<Guarda> oficiales;
     private ArrayList<Estudiante> estudiantes;
     private ArrayList<Funcionario> funcionarios;
+    private ArrayList<Ingreso> ingresos;
     private boolean sesionIniciada = true;
     private String idOficialActual;
     public MenuPrincipal menuPrincipal;
@@ -28,6 +27,7 @@ public class Controlador {
         oficiales = new ArrayList<>();
         estudiantes = new ArrayList<>();
         funcionarios = new ArrayList<>();
+        ingresos=new ArrayList<>();
         
     }
 
@@ -112,6 +112,17 @@ public class Controlador {
         this.idOficialActual = idOficialActual;
     }
 
-   
+   public  void AgregarIngreso(Ingreso ingreso) {
+        ingresos.add(ingreso);
+        JOptionPane.showMessageDialog(null, "Ingreso registrado correctamente.");
+    }
+
+    public ArrayList<Ingreso> getIngresos() {
+        return ingresos;
+    }
+
+    public void setIngresos(ArrayList<Ingreso> ingresos) {
+        this.ingresos = ingresos;
+    }
 
 }
