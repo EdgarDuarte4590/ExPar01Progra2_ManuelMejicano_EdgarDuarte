@@ -34,7 +34,7 @@ public class MenuPrincipal extends JFrame{
     private void inicializarComponentes() {
         vistaAdmin = new VistaAdmin(this.controlador);
         vistaOficiales = new VistaOficiales(controlador);  
-        vistaEstudiante = new VistaEstudiante();
+        vistaEstudiante = new VistaEstudiante(controlador);
 
         JPanel panelFondo = new JPanel();
         panelFondo.setLayout(null); 
