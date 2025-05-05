@@ -1,6 +1,7 @@
 package vista.estudiantes;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import controlador.Controlador;
@@ -21,8 +22,17 @@ public class VistaEstudiante  extends JFrame{
 
     public void inicializarComponentes(){
         tabbedPane = new JTabbedPane();
+        tabbedPane.setBounds(0,0, 1366, 720);
+        super.add(tabbedPane);
+
+
     }
 
+    public JPanel panelSolicitarSalida(){
+        JPanel panel = new JPanel();
+
+        return panel;
+    }
     public void mostrar() {
         setVisible(true);
     }
