@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.ScrollPane;
 import java.util.ResourceBundle.Control;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -21,11 +22,16 @@ import controlador.Controlador;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import javax.swing.JOptionPane;
+
+import javax.swing.JRadioButton;
 import modelo.Funcionario;
 import modelo.Guarda;
 import modelo.Ingreso;
+import modelo.IngresoExterno;
 import modelo.IngresoFuncionario;
+import modelo.Persona;
 import modelo.Vehiculo;
+import modelo.VehiculoExterno;
 
 public class VistaOficiales extends javax.swing.JFrame {
 
@@ -37,8 +43,9 @@ public class VistaOficiales extends javax.swing.JFrame {
 
     private JTable tablaIngresoFuncionarios;
     private DefaultTableModel modeloTablaIngresoFuncionarios;
-    private JTable tablaIngresoExterno;
+    private JTable tablaIngresosExterno;
     private DefaultTableModel modeloTablaIngresoExterno;
+    private DefaultTableModel modeloTablaVehiculoExterno;
 
     
 
@@ -61,7 +68,7 @@ public class VistaOficiales extends javax.swing.JFrame {
         tabbedPane.addTab("Salida de Estudiantes", panelEstudiantes());
         tabbedPane.addTab("Funcionarios", panelFuncionarios());
         tabbedPane.addTab("Ingreso Funcionario", panelIngresoFuncionario());
-        tabbedPane.addTab("Ingreso Externo", IngresoPersonaExterna());
+        tabbedPane.addTab("Ingreso Externo", IngresoExterno());
     }
 
     public JPanel panelEstudiantes() {
@@ -292,91 +299,285 @@ public class VistaOficiales extends javax.swing.JFrame {
 
   
 
-    public JPanel IngresoPersonaExterna() {
+    public JPanel IngresoExterno() {
         JPanel panelIngreso = new JPanel();
         panelIngreso.setLayout(null);
 
-        JLabel titulo = new JLabel("Ingreso Persona Externa");
-        titulo.setBounds(25, 50, 550, 30);
-        panelIngreso.add(titulo);
+        JLabel opcion= new JLabel("Seleccione el tipo de ingreso:");
+        opcion.setBounds(250, 10, 550, 50);
+        panelIngreso.add(opcion);
 
-        JLabel labelNombre = new JLabel("Nombre Completo de la Persona Externa:");
-        labelNombre.setBounds(25, 100, 550, 30);
-        panelIngreso.add(labelNombre);
+        ButtonGroup btnGroup= new ButtonGroup();
+        
+        JRadioButton btnIngresoPersona= new JRadioButton("Ingreso Persona Externa");
+        btnIngresoPersona.setBounds(150,50,250,30);
+        btnGroup.add(btnIngresoPersona);
 
-        JTextField txtNombre = new JTextField();
-        txtNombre.setBounds(25, 130, 550, 30);
-        panelIngreso.add(txtNombre);
 
-        JLabel labelID = new JLabel("ID Persona Externa:");
-        labelID.setBounds(25, 170, 550, 30);
-        panelIngreso.add(labelID);
+        JRadioButton btnIngreso = new JRadioButton("Ingreso Vehiculo Externo");
+        btnIngreso.setBounds(400,50,250,30);
+        btnGroup.add(btnIngreso);
 
-        JTextField txtID = new JTextField();
-        txtID.setBounds(25, 200, 550, 30);
-        panelIngreso.add(txtID);
 
-        JLabel labelMotivo = new JLabel("Motivo de la Visita:");
-        labelMotivo.setBounds(25, 240, 550, 30);
-        panelIngreso.add(labelMotivo);
+        panelIngreso.add(btnIngresoPersona);
+        panelIngreso.add(btnIngreso);
 
-        JTextField txtMotivo = new JTextField();
-        txtMotivo.setBounds(25, 270, 550, 30);
-        panelIngreso.add(txtMotivo);
+        btnIngresoPersona.addActionListener(e -> {
+            
+            panelIngreso.removeAll();
+
+            JLabel lblNombre = new JLabel("Nombre:");
+            lblNombre.setBounds(150, 20, 100, 30);
+            panelIngreso.add(lblNombre);
+
+            JTextField txtNombre = new JTextField();
+            txtNombre.setBounds(250, 20, 200, 30);
+            panelIngreso.add(txtNombre);
+
+            JLabel lblId = new JLabel("ID:");
+            lblId.setBounds(150, 60, 100, 30);
+            panelIngreso.add(lblId);
+
+            JTextField txtId = new JTextField();
+            txtId.setBounds(250, 60, 200, 30);
+            panelIngreso.add(txtId);
+
+            JLabel lblMotivo = new JLabel("Motivo:");
+            lblMotivo.setBounds(150, 100, 100, 30);
+            panelIngreso.add(lblMotivo);
+            String[] items= {
+                "Reunión con el director",
+                "Entrega de documentos",
+                "Reunión de padres de familia",
+                "Mantenimiento o reparación",
+                "Entrega de suministros",
+                "Visita guiada",
+                "Capacitación o charla",
+                "Evento cultural o deportivo",
+                "Inspección o auditoría",
+                "Otro"
+            };
+            JComboBox comboMotivo= new JComboBox(items);
+            comboMotivo.setBounds(250, 100, 200, 30);
+            panelIngreso.add(comboMotivo);
+
+            JButton btnGuardar = new JButton("Guardar");
+            btnGuardar.setBounds(250, 150, 100, 30);
+            panelIngreso.add(btnGuardar);
+
+            btnGuardar.addActionListener(ev -> {
+                String nombre = txtNombre.getText();
+                int id= Integer.parseInt(txtId.getText());
+
+                Persona visitante= new Persona(nombre, id);
+                String motivo = (String) comboMotivo.getSelectedItem();
+
+                LocalTime hora= LocalTime.now();
+                LocalDate fecha= LocalDate.now();
+                Guarda guarda= controlador.buscarGuardaPorID(controlador.getIdOficialActual());
+                String nombreGuarda= guarda.getNombre();
+
+               IngresoExterno ingreso= new IngresoExterno(fecha, motivo, hora, nombreGuarda, visitante, false);
+               controlador.getIngresosExternos().add(ingreso);
+
+               JOptionPane.showMessageDialog(null, "Ingreso registrado exitosamente");
+
+
+                GenerarTablaIngresoExterno();
+
+
+            });
+
+            modeloTablaIngresoExterno= new DefaultTableModel(new String[]{"Nombre","ID","Motivo","Fecha","Hora","Nombre de ofical"},0);
+            tablaIngresosExterno= new JTable(modeloTablaIngresoExterno);
+            JScrollPane scrollPane= new JScrollPane(tablaIngresosExterno);
+            scrollPane.setBounds(25,200,1300,400);
+            panelIngreso.add(scrollPane);
+
+            GenerarTablaIngresoExterno();
+
+            JButton Regresar= new JButton("Regresar");
+            Regresar.setBounds(400,150,100,30);
+            panelIngreso.add(Regresar);
+            Regresar.addActionListener(ev ->{
+                panelIngreso.removeAll();
+                panelIngreso.add(opcion);
+                panelIngreso.add(btnIngresoPersona);
+                panelIngreso.add(btnIngreso);
+                panelIngreso.revalidate();
+                panelIngreso.repaint();
+
+
+            });
+
+            panelIngreso.revalidate();
+            panelIngreso.repaint();
+        });
+
+        btnIngreso.addActionListener(e -> {
+
+
+            panelIngreso.removeAll();
+
+            JLabel lblNombre = new JLabel("Nombre:");
+            lblNombre.setBounds(150, 20, 100, 30);
+            panelIngreso.add(lblNombre);
+
+            JTextField txtNombre = new JTextField();
+            txtNombre.setBounds(250, 20, 200, 30);
+            panelIngreso.add(txtNombre);
+
+            JLabel lblId = new JLabel("ID:");
+            lblId.setBounds(150, 60, 100, 30);
+            panelIngreso.add(lblId);
+
+            JTextField txtId = new JTextField();
+            txtId.setBounds(250, 60, 200, 30);
+            panelIngreso.add(txtId);
+
+            JLabel lblMotivo = new JLabel("Motivo:");
+            lblMotivo.setBounds(150, 100, 100, 30);
+            panelIngreso.add(lblMotivo);
+            String[] motivos= {
+                "Entrega de suministros",
+                "Mantenimiento o reparación",
+                "Evento cultural o deportivo",
+                "Transporte de estudiantes",
+                "Transporte de personal",
+                "Visita oficial",
+                "Inspección o auditoría",
+                "Capacitación o charla",
+                "Entrega de equipo",
+                "Otro"
+            };
+            JComboBox comboMotivo= new JComboBox(motivos);
+            comboMotivo.setBounds(250, 100, 200, 30);
+            panelIngreso.add(comboMotivo);
+
+            JLabel lblPlaca = new JLabel("Placa Vehiculo:");
+            lblPlaca.setBounds(470, 20, 100, 30);
+            panelIngreso.add(lblPlaca);
+
+            JTextField txtPlaca = new JTextField();
+            txtPlaca.setBounds(570, 20, 100, 30);
+            panelIngreso.add(txtPlaca);
+
+            JLabel lblTipoVehiculo = new JLabel("Tipo de Vehículo:");
+            lblTipoVehiculo.setBounds(470, 60, 100, 30);
+            panelIngreso.add(lblTipoVehiculo);
+
+            JComboBox<String> vehiculoComboBox = new JComboBox<>(
+                new String[] { "Automóvil", "Camioneta", "Motocicleta", "Bicicleta", "Bicimoto", "Otro" });
+            vehiculoComboBox.setBounds(570, 60, 120, 30);
+            panelIngreso.add(vehiculoComboBox);
+
+
+            JLabel lblCantidadPasajeros= new JLabel("Cantidad de Pasajeros:");
+            lblCantidadPasajeros.setBounds(700,20,150,30);
+            panelIngreso.add(lblCantidadPasajeros);
+
+            JTextField txtCantidad = new JTextField();
+            txtCantidad.setBounds(850, 20, 100, 30);
+            panelIngreso.add(txtCantidad);
+
+            JLabel lblCompania= new JLabel("Empresa Vehiculo:");
+            lblCompania.setBounds(700,60,150,30);
+            panelIngreso.add(lblCompania);
+
+            JTextField txtCompania = new JTextField();
+            txtCompania.setBounds(850, 60, 100, 30);
+            panelIngreso.add(txtCompania);
+
+
+
+            JButton btnGuardarVehiculo = new JButton("Guardar");
+            btnGuardarVehiculo.setBounds(590, 100, 100, 30);
+            panelIngreso.add(btnGuardarVehiculo);
+
+            btnGuardarVehiculo.addActionListener(ev -> {
+              
+                String nombre = txtNombre.getText();
+                int id= Integer.parseInt(txtId.getText());
+                Persona visitante= new Persona(nombre, id);
+
+                String motivo = (String) comboMotivo.getSelectedItem();
+                LocalTime hora= LocalTime.now();
+                LocalDate fecha= LocalDate.now();
+                Guarda guarda= controlador.buscarGuardaPorID(controlador.getIdOficialActual());
+                String nombreGuarda= guarda.getNombre();
+
+                int cantidadP= Integer.parseInt(txtCantidad.getText());
+                String compani= txtCompania.getText();
+                String placa= txtPlaca.getText();
+                String tipoV= (String) vehiculoComboBox.getSelectedItem();
+
+                Vehiculo vehiculo= new Vehiculo(placa, tipoV);
+
+                VehiculoExterno ingreso= new VehiculoExterno(fecha, motivo, hora, nombreGuarda, visitante, false, cantidadP, compani, vehiculo);
+                controlador.getIngresosVehiculoExterno().add(ingreso);
+
+                JOptionPane.showMessageDialog(null, "Ingreso registrado exitosamente");
+
+                GenerarTablaIngresoVehiculoExterno();
+                
+
+            });
+
+            modeloTablaVehiculoExterno= new DefaultTableModel(new String[]{"Nombre","ID","Motivo","Fecha","Hora","Nombre de ofical","Placa Vehiculo","Tipo de Vehiculo","Cantidad Pasajeros","Compañia"},0);
+            tablaIngresosExterno= new JTable(modeloTablaVehiculoExterno);
+            JScrollPane scrollPane= new JScrollPane(tablaIngresosExterno);
+            scrollPane.setBounds(25,200,1300,400);
+            panelIngreso.add(scrollPane);
+
+            GenerarTablaIngresoVehiculoExterno();
+
+
+            JButton Regresar= new JButton("Regresar");
+            Regresar.setBounds(800,100,100,30);
+            panelIngreso.add(Regresar);
+            Regresar.addActionListener(ev ->{
+                panelIngreso.removeAll();
+                panelIngreso.add(opcion);
+                panelIngreso.add(btnIngresoPersona);
+                panelIngreso.add(btnIngreso);
+                panelIngreso.revalidate();
+                panelIngreso.repaint();
+
+
+            });
+
+            panelIngreso.revalidate();
+            panelIngreso.repaint();
+        });
 
         return panelIngreso;
     }
 
-    public JPanel panelIngresoVehiculo() {
-        JPanel panelIngreso = new JPanel();
-        panelIngreso.setLayout(null);
+    public void GenerarTablaIngresoExterno(){
 
-        JLabel titulo = new JLabel("Ingreso Vehiculo");
-        titulo.setBounds(25, 50, 550, 30);
-        panelIngreso.add(titulo);
+        modeloTablaIngresoExterno.setRowCount(0);
+        for(IngresoExterno ingreso: controlador.getIngresosExternos()){
+            modeloTablaIngresoExterno.addRow(new Object[]{
+                ingreso.getVisitante().getNombre(),  ingreso.getVisitante().getId(),ingreso.getMotivo(),
+                ingreso.getFechaIngreso(), ingreso.getHoraIngreso().format(controlador.formato),ingreso.getNombreGuarda(),
 
-        JLabel labelnombreChofer = new JLabel("Ingrese el nombre del Chofer: ");
-        labelnombreChofer.setBounds(25, 100, 550, 30);
-        panelIngreso.add(labelnombreChofer);
-
-        JTextField txtnombreChofer = new JTextField();
-        txtnombreChofer.setBounds(25, 130, 450, 30);
-        panelIngreso.add(txtnombreChofer);
-
-        JLabel labelPlaca = new JLabel("Ingrese la placa del Vehiculo:");
-        labelPlaca.setBounds(25, 170, 550, 30);
-        panelIngreso.add(labelPlaca);
-
-        JTextField txtPlaca = new JTextField();
-        txtPlaca.setBounds(25, 200, 450, 30);
-        panelIngreso.add(txtPlaca);
-
-        JLabel labelCantidadPasajeros = new JLabel("Ingrese la cantidad de pasajeros:");
-        labelCantidadPasajeros.setBounds(25, 240, 550, 30);
-        panelIngreso.add(labelCantidadPasajeros);
-
-        JTextField txtCantidadPasajeros = new JTextField();
-        txtCantidadPasajeros.setBounds(25, 270, 450, 30);
-        panelIngreso.add(txtCantidadPasajeros);
-
-        JLabel labelCompania = new JLabel("Ingrese la compañia:");
-        labelCompania.setBounds(25, 310, 550, 30);
-        panelIngreso.add(labelCompania);
-
-        JTextField txtCompania = new JTextField();
-        txtCompania.setBounds(25, 340, 450, 30);
-        panelIngreso.add(txtCompania);
-
-        JLabel labelMotivo = new JLabel("Motivo del ingreso:");
-        labelMotivo.setBounds(25, 380, 550, 30);
-        panelIngreso.add(labelMotivo);
-
-        JTextField txtMotivo = new JTextField();
-        txtMotivo.setBounds(25, 410, 450, 30);
-        panelIngreso.add(txtMotivo);
-
-        return panelIngreso;
+            });
+        }
     }
+
+    public void GenerarTablaIngresoVehiculoExterno(){
+        modeloTablaVehiculoExterno.setRowCount(0);
+        for (VehiculoExterno ingreso : controlador.getIngresosVehiculoExterno()) {
+         
+                modeloTablaVehiculoExterno.addRow(new Object[] {
+                   ingreso.getVisitante().getNombre() , ingreso.getVisitante().getId(),ingreso.getMotivo(),
+                   ingreso.getFechaIngreso(),ingreso.getHoraIngreso().format(controlador.formato),ingreso.getNombreGuarda(),
+                   ingreso.getVehiculo().getPlaca(), ingreso.getVehiculo().getTipoVehiculo(),ingreso.getCantidadPasajeros(),ingreso.getCompania(),
+                });
+            
+        }
+    }
+
 
     public JPanel panelSalidaEstudiantes() {
 

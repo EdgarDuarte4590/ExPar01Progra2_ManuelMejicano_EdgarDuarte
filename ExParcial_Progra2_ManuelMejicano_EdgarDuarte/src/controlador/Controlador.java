@@ -6,9 +6,9 @@ import javax.swing.JOptionPane;
 import modelo.Estudiante;
 import modelo.Funcionario;
 import modelo.Guarda;
-import modelo.Ingreso;
 import modelo.IngresoExterno;
 import modelo.IngresoFuncionario;
+import modelo.VehiculoExterno;
 import vista.MenuPrincipal;
 
 public class Controlador {
@@ -18,6 +18,7 @@ public class Controlador {
     private ArrayList<Funcionario> funcionarios;
     private ArrayList<IngresoFuncionario> ingresosFuncionarios;
     private ArrayList<IngresoExterno> ingresosExternos;
+    private ArrayList<VehiculoExterno> ingresosVehiculoExterno;
     private boolean sesionIniciada = false;
     private String idOficialActual;
     public MenuPrincipal menuPrincipal;
@@ -33,6 +34,8 @@ public class Controlador {
         estudiantes = new ArrayList<>();
         funcionarios = new ArrayList<>();
         ingresosFuncionarios=new ArrayList<>();
+        ingresosExternos = new ArrayList<>();
+        ingresosVehiculoExterno = new ArrayList<>();
     }
 
     public Funcionario buscarFuncionarioPorPlaca(String placa) {
@@ -149,6 +152,22 @@ public class Controlador {
 
     public ArrayList<IngresoFuncionario> getIngresosFuncionarios() {
         return ingresosFuncionarios;
+    }
+
+    public ArrayList<VehiculoExterno> getIngresosVehiculoExterno() {
+        return ingresosVehiculoExterno;
+    }
+
+    public void setIngresosVehiculoExterno(ArrayList<VehiculoExterno> ingresosVehiculoExterno) {
+        this.ingresosVehiculoExterno = ingresosVehiculoExterno;
+    }
+
+    public DateTimeFormatter getFormato() {
+        return formato;
+    }
+
+    public void setFormato(DateTimeFormatter formato) {
+        this.formato = formato;
     }
 
 
