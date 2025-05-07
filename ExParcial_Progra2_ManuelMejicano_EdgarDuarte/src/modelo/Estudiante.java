@@ -5,14 +5,14 @@ import java.time.LocalDate;
 public class Estudiante extends Persona {
 
     private String carnet;
-    private String codigoAcceso;
+    private String direccion;
     private LocalDate fechaNacimiento;
 
     public Estudiante(String nombre, int iD, String carnet, String codigoAcceso, LocalDate fechaNacimiento,
             String nacionalidad) {
         super(nombre, iD);
         this.carnet = carnet;
-        this.codigoAcceso = codigoAcceso;
+        this.direccion = codigoAcceso;
         this.fechaNacimiento = fechaNacimiento;
         this.nacionalidad = nacionalidad;
         edad = calcularEdad();
@@ -26,12 +26,12 @@ public class Estudiante extends Persona {
         this.carnet = carnet;
     }
 
-    public String getCodigoAcceso() {
-        return codigoAcceso;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setCodigoAcceso(String codigoAcceso) {
-        this.codigoAcceso = codigoAcceso;
+    public void setDireccion(String codigoAcceso) {
+        this.direccion = codigoAcceso;
     }
 
     public LocalDate getFechaNacimiento() {

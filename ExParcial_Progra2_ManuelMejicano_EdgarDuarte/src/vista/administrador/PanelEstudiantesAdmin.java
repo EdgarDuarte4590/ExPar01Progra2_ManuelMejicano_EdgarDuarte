@@ -55,7 +55,7 @@ public class PanelEstudiantesAdmin extends JPanel {
         panelEstudiantes.add(label4);
 
         JDateChooser jDateChooser = new JDateChooser();
-        jDateChooser.setDateFormatString("dd/mm/yyyy");
+        jDateChooser.setDateFormatString("dd/MM/yyyy");
         jDateChooser.setBounds(250, 200, 200, 30);
         panelEstudiantes.add(jDateChooser);
 

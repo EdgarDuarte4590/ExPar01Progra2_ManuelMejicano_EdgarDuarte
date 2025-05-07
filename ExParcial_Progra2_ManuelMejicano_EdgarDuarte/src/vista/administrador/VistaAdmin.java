@@ -99,7 +99,7 @@ public class VistaAdmin extends JFrame {
                     estudiante.getFechaNacimiento(),
                     estudiante.getNacionalidad(),
                     estudiante.getCarnet(),
-                    estudiante.getCodigoAcceso()
+                    estudiante.getDireccion()
             });
 
         }
