@@ -17,7 +17,7 @@ public class Estudiante extends Persona {
         this.nacionalidad = nacionalidad;
         edad = calcularEdad();
     }
-
+    
     public String getCarnet() {
         return carnet;
     }

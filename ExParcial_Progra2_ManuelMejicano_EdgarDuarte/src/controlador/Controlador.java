@@ -8,6 +8,7 @@ import modelo.Funcionario;
 import modelo.Guarda;
 import modelo.IngresoExterno;
 import modelo.IngresoFuncionario;
+import modelo.Salida;
 import modelo.VehiculoExterno;
 import vista.MenuPrincipal;
 
@@ -19,23 +20,39 @@ public class Controlador {
     private ArrayList<IngresoFuncionario> ingresosFuncionarios;
     private ArrayList<IngresoExterno> ingresosExternos;
     private ArrayList<VehiculoExterno> ingresosVehiculoExterno;
+    private ArrayList<Salida> salidasEstudiantes;
     private boolean sesionIniciada = false;
     private String idOficialActual;
     public MenuPrincipal menuPrincipal;
     public DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss"); 
 
     public Controlador() {
-        menuPrincipal = new MenuPrincipal(this);
-        menuPrincipal.setVisible(true);
-        menuPrincipal.setLocationRelativeTo(null);
-
+       
         administradores = new ArrayList<>();
+
         oficiales = new ArrayList<>();
         estudiantes = new ArrayList<>();
         funcionarios = new ArrayList<>();
+        salidasEstudiantes = new ArrayList<>();
         ingresosFuncionarios=new ArrayList<>();
         ingresosExternos = new ArrayList<>();
         ingresosVehiculoExterno = new ArrayList<>();
+
+        menuPrincipal = new MenuPrincipal(this);
+        menuPrincipal.setVisible(true);
+        menuPrincipal.setLocationRelativeTo(null);
+    }
+
+    public int buscarEstudiante(String carnet){ //Ocupa el numero de carnet
+       for (int i = 0; i < estudiantes.size(); i++) {
+         
+             if (estudiantes.get(i).getCarnet().equals(carnet)) {
+                 return i;
+             }
+       }
+         System.out.println("No se encontró el estudiante con el carnet: " + carnet);
+
+        return -1; 
     }
 
     public Funcionario buscarFuncionarioPorPlaca(String placa) {
@@ -168,6 +185,14 @@ public class Controlador {
 
     public void setFormato(DateTimeFormatter formato) {
         this.formato = formato;
+    }
+
+    public ArrayList<Salida> getSalidasEstudiantes() {
+        return salidasEstudiantes;
+    }
+
+    public void setSalidasEstudiantes(ArrayList<Salida> salidasEstudiantes) {
+        this.salidasEstudiantes = salidasEstudiantes;
     }
 
 

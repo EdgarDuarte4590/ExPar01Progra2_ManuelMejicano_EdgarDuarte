@@ -51,7 +51,7 @@ public class VistaAdmin extends JFrame {
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.setBounds(0, 0, 1366, 720); // Establecer el tamaño del JTabbedPane
         super.add(tabbedPane); // Agregar el JTabbedPane a la ventana
-        tabbedPane.add("Menu Administrativo", panelAdministradores());
+        //tabbedPane.add("Menu Administrativo", panelAdministradores());
         tabbedPane.add("Oficiales", panelOficiales());
         tabbedPane.add("Estudiantes", panelEstudiantes());
 
