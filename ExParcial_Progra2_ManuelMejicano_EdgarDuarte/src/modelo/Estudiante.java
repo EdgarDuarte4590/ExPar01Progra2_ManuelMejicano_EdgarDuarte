@@ -8,11 +8,11 @@ public class Estudiante extends Persona {
     private String direccion;
     private LocalDate fechaNacimiento;
 
-    public Estudiante(String nombre, int iD, String carnet, String codigoAcceso, LocalDate fechaNacimiento,
+    public Estudiante(String nombre, int iD, String carnet, String direccion, LocalDate fechaNacimiento,
             String nacionalidad) {
         super(nombre, iD);
         this.carnet = carnet;
-        this.direccion = codigoAcceso;
+        this.direccion = direccion;
         this.fechaNacimiento = fechaNacimiento;
         this.nacionalidad = nacionalidad;
         edad = calcularEdad();
