@@ -17,7 +17,7 @@ public class MenuPrincipal extends JFrame{
 
     public VistaAdmin vistaAdmin;
     public VistaOficiales vistaOficiales;
-    public VistaEstudiante vistaEstudiante;
+    
 
     Controlador controlador; // Instancia del controlador
 
