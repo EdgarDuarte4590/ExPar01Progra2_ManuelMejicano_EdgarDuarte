@@ -28,14 +28,7 @@ public class LoginAdmin extends JFrame {
         inicializarComponentes();
         this.setContentPane(container);
 
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                mostrarDialogoCerrar();
-            }
-        });
+        
     }
 
     public void inicializarComponentes() {
@@ -89,30 +82,6 @@ public class LoginAdmin extends JFrame {
         container.add(btnIniciar);
     }
 
-    private void mostrarDialogoCerrar() {
-        String[] opciones = { "Cerrar sesión", "Salir", "Cancelar" };
-        int opcion = JOptionPane.showOptionDialog(
-                this,
-                "¿Desea cerrar sesión?",
-                "Confirmación de salida",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                opciones,
-                opciones[0]);
-
-        switch (opcion) {
-            case 0: // Cerrar sesión
-                controlador.setSesionIniciadaAdmin(false);;
-                this.dispose();
-                break;
-            case 1: // Salir
-                this.dispose(); // Cerrar la aplicación
-                break;
-            default: // Cancelar o cerrar diálogo
-                // No hace nada, permanece en la aplicación
-                break;
-        }
-    }
+    
 
 }

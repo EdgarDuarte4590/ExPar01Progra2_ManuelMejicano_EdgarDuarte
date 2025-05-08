@@ -1,6 +1,8 @@
 package vista.administrador;
 
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.time.LocalDate;
 
 import javax.swing.JButton;
@@ -38,11 +40,19 @@ public class VistaAdmin extends JFrame {
         this.controlador = controlador;
         setTitle("Vista Administrador");
         setSize(1366, 720);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
 
         inicializarComponentes();
+
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                mostrarDialogoCerrar();
+            }
+        });
     }
 
     public void mostrar() {
@@ -73,6 +83,31 @@ public class VistaAdmin extends JFrame {
         return panelAdministradores;
     }
 
+    private void mostrarDialogoCerrar() {
+        String[] opciones = { "Cerrar sesión", "Salir", "Cancelar" };
+        int opcion = JOptionPane.showOptionDialog(
+                this,
+                "¿Desea cerrar sesión?",
+                "Confirmación de salida",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                opciones,
+                opciones[0]);
+
+        switch (opcion) {
+            case 0: // Cerrar sesión
+                controlador.setSesionIniciadaAdmin(false);;
+                this.dispose();
+                break;
+            case 1: // Salir
+                this.dispose(); // Cerrar la aplicación
+                break;
+            default: // Cancelar o cerrar diálogo
+                // No hace nada, permanece en la aplicación
+                break;
+        }
+    }
   
 
     public void agregarOficial(String nombre, String idAcceso, String contrasena, String telefono, int id) {

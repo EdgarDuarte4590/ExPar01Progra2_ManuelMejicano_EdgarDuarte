@@ -21,8 +21,8 @@ public class Controlador {
     private ArrayList<IngresoExterno> ingresosExternos;
     private ArrayList<VehiculoExterno> ingresosVehiculoExterno;
     private ArrayList<Salida> salidasEstudiantes;
-    private boolean sesionInciadaOficial = true;
-    private boolean sesionIniciadaAdmin = true;
+    private boolean sesionInciadaOficial = false;
+    private boolean sesionIniciadaAdmin = false;
     
     private String idAcceso = "1234", contraAdmin = "Douglas2025";
 
