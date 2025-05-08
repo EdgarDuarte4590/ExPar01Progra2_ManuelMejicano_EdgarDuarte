@@ -21,7 +21,11 @@ public class Controlador {
     private ArrayList<IngresoExterno> ingresosExternos;
     private ArrayList<VehiculoExterno> ingresosVehiculoExterno;
     private ArrayList<Salida> salidasEstudiantes;
-    private boolean sesionIniciada = false;
+    private boolean sesionInciadaOficial = true;
+    private boolean sesionIniciadaAdmin = true;
+    
+    private String idAcceso = "1234", contraAdmin = "Douglas2025";
+
     private String idOficialActual;
     public MenuPrincipal menuPrincipal;
     public DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss"); 
@@ -78,6 +82,12 @@ public class Controlador {
         this.ingresosFuncionarios = ingresosFuncionarios;
     }
 
+    
+
+    public void setSesionIniciadaAdmin(boolean sesionIniciadaAdmin) {
+        this.sesionIniciadaAdmin = sesionIniciadaAdmin;
+    }
+
     public ArrayList<IngresoExterno> getIngresosExternos() {
         return ingresosExternos;
     }
@@ -118,7 +128,7 @@ public class Controlador {
     public void loginOficial(String idAcceso, String contrasena) {
         for (Guarda oficial : oficiales) {
             if (oficial.getIDAcceso().equals(idAcceso) && oficial.getContrasena().equals(contrasena)) {
-                sesionIniciada = true;
+                sesionInciadaOficial = true;
                 idOficialActual = oficial.getIDAcceso(); // Guardar el índice del oficial actual
                 JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso.");
                 return;
@@ -127,6 +137,18 @@ public class Controlador {
         JOptionPane.showMessageDialog(null, "ID de acceso o contraseña incorrectos.");
     }
 
+    public void loginAdmin(String idAcceso, String contrasena) {
+        if (idAcceso.equals(this.idAcceso) && contrasena.equals(this.contraAdmin)) {
+            sesionIniciadaAdmin = true;
+            JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso.");
+        } else {
+            JOptionPane.showMessageDialog(null, "ID de acceso o contraseña incorrectos.");
+        }
+    }
+
+    public boolean isSesionIniciadaAdmin() {
+        return sesionIniciadaAdmin;
+    }
     public ArrayList<modelo.Administrador> getAdministradores() {
         return administradores;
     }
@@ -151,12 +173,12 @@ public class Controlador {
         this.estudiantes = estudiantes;
     }
 
-    public boolean isSesionIniciada() {
-        return sesionIniciada;
+    public boolean isSesionInciadaOficial() {
+        return sesionInciadaOficial;
     }
 
-    public void setSesionIniciada(boolean sesionIniciada) {
-        this.sesionIniciada = sesionIniciada;
+    public void setSesionInciadaOficial(boolean sesionIniciada) {
+        this.sesionInciadaOficial = sesionIniciada;
     }
 
     public String getIdOficialActual() {

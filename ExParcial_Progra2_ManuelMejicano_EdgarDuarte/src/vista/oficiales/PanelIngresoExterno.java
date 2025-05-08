@@ -1,5 +1,6 @@
 package vista.oficiales;
 
+import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -32,17 +33,18 @@ public class PanelIngresoExterno extends JPanel {
         panelIngreso.setLayout(null);
 
         JLabel opcion = new JLabel("Seleccione el tipo de ingreso:");
-        opcion.setBounds(250, 10, 550, 50);
+        opcion.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 15));
+        opcion.setBounds(550, 10, 300, 50);
         panelIngreso.add(opcion);
 
         ButtonGroup btnGroup = new ButtonGroup();
 
         JRadioButton btnIngresoPersona = new JRadioButton("Ingreso Persona Externa");
-        btnIngresoPersona.setBounds(150, 50, 250, 30);
+        btnIngresoPersona.setBounds(500, 50, 200, 30);
         btnGroup.add(btnIngresoPersona);
 
         JRadioButton btnIngreso = new JRadioButton("Ingreso Vehiculo Externo");
-        btnIngreso.setBounds(400, 50, 250, 30);
+        btnIngreso.setBounds(700, 50, 250, 30);
         btnGroup.add(btnIngreso);
 
         panelIngreso.add(btnIngresoPersona);
@@ -53,23 +55,23 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.removeAll();
 
             JLabel lblNombre = new JLabel("Nombre:");
-            lblNombre.setBounds(150, 20, 100, 30);
+            lblNombre.setBounds(500, 20, 100, 30);
             panelIngreso.add(lblNombre);
 
             JTextField txtNombre = new JTextField();
-            txtNombre.setBounds(250, 20, 200, 30);
+            txtNombre.setBounds(600, 20, 200, 30);
             panelIngreso.add(txtNombre);
 
             JLabel lblId = new JLabel("ID:");
-            lblId.setBounds(150, 60, 100, 30);
+            lblId.setBounds(500, 60, 100, 30);
             panelIngreso.add(lblId);
 
             JTextField txtId = new JTextField();
-            txtId.setBounds(250, 60, 200, 30);
+            txtId.setBounds(600, 60, 200, 30);
             panelIngreso.add(txtId);
 
             JLabel lblMotivo = new JLabel("Motivo:");
-            lblMotivo.setBounds(150, 100, 100, 30);
+            lblMotivo.setBounds(500, 100, 100, 30);
             panelIngreso.add(lblMotivo);
             String[] items = {
                     "Reunión con el director",
@@ -84,11 +86,15 @@ public class PanelIngresoExterno extends JPanel {
                     "Otro"
             };
             JComboBox comboMotivo = new JComboBox(items);
-            comboMotivo.setBounds(250, 100, 200, 30);
+            comboMotivo.setBounds(600, 100, 200, 30);
             panelIngreso.add(comboMotivo);
 
             JButton btnGuardar = new JButton("Guardar");
-            btnGuardar.setBounds(250, 150, 100, 30);
+            btnGuardar.setBounds(700, 150, 100, 30);
+            btnGuardar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+            btnGuardar.setBackground(new Color(0xFF2BA76B));
+            btnGuardar.setForeground(Color.WHITE);
+            btnGuardar.setBorderPainted(false);
             panelIngreso.add(btnGuardar);
 
             btnGuardar.addActionListener(ev -> {
@@ -106,6 +112,9 @@ public class PanelIngresoExterno extends JPanel {
                 vistaOficiales.controlador.getIngresosExternos().add(ingreso);
 
                 JOptionPane.showMessageDialog(null, "Ingreso registrado exitosamente");
+                txtNombre.setText("");
+                txtId.setText("");
+                comboMotivo.setSelectedIndex(0);
 
                 vistaOficiales.GenerarTablaIngresoExterno();
 
@@ -121,7 +130,11 @@ public class PanelIngresoExterno extends JPanel {
             vistaOficiales.GenerarTablaIngresoExterno();
 
             JButton Regresar = new JButton("Regresar");
-            Regresar.setBounds(400, 150, 100, 30);
+            Regresar.setBounds(500, 150, 100, 30);
+            Regresar.setBackground(new Color(0xFFE0133C));
+            Regresar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+            Regresar.setBorderPainted(false);
+            Regresar.setForeground(Color.WHITE);
             panelIngreso.add(Regresar);
             Regresar.addActionListener(ev -> {
                 panelIngreso.removeAll();
@@ -181,7 +194,7 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.add(lblPlaca);
 
             JTextField txtPlaca = new JTextField();
-            txtPlaca.setBounds(570, 20, 100, 30);
+            txtPlaca.setBounds(570, 20, 120, 30);
             panelIngreso.add(txtPlaca);
 
             JLabel lblTipoVehiculo = new JLabel("Tipo de Vehículo:");
@@ -210,7 +223,11 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.add(txtCompania);
 
             JButton btnGuardarVehiculo = new JButton("Guardar");
-            btnGuardarVehiculo.setBounds(590, 100, 100, 30);
+            btnGuardarVehiculo.setBounds(850, 100, 100, 30);
+            btnGuardarVehiculo.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+            btnGuardarVehiculo.setBackground(new Color(0xFF2BA76B));
+            btnGuardarVehiculo.setForeground(Color.WHITE);
+            btnGuardarVehiculo.setBorderPainted(false);
             panelIngreso.add(btnGuardarVehiculo);
 
             btnGuardarVehiculo.addActionListener(ev -> {
@@ -236,6 +253,14 @@ public class PanelIngresoExterno extends JPanel {
                         vistaOficiales.controlador.getIngresosVehiculoExterno().add(ingreso);
 
                 JOptionPane.showMessageDialog(null, "Ingreso registrado exitosamente");
+                txtNombre.setText("");
+                txtId.setText("");
+                txtPlaca.setText("");
+                txtCantidad.setText("");
+                txtCompania.setText("");
+                comboMotivo.setSelectedIndex(0);
+                vehiculoComboBox.setSelectedIndex(0);
+                
 
                 vistaOficiales.GenerarTablaIngresoVehiculoExterno();
 
@@ -251,7 +276,11 @@ public class PanelIngresoExterno extends JPanel {
             vistaOficiales.GenerarTablaIngresoVehiculoExterno();
 
             JButton Regresar = new JButton("Regresar");
-            Regresar.setBounds(800, 100, 100, 30);
+            Regresar.setBounds(590, 100, 100, 30);
+            Regresar.setBackground(new Color(0xFFE0133C));
+            Regresar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+            Regresar.setBorderPainted(false);
+            Regresar.setForeground(Color.WHITE);
             panelIngreso.add(Regresar);
             Regresar.addActionListener(ev -> {
                 panelIngreso.removeAll();

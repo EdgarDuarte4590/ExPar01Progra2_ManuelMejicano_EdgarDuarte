@@ -76,13 +76,13 @@ public class PanelEstudiantesAdmin extends JPanel {
         jComboBoxEstudiante.setBounds(250, 300, 200, 30);
         panelEstudiantes.add(jComboBoxEstudiante);
 
-        JLabel label7 = new JLabel("ID Acceso:");
+        JLabel label7 = new JLabel("Dirección:");
         label7.setBounds(40, 350, 200, 30);
         panelEstudiantes.add(label7);
 
-        JTextField textFieldIDAcceso = new JTextField();
-        textFieldIDAcceso.setBounds(250, 350, 200, 30);
-        panelEstudiantes.add(textFieldIDAcceso);
+        JComboBox jComboBoxDireccion = new JComboBox<>(new String[] { "Upala", "Aguas Claras", "San José de Upala", "Bijagua", "Delicias", "Dos Ríos", "Yolillal", "Canalete"});
+        jComboBoxDireccion.setBounds(250, 350, 200, 30);
+        panelEstudiantes.add(jComboBoxDireccion);
 
         JButton btnAgregar = new JButton("Guardar estudiante");
         btnAgregar.setBounds(300, 400, 150, 30);
@@ -94,7 +94,7 @@ public class PanelEstudiantesAdmin extends JPanel {
             // Lógica para agregar el estudiante
             if (textFieldID == null || textFieldID.getText().isEmpty() ||
                     jDateChooser.getDate() == null || textFieldCarnet.getText().isEmpty() ||
-                    textFieldIDAcceso.getText().isEmpty() || textFieldNombre.getText().isEmpty()) {
+                    textFieldNombre.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
                 return;
             }
@@ -104,14 +104,13 @@ public class PanelEstudiantesAdmin extends JPanel {
                     textFieldNombre.getText(),
                     Integer.parseInt(textFieldID.getText()),
                     textFieldCarnet.getText(),
-                    textFieldIDAcceso.getText(),
+                    jComboBoxDireccion.getSelectedItem().toString(),
                     fechaN,
                     jComboBoxEstudiante.getSelectedItem().toString()));
 
             vistaAdministrador.generarTablaEstudiantes();
             textFieldNombre.setText(""); // Limpiar el campo de texto
             textFieldCarnet.setText("");
-            textFieldIDAcceso.setText("");
             textFieldID.setText("");
             jDateChooser.setDate(null);
             jComboBoxEstudiante.setSelectedIndex(-1);
@@ -127,10 +126,13 @@ public class PanelEstudiantesAdmin extends JPanel {
         scrollPane.setBounds(500, 100, 800, 400);
         panelEstudiantes.add(scrollPane);
         vistaAdministrador.modeloTablaEstudiantes.setColumnIdentifiers(new String[] { "Nombre completo",
-                "Identificación", "Fecha de nacimiento", "Nacionalidad", "Carnet estudiantil", "ID Acceso" });
+                "Identificación", "Fecha de nacimiento", "Nacionalidad", "Carnet estudiantil", "Dirección (Distrito)" });
         vistaAdministrador.tablaEstudiantes.setModel(vistaAdministrador.modeloTablaEstudiantes);
         JButton btnEliminar = new JButton("Eliminar Estudiante");
         btnEliminar.setBounds(1150, 550, 150, 30);
+        btnEliminar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+        btnEliminar.setBackground(new Color(0xFFE0133C));
+        btnEliminar.setForeground(Color.WHITE);
         panelEstudiantes.add(btnEliminar);
         btnEliminar.addActionListener(e -> {
             int filaSeleccionada = vistaAdministrador.tablaEstudiantes.getSelectedRow();

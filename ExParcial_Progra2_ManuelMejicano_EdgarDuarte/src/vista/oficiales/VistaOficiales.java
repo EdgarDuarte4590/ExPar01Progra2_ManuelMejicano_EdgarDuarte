@@ -1,6 +1,10 @@
 package vista.oficiales;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -36,6 +40,14 @@ public class VistaOficiales extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                mostrarDialogoCerrar();
+            }
+        });
     }
 
     private void initComponents() {
@@ -58,6 +70,39 @@ public class VistaOficiales extends javax.swing.JFrame {
         tabbedPane.addTab("Ingreso Funcionario", panelIngresoFuncionario.initComponents());
         tabbedPane.addTab("Ingreso Externo", panelIngresoExterno.initComponents());
 
+        
+
+    }
+
+       
+    
+    
+    private void mostrarDialogoCerrar() {
+        // Opciones personalizadas
+        String[] opciones = { "Cerrar sesión", "Salir", "Cancelar" };
+        int opcion = JOptionPane.showOptionDialog(
+                this,
+                "¿Desea cerrar sesión?",
+                "Confirmación de salida",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                opciones,
+                opciones[0]
+        );
+
+        switch (opcion) {
+            case 0: // Cerrar sesión
+                controlador.setSesionInciadaOficial(false);
+                this.dispose(); 
+                break;
+            case 1: // Salir
+                this.dispose(); // Cerrar la aplicación
+                break;
+            default: // Cancelar o cerrar diálogo
+                // No hace nada, permanece en la aplicación
+                break;
+        }
     }
 
     JComboBox<String> comboEstudiantes;
@@ -169,7 +214,6 @@ public class VistaOficiales extends javax.swing.JFrame {
     }
 
     public JPanel panelSalidaEstudiantes() {
-
         return null;
     }
 

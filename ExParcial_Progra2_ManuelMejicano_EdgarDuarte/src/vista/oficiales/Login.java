@@ -66,7 +66,7 @@ public class Login extends JFrame{
                 String id = idAcceso.getText();
                 String contra = contrasena.getText();
                 controlador.loginOficial(id, contra); // Método para iniciar sesión
-                if (controlador.isSesionIniciada()) {
+                if (controlador.isSesionInciadaOficial()) {
                     System.out.println("Sesión iniciada correctamente.");
                     this.dispose(); // Cerrar la ventana de inicio de sesión
                     controlador.menuPrincipal.vistaOficiales.generarJComboEstudiantes();

@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import vista.administrador.LoginAdmin;
 import vista.administrador.VistaAdmin;
 import vista.estudiantes.VistaEstudiante;
 import vista.oficiales.Login;
@@ -74,7 +76,7 @@ public class MenuPrincipal extends JFrame{
         btnGuarda.setForeground(Color.WHITE);
         panelPrincipal.add(btnGuarda);
         btnGuarda.addActionListener(e -> {
-            if (!controlador.isSesionIniciada()) {
+            if (!controlador.isSesionInciadaOficial()) {
                 Login login = new Login(controlador); // Crear una nueva instancia de Login
                 login.setVisible(true);
                 login.setLocationRelativeTo(null); 
@@ -94,8 +96,15 @@ public class MenuPrincipal extends JFrame{
         btnAdmin.setForeground(Color.WHITE);
         panelPrincipal.add(btnAdmin);
         btnAdmin.addActionListener(e -> { 
-            vistaAdmin.mostrar(); // Mostrar la vista del administrador al hacer clic en el botón
-            //this.dispose(); // Cerrar la ventana actual
+            if (!controlador.isSesionIniciadaAdmin()) {
+                LoginAdmin login = new LoginAdmin(controlador);
+                login.setVisible(true);
+                login.setLocationRelativeTo(null);  
+            } else {
+                vistaAdmin.setVisible(true);
+                vistaAdmin.generarTablaEstudiantes();
+                vistaAdmin.generarTablaOficiales();
+            }
         });
 
 

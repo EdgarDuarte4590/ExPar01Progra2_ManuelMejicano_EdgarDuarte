@@ -1,5 +1,6 @@
 package vista.oficiales;
 
+import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -40,6 +41,9 @@ public class PanelIngresoFuncionario extends JPanel{
 
         JButton btnBuscar = new JButton("Buscar");
         btnBuscar.setBounds(450, 50, 100, 30);
+        btnBuscar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+        btnBuscar.setBackground(new Color(0xFF054FBE));
+        btnBuscar.setForeground(java.awt.Color.white);
         panelIngreso.add(btnBuscar);
 
         JLabel labelNombre = new JLabel("Nombre del funcionario:");
@@ -51,6 +55,9 @@ public class PanelIngresoFuncionario extends JPanel{
 
         JButton btnAgregar = new JButton("Agregar");
         btnAgregar.setBounds(450, 100, 100, 30); 
+        btnAgregar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+        btnAgregar.setBackground(new Color(0xFF2BA76B));
+        btnAgregar.setForeground(java.awt.Color.white);
         panelIngreso.add(btnAgregar);
 
         // Llenar el JComboBox con los nombres de los funcionarios registrados

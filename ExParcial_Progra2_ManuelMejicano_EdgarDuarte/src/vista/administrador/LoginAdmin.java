@@ -1,0 +1,118 @@
+package vista.administrador;
+
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
+import controlador.Controlador;
+
+public class LoginAdmin extends JFrame {
+    Controlador controlador; // Instancia del controlador
+
+    Container container;
+
+    public LoginAdmin(Controlador controlador) {
+        this.controlador = controlador; // Inicializar el controlador
+        setTitle("Inicio de sesión - Administrador");
+        setSize(500, 400);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(null);
+        inicializarComponentes();
+        this.setContentPane(container);
+
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                mostrarDialogoCerrar();
+            }
+        });
+    }
+
+    public void inicializarComponentes() {
+        container = new Container();
+        container.setLayout(null);
+        container.setBounds(0, 0, 500, 400);
+
+        JLabel label = new JLabel("Inicio de Sesión de Administrador");
+        label.setBounds(125, 50, 250, 30);
+        label.setHorizontalTextPosition(JLabel.CENTER);
+        label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+        container.add(label);
+
+        JLabel label2 = new JLabel("Escriba el ID de Acceso:");
+        label2.setBounds(180, 100, 200, 30);
+        container.add(label2);
+
+        JTextField idAcceso = new JTextField();
+        idAcceso.setBounds(150, 130, 200, 30);
+        container.add(idAcceso);
+        idAcceso.setToolTipText("Escriba el ID de Acceso");
+
+        JLabel label3 = new JLabel("Escriba la Contraseña:");
+        label3.setBounds(180, 170, 200, 30);
+        container.add(label3);
+
+        JTextField contrasena = new JTextField();
+        contrasena.setBounds(150, 200, 200, 30);
+        container.add(contrasena);
+        contrasena.setToolTipText("Escriba la Contraseña");
+
+        JButton btnIniciar = new JButton("Iniciar Sesión");
+        btnIniciar.setBounds(180, 250, 150, 30);
+        btnIniciar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+        btnIniciar.setBackground(new Color(0xFF020123));
+        btnIniciar.setForeground(Color.WHITE);
+        btnIniciar.setBorderPainted(false);
+        btnIniciar.addActionListener(e -> {
+            String id = idAcceso.getText();
+            String contra = contrasena.getText();
+            controlador.loginAdmin(id, contra); // Método para iniciar sesión
+            if (controlador.isSesionIniciadaAdmin()) {
+                System.out.println("Sesión iniciada correctamente.");
+                this.dispose();
+                controlador.menuPrincipal.vistaAdmin.setVisible(true);
+                controlador.menuPrincipal.vistaAdmin.setLocationRelativeTo(null);
+            } else {
+                System.out.println("Error al iniciar sesión. Verifique sus credenciales.");
+            }
+        });
+        container.add(btnIniciar);
+    }
+
+    private void mostrarDialogoCerrar() {
+        String[] opciones = { "Cerrar sesión", "Salir", "Cancelar" };
+        int opcion = JOptionPane.showOptionDialog(
+                this,
+                "¿Desea cerrar sesión?",
+                "Confirmación de salida",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                opciones,
+                opciones[0]);
+
+        switch (opcion) {
+            case 0: // Cerrar sesión
+                controlador.setSesionIniciadaAdmin(false);;
+                this.dispose();
+                break;
+            case 1: // Salir
+                this.dispose(); // Cerrar la aplicación
+                break;
+            default: // Cancelar o cerrar diálogo
+                // No hace nada, permanece en la aplicación
+                break;
+        }
+    }
+
+}
