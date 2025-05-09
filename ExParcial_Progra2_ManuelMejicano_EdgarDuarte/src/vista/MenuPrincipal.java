@@ -7,10 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import vista.administrador.LoginAdmin;
 import vista.administrador.VistaAdmin;
-import vista.estudiantes.VistaEstudiante;
 import vista.oficiales.Login;
 import vista.oficiales.VistaOficiales;
 
@@ -18,7 +16,7 @@ public class MenuPrincipal extends JFrame{
 
     public VistaAdmin vistaAdmin;
     public VistaOficiales vistaOficiales;
-    public VistaEstudiante vistaEstudiante;
+    
 
     Controlador controlador; // Instancia del controlador
 
@@ -36,7 +34,7 @@ public class MenuPrincipal extends JFrame{
     private void inicializarComponentes() {
         vistaAdmin = new VistaAdmin(this.controlador);
         vistaOficiales = new VistaOficiales(controlador);  
-        vistaEstudiante = new VistaEstudiante(controlador);
+        //vistaEstudiante = new VistaEstudiante(controlador);
 
         JPanel panelFondo = new JPanel();
         panelFondo.setLayout(null); 
@@ -65,7 +63,7 @@ public class MenuPrincipal extends JFrame{
         //panelPrincipal.add(btnEstudiante); 
         btnEstudiante.addActionListener(e -> {
 
-            vistaEstudiante.mostrar(); // Mostrar la vista del estudiante al hacer clic en el botón
+            //vistaEstudiante.mostrar(); // Mostrar la vista del estudiante al hacer clic en el botón
             //this.dispose(); // Cerrar la ventana actual
         });
 
