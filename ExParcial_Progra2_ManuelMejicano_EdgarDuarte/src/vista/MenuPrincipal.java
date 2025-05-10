@@ -14,8 +14,8 @@ import vista.oficiales.VistaOficiales;
 
 public class MenuPrincipal extends JFrame{
 
-    public VistaAdmin vistaAdmin;
-    public VistaOficiales vistaOficiales;
+    public VistaAdmin vistaAdmin; //Composición 
+    public VistaOficiales vistaOficiales; //Composición
     
 
     Controlador controlador; // Instancia del controlador

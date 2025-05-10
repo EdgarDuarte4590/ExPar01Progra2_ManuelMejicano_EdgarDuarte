@@ -108,7 +108,7 @@ public class PanelIngresoExterno extends JPanel {
                 Guarda guarda = vistaOficiales.controlador.buscarGuardaPorID(vistaOficiales.controlador.getIdOficialActual());
                 String nombreGuarda = guarda.getNombre();
 
-                IngresoExterno ingreso = new IngresoExterno(fecha, motivo, hora, nombreGuarda, false, nombre, id);
+                IngresoExterno ingreso = new IngresoExterno(fecha, motivo, hora, nombreGuarda, nombre, id);
                 vistaOficiales.controlador.getIngresosExternos().add(ingreso);
 
                 JOptionPane.showMessageDialog(null, "Ingreso registrado exitosamente");
@@ -248,7 +248,7 @@ public class PanelIngresoExterno extends JPanel {
 
                 Vehiculo vehiculo = new Vehiculo(placa, tipoV);
 
-                VehiculoExterno ingreso = new VehiculoExterno(fecha, motivo, hora, nombreGuarda, false, nombre, id,
+                VehiculoExterno ingreso = new VehiculoExterno(fecha, motivo, hora, nombreGuarda, nombre, id,
                         cantidadP, compani, vehiculo);
                         vistaOficiales.controlador.getIngresosVehiculoExterno().add(ingreso);
 

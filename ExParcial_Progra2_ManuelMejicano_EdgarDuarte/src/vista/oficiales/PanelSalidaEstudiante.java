@@ -54,7 +54,6 @@ public class PanelSalidaEstudiante extends JPanel {
         btnBuscar.addActionListener(e -> {
             
             String carnet = txtCarnet.getText();
-            //int index = vistaOficiales.controlador.buscarEstudiante(carnet);
             for (int i = 0; i < vistaOficiales.controlador.getEstudiantes().size(); i++) {
                 if (carnet.equals(vistaOficiales.controlador.getEstudiantes().get(i).getCarnet())) {
                     vistaOficiales.comboEstudiantes.setSelectedIndex(i);

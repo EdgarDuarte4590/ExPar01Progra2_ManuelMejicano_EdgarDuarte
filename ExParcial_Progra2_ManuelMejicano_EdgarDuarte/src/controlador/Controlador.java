@@ -15,6 +15,12 @@ import modelo.VehiculoExterno;
 import vista.MenuPrincipal;
 
 public class Controlador {
+// esta clase es el controlador de la aplicacion, se encarga de manejar la logica del programa y de interactuar con las vistas tanto de admistrador 
+//commo de ociciales, ademas de manejar la interaccion con los objetos de las clases modelo
+
+
+
+    //declaracion de los arraylist que guardaran los objetos de cada clase 
     private ArrayList<modelo.Administrador> administradores;
     private ArrayList<Guarda> oficiales;
     private ArrayList<Estudiante> estudiantes;
@@ -28,12 +34,14 @@ public class Controlador {
     
     private String idAcceso = "1234", contraAdmin = "Douglas2025";
 
-    private String idOficialActual;
-    public MenuPrincipal menuPrincipal;
-    public DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss"); 
+    private String idOficialActual;// guarda el id del oficial que inicio sesion
+    public MenuPrincipal menuPrincipal;//declaracion de la interface grafica del menu principal
+    public DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss"); // formato en que se guardara y mostrara la hora
 
     public Controlador() {
        
+
+        //inicializacion de los arraylist de cada clase
         administradores = new ArrayList<>();
 
         oficiales = new ArrayList<>();
@@ -48,7 +56,10 @@ public class Controlador {
         menuPrincipal.setVisible(true);
         menuPrincipal.setLocationRelativeTo(null);
     }
-
+    //metodo que se encarga  de buscar un estudainte por su carnet, este metodo se utiliza en la vista de oficiales para buscar un estudiante
+    //en la vista de salida de estudiantes, se le pasa el carnet y se busca en el arraylist de estudiantes
+    //y asi se selecciona el estudiante en el combo box de la vista de salida de estudiantes
+    //por medio de esta busca podemos obteber el index del estudiante en el arraylist yposterior sus atributos
     public int buscarEstudiante(String carnet){ //Ocupa el numero de carnet
        for (int i = 0; i < estudiantes.size(); i++) {
          
@@ -61,6 +72,10 @@ public class Controlador {
         return -1; 
     }
 
+    //metodo que se encarga de buscar un funcionario por su placa, este metodo se utiliza en la vista de oficiales para buscar un funcionario
+    //en la vista de ingreso de funcionarios, se le pasa la placa y se busca en el arraylist de funcionarios
+    //y asi se selecciona el funcionario en el combo box de la vista de ingreso de funcionarios
+    //por medio de esta busca podemos obteber el index del funcionario en el arraylist y posterior obterner sus atributos
     public Funcionario buscarFuncionarioPorPlaca(String placa) {
         for (Funcionario funcionario : getFuncionarios()) {
             if (funcionario.getVehiculo() != null && funcionario.getVehiculo().getPlaca().equals(placa)) {

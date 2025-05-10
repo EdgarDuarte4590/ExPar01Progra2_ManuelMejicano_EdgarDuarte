@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 import controlador.Controlador;
 
 public class Login extends JFrame{
-    Controlador controlador; // Instancia del controlador
+    Controlador controlador; //Asociación
 
     Container container;
 

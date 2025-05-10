@@ -2,7 +2,7 @@ package modelo;
 
 public class Funcionario extends Persona {
     private String puesto;
-    private Vehiculo vehiculo;
+    private Vehiculo vehiculo; //Asociación
    
 
     public Funcionario(String nombre, int iD, String puesto) {

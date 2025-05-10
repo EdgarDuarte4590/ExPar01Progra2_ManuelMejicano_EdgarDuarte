@@ -8,8 +8,8 @@ public class Salida {
     private LocalDate fechaSalida;
     private LocalTime horaSalida;
     private String motivoSalida;
-    private Persona persona;
-    private Guarda guarda;
+    private Persona persona; // agregación
+    private Guarda guarda; //agregación
 
     
     public Salida(LocalDate fechaSalida, LocalTime horaSalida, String motivoSalida, Persona persona, Guarda guarda) {
