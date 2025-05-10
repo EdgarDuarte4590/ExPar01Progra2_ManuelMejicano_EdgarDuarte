@@ -3,7 +3,6 @@ package vista.oficiales;
 import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalTime;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,7 +14,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-
 import modelo.Guarda;
 import modelo.IngresoExterno;
 import modelo.Vehiculo;
@@ -28,6 +26,8 @@ public class PanelIngresoExterno extends JPanel {
         this.vistaOficiales = vistaOficiales;
         initComponents();
     }
+
+    //inicializacion del panel de ingreso externo
     public JPanel initComponents() {
         JPanel panelIngreso = new JPanel();
         panelIngreso.setLayout(null);
@@ -38,20 +38,20 @@ public class PanelIngresoExterno extends JPanel {
         panelIngreso.add(opcion);
 
         ButtonGroup btnGroup = new ButtonGroup();
-
+        //boton que sirve para registrar el ingreso de perosna externa 
         JRadioButton btnIngresoPersona = new JRadioButton("Ingreso Persona Externa");
         btnIngresoPersona.setBounds(500, 50, 200, 30);
         btnGroup.add(btnIngresoPersona);
-
+        //boton que sirve para registrar el ingreso de vehiculo externo
         JRadioButton btnIngreso = new JRadioButton("Ingreso Vehiculo Externo");
         btnIngreso.setBounds(700, 50, 250, 30);
         btnGroup.add(btnIngreso);
 
         panelIngreso.add(btnIngresoPersona);
         panelIngreso.add(btnIngreso);
-
+        
         btnIngresoPersona.addActionListener(e -> {
-
+            // sin el radio button de persona es seleccionado se eliminan los componentes iniciales del panel y se colo el formulario de ingreso de perosna externa
             panelIngreso.removeAll();
 
             JLabel lblNombre = new JLabel("Nombre:");
@@ -98,6 +98,7 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.add(btnGuardar);
 
             btnGuardar.addActionListener(ev -> {
+                       // sin el radio button de persona es seleccionado se eliminan los componentes iniciales del panel y se colo el formulario de ingreso de vehiculo externo
                 String nombre = txtNombre.getText();
                 int id = Integer.parseInt(txtId.getText());
 
@@ -107,7 +108,7 @@ public class PanelIngresoExterno extends JPanel {
                 LocalDate fecha = LocalDate.now();
                 Guarda guarda = vistaOficiales.controlador.buscarGuardaPorID(vistaOficiales.controlador.getIdOficialActual());
                 String nombreGuarda = guarda.getNombre();
-
+                // se cre el ingreso externo, y luefo se pasa al arraylist
                 IngresoExterno ingreso = new IngresoExterno(fecha, motivo, hora, nombreGuarda, nombre, id);
                 vistaOficiales.controlador.getIngresosExternos().add(ingreso);
 
@@ -130,6 +131,7 @@ public class PanelIngresoExterno extends JPanel {
             vistaOficiales.GenerarTablaIngresoExterno();
 
             JButton Regresar = new JButton("Regresar");
+            //permite al guarda regresar y poder seleccionar si quiere agergar un vehiculo externo, se le muestran los 2 radio button
             Regresar.setBounds(500, 150, 100, 30);
             Regresar.setBackground(new Color(0xFFE0133C));
             Regresar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
@@ -231,7 +233,7 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.add(btnGuardarVehiculo);
 
             btnGuardarVehiculo.addActionListener(ev -> {
-
+// se cre el ingreso externo, y luego se pasa al arraylist
                 String nombre = txtNombre.getText();
                 int id = Integer.parseInt(txtId.getText());
 
@@ -276,6 +278,7 @@ public class PanelIngresoExterno extends JPanel {
             vistaOficiales.GenerarTablaIngresoVehiculoExterno();
 
             JButton Regresar = new JButton("Regresar");
+
             Regresar.setBounds(590, 100, 100, 30);
             Regresar.setBackground(new Color(0xFFE0133C));
             Regresar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
@@ -283,6 +286,7 @@ public class PanelIngresoExterno extends JPanel {
             Regresar.setForeground(Color.WHITE);
             panelIngreso.add(Regresar);
             Regresar.addActionListener(ev -> {
+                //permite al guarda regresar y poder seleccionar si quiere agergar una perona externa, se le muestran los 2 radio button
                 panelIngreso.removeAll();
                 panelIngreso.add(opcion);
                 panelIngreso.add(btnIngresoPersona);

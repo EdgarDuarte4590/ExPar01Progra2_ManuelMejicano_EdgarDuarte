@@ -1,23 +1,18 @@
 package vista.administrador;
 
+import controlador.Controlador;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
-import controlador.Controlador;
 
 public class LoginAdmin extends JFrame {
     Controlador controlador; // Instancia del controlador
 
     Container container;
-
+    //ventana para loguearse
     public LoginAdmin(Controlador controlador) {
         this.controlador = controlador; // Inicializar el controlador
         setTitle("Inicio de sesión - Administrador");
@@ -30,7 +25,7 @@ public class LoginAdmin extends JFrame {
 
         
     }
-
+    // se inicializa la ventana
     public void inicializarComponentes() {
         container = new Container();
         container.setLayout(null);

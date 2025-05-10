@@ -1,5 +1,9 @@
 package modelo;
 
+// Clase Administrador: Representa a un administrador del sistema.
+// Atributos: contrasena, usuario.
+// Métodos: Getters y setters para los atributos.
+
 public class Administrador extends Persona {
    private String contrasena;
     private String usuario;

@@ -1,6 +1,5 @@
 package controlador;
 
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -14,6 +13,8 @@ import modelo.Salida;
 import modelo.VehiculoExterno;
 import vista.MenuPrincipal;
 
+// Clase Controlador: Maneja la lógica del programa y la interacción entre vistas y modelos.
+// Atributos y métodos principales: Implementa la lógica de negocio y coordina las vistas.
 public class Controlador {
 // esta clase es el controlador de la aplicacion, se encarga de manejar la logica del programa y de interactuar con las vistas tanto de admistrador 
 //commo de ociciales, ademas de manejar la interaccion con los objetos de las clases modelo
@@ -145,7 +146,7 @@ public class Controlador {
             System.out.println("Índice no válido para eliminar el oficial.");
         }
     }
-
+    // donde se comprueba el inicio e sesion del guarda
     public void loginOficial(String idAcceso, String contrasena) {
         for (Guarda oficial : oficiales) {
             if (oficial.getIDAcceso().equals(idAcceso) && oficial.getContrasena().equals(contrasena)) {
@@ -157,7 +158,7 @@ public class Controlador {
         }
         JOptionPane.showMessageDialog(null, "ID de acceso o contraseña incorrectos.");
     }
-
+//comprueba el inicio de sesion de adminitrador
     public void loginAdmin(String idAcceso, String contrasena) {
         if (idAcceso.equals(this.idAcceso) && contrasena.equals(this.contraAdmin)) {
             sesionIniciadaAdmin = true;

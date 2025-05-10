@@ -1,7 +1,6 @@
 package vista.administrador;
 
 import java.awt.Color;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -18,7 +17,7 @@ public class PanelOficialesAdmin  extends JPanel{
         this.vistaAdministrador = vistaAdministrador;
         initComponents();
     }
-    
+    //inicializacion del panel de ofiioales  donde se registran los oficiaes 
     public JPanel initComponents() {
         String[] nombreColumnas = { "Nombre", "ID", "Teléfono", "ID Acceso", "Contraseña" };
         vistaAdministrador.modeloTablaOficiales = new DefaultTableModel();
@@ -82,6 +81,7 @@ public class PanelOficialesAdmin  extends JPanel{
                 return;
 
             }
+            //agregar al oficial al arraylist correspondiente
             vistaAdministrador.agregarOficial(textFieldNombre.getText(), textFieldIDAcceso.getText(), textFieldContrasena.getText(),
                     textFieldTelefono.getText(), Integer.parseInt(textFieldID.getText()));
             textFieldNombre.setText(""); // Limpiar el campo de texto

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class IngresoFuncionario extends Ingreso {
-    public Funcionario funcionario;
+    public Funcionario funcionario;//agregacion de un funcionario, previamente registrado
 
     public IngresoFuncionario(LocalDate fechaIngreso, String motivo, LocalTime horaIngreso, String nombreGuarda,
             Funcionario funcionario) {

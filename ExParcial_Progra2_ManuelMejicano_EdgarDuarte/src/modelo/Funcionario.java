@@ -22,7 +22,7 @@ public class Funcionario extends Persona {
     public Vehiculo getVehiculo() {
         return vehiculo;
     }
-
+    // colocarle un vehiculo al funcionario
     public void setVehiculo(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
     }

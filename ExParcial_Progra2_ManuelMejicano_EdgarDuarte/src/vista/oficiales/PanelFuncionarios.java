@@ -1,7 +1,6 @@
 package vista.oficiales;
 
 import java.awt.Color;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -10,7 +9,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-
 import modelo.Funcionario;
 import modelo.Vehiculo;
 
@@ -23,7 +21,7 @@ public class PanelFuncionarios extends JPanel {
         this.vistaOficiales = vistaOficiales;
         initComponents();
     }
-
+    //inicializacion de l panel registro de funcioarios donde se agregan los funcionarios al arraylist de funcionarios
     public JPanel initComponents() {
         JPanel panelFuncionarios = new JPanel();
         panelFuncionarios.setLayout(null);
@@ -94,7 +92,7 @@ public class PanelFuncionarios extends JPanel {
         vistaOficiales.modeloTablaFuncionarios = new DefaultTableModel(new String[] { "Puesto", "Nombre", "ID", "Vehículo", "Placa" },
                 0);
                 vistaOficiales.tablaFuncionarios.setModel(vistaOficiales.modeloTablaFuncionarios);
-
+        //agrega el funcionario al arraylist
         btnRegistrar.addActionListener(e -> {
             String rol = (String) comboBox.getSelectedItem();
             String nombre = nombreField.getText();

@@ -2,7 +2,7 @@ package modelo;
 
 public class Vehiculo {
     String placa;
-    String tipoVehiculo;
+    String tipoVehiculo;//carro,bici,moto,etc
 
 
     public Vehiculo(String placa, String tipoVehiculo) {

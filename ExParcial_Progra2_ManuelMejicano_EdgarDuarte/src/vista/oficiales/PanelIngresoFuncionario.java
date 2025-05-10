@@ -3,9 +3,7 @@ package vista.oficiales;
 import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalTime;
-
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -13,7 +11,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-
 import modelo.Funcionario;
 import modelo.Guarda;
 import modelo.IngresoFuncionario;
@@ -69,7 +66,7 @@ public class PanelIngresoFuncionario extends JPanel{
         }
 
         btnBuscar.addActionListener(e -> {
-         
+         //busca el funcionario por medio de la placa 
             String placa = txtPlaca.getText();
             for (int i = 0; i < vistaOficiales.controlador.getFuncionarios().size(); i++) {
                 if (placa.equals(vistaOficiales.controlador.getFuncionarios().get(i).getVehiculo().getPlaca())) {

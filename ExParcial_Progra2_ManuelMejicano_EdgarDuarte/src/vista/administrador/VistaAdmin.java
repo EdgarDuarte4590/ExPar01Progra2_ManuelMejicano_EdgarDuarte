@@ -59,7 +59,7 @@ public class VistaAdmin extends JFrame {
         setVisible(true);
 
     }
-
+    //inicializacion de el tabbedpane que contendra los paneles de estudiantes y oficilaes
     private void inicializarComponentes() {
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.setBounds(0, 0, 1366, 720); // Establecer el tamaño del JTabbedPane
@@ -124,7 +124,7 @@ public class VistaAdmin extends JFrame {
     }
 
     
-
+//carga la tabla de estudiantes cada que se agrega o elimina
     public void generarTablaEstudiantes() {
         modeloTablaEstudiantes.setRowCount(0);
         for (Estudiante estudiante : controlador.getEstudiantes()) {
@@ -139,7 +139,7 @@ public class VistaAdmin extends JFrame {
 
         }
     }
-
+//carga la tabla de oficiales cada que se agrega o elimina
     public void generarTablaOficiales() {
         modeloTablaOficiales.setRowCount(0);
         for (Guarda guarda : controlador.getOficiales()) {
