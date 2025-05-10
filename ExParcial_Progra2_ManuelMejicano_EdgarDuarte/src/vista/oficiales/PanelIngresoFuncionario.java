@@ -21,7 +21,8 @@ import modelo.IngresoFuncionario;
 public class PanelIngresoFuncionario extends JPanel{
     VistaOficiales vistaOficiales;
 
-  
+
+    
     public PanelIngresoFuncionario(VistaOficiales vistaOficiales) {
         this.vistaOficiales = vistaOficiales;
         initComponents();
@@ -68,7 +69,7 @@ public class PanelIngresoFuncionario extends JPanel{
         }
 
         btnBuscar.addActionListener(e -> {
-
+         
             String placa = txtPlaca.getText();
             for (int i = 0; i < vistaOficiales.controlador.getFuncionarios().size(); i++) {
                 if (placa.equals(vistaOficiales.controlador.getFuncionarios().get(i).getVehiculo().getPlaca())) {

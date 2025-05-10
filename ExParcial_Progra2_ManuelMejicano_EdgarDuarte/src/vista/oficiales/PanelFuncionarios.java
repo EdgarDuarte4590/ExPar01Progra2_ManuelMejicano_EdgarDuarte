@@ -17,7 +17,7 @@ import modelo.Vehiculo;
 public class PanelFuncionarios extends JPanel {
     VistaOficiales vistaOficiales;
 
-    JComboBox<String> comboBoxNombres = new JComboBox<>();
+
 
     public PanelFuncionarios(VistaOficiales vistaOficiales) {
         this.vistaOficiales = vistaOficiales;
@@ -121,7 +121,7 @@ public class PanelFuncionarios extends JPanel {
     }
 
     public void GenerarComboFuncionarios() {
-        comboBoxNombres.removeAllItems();
+        vistaOficiales.comboBoxNombres.removeAllItems();
         for (int i = 0; i < vistaOficiales.controlador.getFuncionarios().size(); i++) {
             vistaOficiales.comboBoxNombres.addItem(vistaOficiales.controlador.getFuncionarios().get(i).getNombre());
         }
