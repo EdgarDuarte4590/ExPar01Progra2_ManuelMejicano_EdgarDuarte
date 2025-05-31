@@ -3,12 +3,9 @@ package vista.oficiales;
 import controlador.Controlador;
 import java.awt.Color;
 import java.awt.Container;
-<<<<<<< HEAD
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
-=======
->>>>>>> 4d4d309579968a4f15f1f5db596a7785f53f591f
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;

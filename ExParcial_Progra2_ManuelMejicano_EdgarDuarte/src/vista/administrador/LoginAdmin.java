@@ -7,11 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-<<<<<<< HEAD
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
-=======
->>>>>>> 4d4d309579968a4f15f1f5db596a7785f53f591f
 import javax.swing.JTextField;
 
 public class LoginAdmin extends JFrame {
