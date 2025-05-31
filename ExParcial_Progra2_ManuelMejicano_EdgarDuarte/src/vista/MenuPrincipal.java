@@ -3,6 +3,10 @@ package vista;
 import controlador.Controlador;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.MediaTracker;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -53,6 +57,16 @@ public class MenuPrincipal extends JFrame{
         label.setFont(new Font("Arial", Font.BOLD, 15)); // Establecer la fuente del JLabel
         panelPrincipal.add(label); // Agregar el JLabel al panel principal
 
+        // Cargar imagen como ícono
+        ImageIcon icono = new ImageIcon("src/resources/logoCTPU.png"); // Ruta de la imagen
+        JLabel labelIcon = new JLabel(icono);
+
+        // Opcional: Escalar la imagen si es necesario
+        Image imagenEscalada = icono.getImage().getScaledInstance(100, 130, Image.SCALE_SMOOTH);
+        labelIcon.setIcon(new ImageIcon(imagenEscalada));
+        labelIcon.setBounds(205, 210, 200, 200); // Establecer la posición y el tamaño del JLabel
+        panelPrincipal.add(labelIcon); // Agregar el JLabel con la imagen al panel principal
+
         JLabel label2 = new JLabel("- Iniciar Sesión -");
         label2.setBounds(260, 100, 500, 30); // Establecer la posición y el tamaño del JLabel
         panelPrincipal.add(label2); // Agregar el JLabel al panel principal
@@ -68,7 +82,8 @@ public class MenuPrincipal extends JFrame{
         });
 
         JButton btnGuarda = new JButton("Oficial de Seguridad");
-        btnGuarda.setBounds(230, 150, 150, 30); // Establecer la posición y el tamaño del botón
+        btnGuarda.setIcon(new ImageIcon("src/resources/icon_oficial.png"));
+        btnGuarda.setBounds(205, 150, 200, 30); // Establecer la posición y el tamaño del botón
         btnGuarda.setFont(new Font("Arial", Font.BOLD, 12)); // Establecer la fuente del botón
         btnGuarda.setBackground(new Color(0xFF054FBE)); // Establecer el color de fondo del botón
         btnGuarda.setForeground(Color.WHITE);
@@ -88,7 +103,8 @@ public class MenuPrincipal extends JFrame{
         });
 
         JButton btnAdmin = new JButton("Administrador");
-        btnAdmin.setBounds(230, 200, 150, 30); // Establecer la posición y el tamaño del botón
+        btnAdmin.setIcon(new ImageIcon("src/resources/icon_admin.png"));
+        btnAdmin.setBounds(205, 200, 200, 30); // Establecer la posición y el tamaño del botón
         btnAdmin.setFont(new Font("Arial", Font.BOLD, 12)); // Establecer la fuente del botón
         btnAdmin.setBackground(new Color(0xFF054FBE));
         btnAdmin.setForeground(Color.WHITE);

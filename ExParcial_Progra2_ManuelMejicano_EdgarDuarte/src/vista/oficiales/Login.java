@@ -2,10 +2,14 @@ package vista.oficiales;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import controlador.Controlador;
@@ -38,6 +42,8 @@ public class Login extends JFrame{
             container.add(label);  
 
             JLabel label2 = new JLabel("Escriba el ID de Acceso:");
+
+            
             label2.setBounds(180, 100, 200, 30);
             container.add(label2); 
 
@@ -51,20 +57,35 @@ public class Login extends JFrame{
             label3.setBounds(180, 170, 200, 30);
             container.add(label3);
 
-            JTextField contrasena = new JTextField();
+            JPasswordField contrasena = new JPasswordField();
             contrasena.setBounds(150, 200, 200, 30);
             container.add(contrasena);
             contrasena.setToolTipText("Escriba la Contraseña");
 
+          JCheckBox mostrarContrasena = new JCheckBox("Mostrar contraseña");
+            mostrarContrasena.setBounds(175, 230, 200, 20);
+            mostrarContrasena.addActionListener(e -> {
+                if (mostrarContrasena.isSelected()) {
+                    contrasena.setEchoChar((char) 0);
+                } else {
+                    contrasena.setEchoChar('\u2022');
+                }
+            });
+            container.add(mostrarContrasena);
+            contrasena.setEchoChar('\u2022');
+        
+
+
             JButton btnIniciar = new JButton("Iniciar Sesión");
-            btnIniciar.setBounds(180, 250, 150, 30);
+            btnIniciar.setIcon(new ImageIcon(new ImageIcon("src/resources/loginUser.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
+            btnIniciar.setBounds(180, 275, 150, 30);
             btnIniciar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
             btnIniciar.setBackground(new Color(0xFF020123));
             btnIniciar.setForeground(Color.WHITE);
             btnIniciar.setBorderPainted(false);
             btnIniciar.addActionListener(e->{
                 String id = idAcceso.getText();
-                String contra = contrasena.getText();
+                String contra = contrasena.getPassword().toString();
                 controlador.loginOficial(id, contra); // Método para iniciar sesión
                 if (controlador.isSesionInciadaOficial()) {
                     System.out.println("Sesión iniciada correctamente.");

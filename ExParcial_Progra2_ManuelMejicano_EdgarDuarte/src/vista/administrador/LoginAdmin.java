@@ -6,9 +6,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import controlador.Controlador;
@@ -28,7 +30,6 @@ public class LoginAdmin extends JFrame {
         inicializarComponentes();
         this.setContentPane(container);
 
-        
     }
 
     public void inicializarComponentes() {
@@ -55,33 +56,48 @@ public class LoginAdmin extends JFrame {
         label3.setBounds(180, 170, 200, 30);
         container.add(label3);
 
-        JTextField contrasena = new JTextField();
+        JPasswordField contrasena = new JPasswordField();
         contrasena.setBounds(150, 200, 200, 30);
         container.add(contrasena);
         contrasena.setToolTipText("Escriba la Contraseña");
 
+        JCheckBox mostrarContrasena = new JCheckBox("Mostrar contraseña");
+        mostrarContrasena.setBounds(175, 230, 200, 20);
+        mostrarContrasena.addActionListener(e -> {
+            if (mostrarContrasena.isSelected()) {
+                contrasena.setEchoChar((char) 0);
+            } else {
+                contrasena.setEchoChar('\u2022');
+            }
+        });
+        container.add(mostrarContrasena);
+        contrasena.setEchoChar('\u2022');
+
         JButton btnIniciar = new JButton("Iniciar Sesión");
-        btnIniciar.setBounds(180, 250, 150, 30);
+        btnIniciar.setBounds(180, 275, 150, 30);
         btnIniciar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
         btnIniciar.setBackground(new Color(0xFF020123));
         btnIniciar.setForeground(Color.WHITE);
         btnIniciar.setBorderPainted(false);
         btnIniciar.addActionListener(e -> {
             String id = idAcceso.getText();
-            String contra = contrasena.getText();
-            controlador.loginAdmin(id, contra); // Método para iniciar sesión
-            if (controlador.isSesionIniciadaAdmin()) {
-                System.out.println("Sesión iniciada correctamente.");
-                this.dispose();
-                controlador.menuPrincipal.vistaAdmin.setVisible(true);
-                controlador.menuPrincipal.vistaAdmin.setLocationRelativeTo(null);
-            } else {
-                System.out.println("Error al iniciar sesión. Verifique sus credenciales.");
+            String contra = new String(contrasena.getPassword());
+
+            try {
+                controlador.loginAdmin(id, contra);
+                if (controlador.isSesionIniciadaAdmin()) {
+                    System.out.println("Sesión iniciada correctamente.");
+                    this.dispose();
+                    controlador.menuPrincipal.vistaAdmin.setVisible(true);
+                    controlador.menuPrincipal.vistaAdmin.setLocationRelativeTo(null);
+                } else {
+                    System.out.println("Error al iniciar sesión. Verifique sus credenciales.");
+                }
+            } catch (Exception x) {
+                System.out.println("Error al intentar iniciar sesión: " + x.getMessage());
             }
         });
         container.add(btnIniciar);
     }
-
-    
 
 }
