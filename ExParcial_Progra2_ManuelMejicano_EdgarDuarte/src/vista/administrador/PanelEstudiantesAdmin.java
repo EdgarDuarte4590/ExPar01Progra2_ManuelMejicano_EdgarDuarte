@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 
 import modelo.Estudiante;
-
+// panel que se le muestra al administrador para registrar estudiantes
 public class PanelEstudiantesAdmin extends JPanel {
     VistaAdmin vistaAdministrador;
 
@@ -23,7 +23,7 @@ public class PanelEstudiantesAdmin extends JPanel {
         this.vistaAdministrador = vistaAdministrador;
         initComponents();
     }
-
+//inicializacion del panel
     public JPanel initComponents() {
         JPanel panelEstudiantes = new JPanel();
         panelEstudiantes.setLayout(null); // Establecer el diseño nulo para el panel de estudiantes
@@ -70,7 +70,7 @@ public class PanelEstudiantesAdmin extends JPanel {
         JLabel label6 = new JLabel("Nacionalidad:");
         label6.setBounds(40, 300, 200, 30);
         panelEstudiantes.add(label6);
-
+        //lista desplegable de lanacionalidad
         JComboBox jComboBoxEstudiante = new JComboBox<>(new String[] { "Costarricense", "Nicaraguense", "Panameño",
                 "Estadounidense", "Mexicano", "Hondureño", "Salvadoreño" });
         jComboBoxEstudiante.setBounds(250, 300, 200, 30);
@@ -83,7 +83,7 @@ public class PanelEstudiantesAdmin extends JPanel {
         JComboBox jComboBoxDireccion = new JComboBox<>(new String[] { "Upala", "Aguas Claras", "San José de Upala", "Bijagua", "Delicias", "Dos Ríos", "Yolillal", "Canalete"});
         jComboBoxDireccion.setBounds(250, 350, 200, 30);
         panelEstudiantes.add(jComboBoxDireccion);
-
+        //boton para registrar al estudiante
         JButton btnAgregar = new JButton("Guardar estudiante");
         btnAgregar.setBounds(300, 400, 150, 30);
         btnAgregar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
@@ -95,11 +95,14 @@ public class PanelEstudiantesAdmin extends JPanel {
             if (textFieldID == null || textFieldID.getText().isEmpty() ||
                     jDateChooser.getDate() == null || textFieldCarnet.getText().isEmpty() ||
                     textFieldNombre.getText().isEmpty()) {
+                        //mensaje en caso de algun espacio en blanco
                 JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
                 return;
             }
             LocalDate fechaN = jDateChooser.getDate().toInstant().atZone(java.time.ZoneId.systemDefault())
                     .toLocalDate();
+
+                    //agregar al arraylis de estudiantes de la clase controlador
             vistaAdministrador.controlador.getEstudiantes().add(new Estudiante(
                     textFieldNombre.getText(),
                     Integer.parseInt(textFieldID.getText()),

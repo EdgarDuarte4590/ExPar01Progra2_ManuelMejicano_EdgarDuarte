@@ -2,8 +2,8 @@ package modelo;
 
 public class Guarda extends Persona {
 
-    private String IDAcceso;
-    private String contrasena;
+    private String IDAcceso;//id de loggin
+    private String contrasena;//contraseña de loggin
     private String numeroTelefono;
 
 

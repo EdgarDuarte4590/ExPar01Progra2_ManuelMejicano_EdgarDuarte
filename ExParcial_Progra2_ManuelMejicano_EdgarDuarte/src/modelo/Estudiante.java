@@ -3,7 +3,7 @@ package modelo;
 import java.time.LocalDate;
 
 public class Estudiante extends Persona {
-
+    //atributos de la clase estudiante 
     private String carnet;
     private String direccion;
     private LocalDate fechaNacimiento;
@@ -49,7 +49,7 @@ public class Estudiante extends Persona {
     public void setNacionalidad(String nacionalidad) {
         this.nacionalidad = nacionalidad;
     }
-
+    // se calcula la edad del estudiante tomando en cuenta el año actual 
     public int calcularEdad() {
         return LocalDate.now().getYear() - fechaNacimiento.getYear();
     }

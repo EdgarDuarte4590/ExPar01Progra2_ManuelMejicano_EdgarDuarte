@@ -5,10 +5,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public abstract class Ingreso {
-private LocalDate fechaIngreso;
-private String motivo;
+private LocalDate fechaIngreso;//dia en que se registra el ingreso
+private String motivo;// motivo por el cual entra a la institucion
 private LocalTime horaIngreso;
-private String nombreGuarda;
+private String nombreGuarda;//guarda que registro el ingreso
 
 
 public Ingreso(LocalDate fechaIngreso, String motivo, LocalTime horaIngreso, String nombreGuarda) {

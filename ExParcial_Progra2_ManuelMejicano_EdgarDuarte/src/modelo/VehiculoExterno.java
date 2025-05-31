@@ -6,8 +6,8 @@ import java.time.LocalTime;
 public class VehiculoExterno extends IngresoExterno  {
 
     private int cantidadPasajeros;
-    private String compania;
-    private Vehiculo vehiculo;
+    private String compania;//nombre de la compañia propietaria de l vehiculo que llega a la institucion
+    private Vehiculo vehiculo;// se le pasa el vehiculo
     
 
 

@@ -6,7 +6,7 @@ import java.time.LocalTime;
 public class Salida {
 
     private LocalDate fechaSalida;
-    private LocalTime horaSalida;
+    private LocalTime horaSalida;//hora exacta en que se registra la salida
     private String motivoSalida;
     private Persona persona; // agregación
     private Guarda guarda; //agregación

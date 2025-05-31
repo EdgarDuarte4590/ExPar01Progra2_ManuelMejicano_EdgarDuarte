@@ -1,5 +1,9 @@
 package vista;
 
+// Clase MenuPrincipal: Ventana principal de la aplicación.
+// Atributos: vistaAdmin, vistaOficiales (composición con otras vistas).
+// Atributo controlador: Instancia del controlador para manejar eventos.
+
 import controlador.Controlador;
 import java.awt.Color;
 import java.awt.Font;

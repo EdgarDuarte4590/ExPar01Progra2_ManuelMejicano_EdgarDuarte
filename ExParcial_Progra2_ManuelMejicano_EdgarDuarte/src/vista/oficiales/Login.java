@@ -1,18 +1,20 @@
 package vista.oficiales;
 
+import controlador.Controlador;
 import java.awt.Color;
 import java.awt.Container;
+<<<<<<< HEAD
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
+=======
+>>>>>>> 4d4d309579968a4f15f1f5db596a7785f53f591f
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-
-import controlador.Controlador;
 
 public class Login extends JFrame{
     Controlador controlador; //Asociación
@@ -29,7 +31,7 @@ public class Login extends JFrame{
             inicializarComponentes();
             this.setContentPane(container);
         }
-
+        //login de oficiales
         public void inicializarComponentes(){
             container = new Container();
             container.setLayout(null);
