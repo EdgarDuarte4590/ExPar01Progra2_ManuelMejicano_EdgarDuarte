@@ -1,6 +1,7 @@
 package controlador;
 
 import java.io.InputStreamReader;
+import java.sql.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -19,8 +20,6 @@ public class Controlador {
 // esta clase es el controlador de la aplicacion, se encarga de manejar la logica del programa y de interactuar con las vistas tanto de admistrador 
 //commo de ociciales, ademas de manejar la interaccion con los objetos de las clases modelo
 
-
-
     //declaracion de los arraylist que guardaran los objetos de cada clase 
     private ArrayList<modelo.Administrador> administradores;
     private ArrayList<Guarda> oficiales;
@@ -32,16 +31,27 @@ public class Controlador {
     private ArrayList<Salida> salidasEstudiantes;
     private boolean sesionInciadaOficial = false;
     private boolean sesionIniciadaAdmin = false;
-    
-    private String idAcceso = "1234", contraAdmin = "Douglas2025";
+
+    //private String idAcceso = "1234", contraAdmin = "Douglas2025";
+    Connection connection = null;
+    Statement statement = null;
+    ResultSet resultSet = null;
 
     private String idOficialActual;// guarda el id del oficial que inicio sesion
     public MenuPrincipal menuPrincipal;//declaracion de la interface grafica del menu principal
     public DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss"); // formato en que se guardara y mostrara la hora
 
-    public Controlador() {
-       
+    public Controlador() throws ClassNotFoundException, SQLException {
 
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/proyecto1?verifyServerCertificate=false&useSSL=true", "root", "messi.34.ed*");
+            connection.setAutoCommit(true);
+            statement = connection.createStatement();
+            JOptionPane.showMessageDialog(null, "Conexión exitosa a la base de datos.");
+        } catch (SQLException e) {
+        }
         //inicializacion de los arraylist de cada clase
         administradores = new ArrayList<>();
 
@@ -49,7 +59,7 @@ public class Controlador {
         estudiantes = new ArrayList<>();
         funcionarios = new ArrayList<>();
         salidasEstudiantes = new ArrayList<>();
-        ingresosFuncionarios=new ArrayList<>();
+        ingresosFuncionarios = new ArrayList<>();
         ingresosExternos = new ArrayList<>();
         ingresosVehiculoExterno = new ArrayList<>();
 
@@ -57,20 +67,21 @@ public class Controlador {
         menuPrincipal.setVisible(true);
         menuPrincipal.setLocationRelativeTo(null);
     }
+
     //metodo que se encarga  de buscar un estudainte por su carnet, este metodo se utiliza en la vista de oficiales para buscar un estudiante
     //en la vista de salida de estudiantes, se le pasa el carnet y se busca en el arraylist de estudiantes
     //y asi se selecciona el estudiante en el combo box de la vista de salida de estudiantes
     //por medio de esta busca podemos obteber el index del estudiante en el arraylist yposterior sus atributos
-    public int buscarEstudiante(String carnet){ //Ocupa el numero de carnet
-       for (int i = 0; i < estudiantes.size(); i++) {
-         
-             if (estudiantes.get(i).getCarnet().equals(carnet)) {
-                 return i;
-             }
-       }
-         System.out.println("No se encontró el estudiante con el carnet: " + carnet);
+    public int buscarEstudiante(String carnet) { //Ocupa el numero de carnet
+        for (int i = 0; i < estudiantes.size(); i++) {
 
-        return -1; 
+            if (estudiantes.get(i).getCarnet().equals(carnet)) {
+                return i;
+            }
+        }
+        System.out.println("No se encontró el estudiante con el carnet: " + carnet);
+
+        return -1;
     }
 
     //metodo que se encarga de buscar un funcionario por su placa, este metodo se utiliza en la vista de oficiales para buscar un funcionario
@@ -83,7 +94,7 @@ public class Controlador {
                 return funcionario;
             }
         }
-                JOptionPane.showMessageDialog(null, "Funcionario no encontrado con la placa: " + placa);
+        JOptionPane.showMessageDialog(null, "Funcionario no encontrado con la placa: " + placa);
         return null; // Si no se encuentra el funcionario
     }
 
@@ -100,11 +111,9 @@ public class Controlador {
         this.ingresosFuncionarios = ingresosFuncionarios;
     }
 
-
-    public void guardar(){
+    public void guardar() {
         InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/modelo/administradores.json"));
     }
-    
 
     public void setSesionIniciadaAdmin(boolean sesionIniciadaAdmin) {
         this.sesionIniciadaAdmin = sesionIniciadaAdmin;
@@ -138,7 +147,7 @@ public class Controlador {
         oficiales.add(oficial);
     }
 
-    public void eliminarOficial(int indexGuarda){
+    public void eliminarOficial(int indexGuarda) {
         if (indexGuarda >= 0 && indexGuarda < oficiales.size()) {
             oficiales.remove(indexGuarda);
             JOptionPane.showMessageDialog(null, "Oficial eliminado correctamente.");
@@ -146,6 +155,7 @@ public class Controlador {
             System.out.println("Índice no válido para eliminar el oficial.");
         }
     }
+
     // donde se comprueba el inicio e sesion del guarda
     public void loginOficial(String idAcceso, String contrasena) {
         for (Guarda oficial : oficiales) {
@@ -159,18 +169,29 @@ public class Controlador {
         JOptionPane.showMessageDialog(null, "ID de acceso o contraseña incorrectos.");
     }
 //comprueba el inicio de sesion de adminitrador
-    public void loginAdmin(String idAcceso, String contrasena) {
-        if (idAcceso.equals(this.idAcceso) && contrasena.equals(this.contraAdmin)) {
-            sesionIniciadaAdmin = true;
-            JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso.");
-        } else {
-            JOptionPane.showMessageDialog(null, "ID de acceso o contraseña incorrectos.");
-        }
+
+public void loginAdmin(String idAcceso, String contrasena) throws SQLException {
+    String sql = "SELECT * FROM usuarios WHERE nombreUsuario = '" + idAcceso + "'";
+    ResultSet rs = statement.executeQuery(sql);
+
+    if (rs.next()) {
+        String nombre1 = rs.getString("nombre1");
+        String nombre2 = rs.getString("nombre2");
+        String apellido1 = rs.getString("apellido1");
+        String apellido2 = rs.getString("apellido2");
+
+        sesionIniciadaAdmin = true;
+        JOptionPane.showMessageDialog(null, "Bienvenido " + nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2);
+    } else {
+        JOptionPane.showMessageDialog(null, "ID de acceso no encontrado.");
     }
+}
+
 
     public boolean isSesionIniciadaAdmin() {
         return sesionIniciadaAdmin;
     }
+
     public ArrayList<modelo.Administrador> getAdministradores() {
         return administradores;
     }
@@ -238,9 +259,5 @@ public class Controlador {
     public void setSalidasEstudiantes(ArrayList<Salida> salidasEstudiantes) {
         this.salidasEstudiantes = salidasEstudiantes;
     }
-
-
-
-    
 
 }
