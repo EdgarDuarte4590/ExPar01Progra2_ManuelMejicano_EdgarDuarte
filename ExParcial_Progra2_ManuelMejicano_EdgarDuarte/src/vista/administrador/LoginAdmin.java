@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -39,14 +38,14 @@ public class LoginAdmin extends JFrame {
         label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
         container.add(label);
 
-        JLabel label2 = new JLabel("Escriba el ID de Acceso:");
-        label2.setBounds(180, 100, 200, 30);
+        JLabel label2 = new JLabel("Escriba su nombre de Usuario:");
+        label2.setBounds(170, 100, 200, 30);
         container.add(label2);
 
-        JTextField idAcceso = new JTextField();
-        idAcceso.setBounds(150, 130, 200, 30);
-        container.add(idAcceso);
-        idAcceso.setToolTipText("Escriba el ID de Acceso");
+        JTextField username = new JTextField();
+        username.setBounds(150, 130, 200, 30);
+        container.add(username);
+        username.setToolTipText("Escriba su nombre de Usuario");
 
         JLabel label3 = new JLabel("Escriba la Contraseña:");
         label3.setBounds(180, 170, 200, 30);
@@ -76,11 +75,11 @@ public class LoginAdmin extends JFrame {
         btnIniciar.setForeground(Color.WHITE);
         btnIniciar.setBorderPainted(false);
         btnIniciar.addActionListener(e -> {
-            String id = idAcceso.getText();
+            String nombreUsuario = username.getText();
             String contra = new String(contrasena.getPassword());
 
             try {
-                controlador.loginAdmin(id, contra);
+                controlador.loginAdmin(nombreUsuario, contra);
                 if (controlador.isSesionIniciadaAdmin()) {
                     System.out.println("Sesión iniciada correctamente.");
                     this.dispose();

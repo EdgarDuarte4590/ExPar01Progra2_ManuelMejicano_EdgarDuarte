@@ -170,32 +170,32 @@ public class Controlador {
     }
 //comprueba el inicio de sesion de adminitrador
 
-public void loginAdmin(String idAcceso, String contrasena) throws SQLException {
-
-            /*         if (idAcceso.equals(this.idAcceso) && contrasena.equals(this.contraAdmin)) {
-            sesionIniciadaAdmin = true;
-            JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso.");
-        } else {
-            JOptionPane.showMessageDialog(null, "ID de acceso o contraseña incorrectos.");
-        } */
-       
-    String sql = "SELECT * FROM usuarios WHERE nombreUsuario = '" + idAcceso + "'";
-    ResultSet rs = statement.executeQuery(sql);
-
-
-    if (rs.next()) {
-        String nombre1 = rs.getString("nombre1");
-        String nombre2 = rs.getString("nombre2");
-        String apellido1 = rs.getString("apellido1");
-        String apellido2 = rs.getString("apellido2");
-
-        sesionIniciadaAdmin = true;
-        JOptionPane.showMessageDialog(null, "Bienvenido " + nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2);
-    } else {
-        JOptionPane.showMessageDialog(null, "ID de acceso no encontrado.");
+    public void loginAdmin(String nombreUsuario, String contrasena) {
+        try {
+            String sql = "SELECT * FROM usuarios WHERE nombreUsuario = '" + nombreUsuario + "'";
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs.next()) {
+                String contrasenaDB = rs.getString("contraseña");
+                String nombreUsuarioBD = rs.getString("nombreUsuario");
+                if (contrasenaDB != null && contrasenaDB.equals(contrasena) && nombreUsuarioBD.equals(nombreUsuario)) {
+                    String nombre1 = rs.getString("nombre1");
+                    String nombre2 = rs.getString("nombre2");
+                    String apellido1 = rs.getString("apellido1");
+                    String apellido2 = rs.getString("apellido2");
+                    sesionIniciadaAdmin = true;
+                    JOptionPane.showMessageDialog(null, "Bienvenido " + nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectas.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al intentar iniciar sesión: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado: " + e.getMessage());
+        }
     }
-}
-
 
     public boolean isSesionIniciadaAdmin() {
         return sesionIniciadaAdmin;
