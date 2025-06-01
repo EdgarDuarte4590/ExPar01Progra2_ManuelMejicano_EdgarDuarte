@@ -171,8 +171,17 @@ public class Controlador {
 //comprueba el inicio de sesion de adminitrador
 
 public void loginAdmin(String idAcceso, String contrasena) throws SQLException {
+
+            /*         if (idAcceso.equals(this.idAcceso) && contrasena.equals(this.contraAdmin)) {
+            sesionIniciadaAdmin = true;
+            JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso.");
+        } else {
+            JOptionPane.showMessageDialog(null, "ID de acceso o contraseña incorrectos.");
+        } */
+       
     String sql = "SELECT * FROM usuarios WHERE nombreUsuario = '" + idAcceso + "'";
     ResultSet rs = statement.executeQuery(sql);
+
 
     if (rs.next()) {
         String nombre1 = rs.getString("nombre1");
