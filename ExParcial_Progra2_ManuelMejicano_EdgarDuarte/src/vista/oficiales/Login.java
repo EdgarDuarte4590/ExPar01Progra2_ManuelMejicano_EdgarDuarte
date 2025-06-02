@@ -4,7 +4,6 @@ import controlador.Controlador;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Image;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -84,7 +83,8 @@ public class Login extends JFrame{
             btnIniciar.setBorderPainted(false);
             btnIniciar.addActionListener(e->{
                 String id = idAcceso.getText();
-                String contra = contrasena.getPassword().toString();
+                //posible error, en efecto estaba mal, corregido*
+                String contra =new String(contrasena.getPassword());
                 controlador.loginOficial(id, contra); // Método para iniciar sesión
                 if (controlador.isSesionInciadaOficial()) {
                     System.out.println("Sesión iniciada correctamente.");

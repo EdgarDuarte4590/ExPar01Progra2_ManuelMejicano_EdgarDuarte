@@ -143,8 +143,35 @@ public class Controlador {
         this.menuPrincipal = menuPrincipal;
     }
 
-    public void agregarOficial(Guarda oficial) {
-        oficiales.add(oficial);
+    public void agregarOficial(String nombreCompleto, String nombreUsuario, String contrasena, String telefono, String cedula) {
+        String[] partes = nombreCompleto.trim().split("\\s+");
+        String nombre1 = "", nombre2 = "", apellido1 = "", apellido2 = "", tipo = "Guarda";
+        if (partes.length == 1) {
+            nombre1 = partes[0];
+        } else if (partes.length == 2) {
+            nombre1 = partes[0];
+            apellido1 = partes[1];
+        } else if (partes.length == 3) {
+            nombre1 = partes[0];
+            apellido1 = partes[1];
+            apellido2 = partes[2];
+        } else if (partes.length >= 4) {
+            nombre1 = partes[0];
+            nombre2 = partes[1];
+            apellido1 = partes[2];
+            apellido2 = partes[3];
+        }
+        String sql = "INSERT INTO usuarios (nombre1, nombre2, apellido1, apellido2, nombreUsuario, contraseña, numeroTelefono, cedula, tipoUsuario) VALUES ('" + nombre1 + "', '" + nombre2 + "', '" + apellido1 + "', '" + apellido2 + "', '" + nombreUsuario + "', '" + contrasena + "', '" + telefono + "', '" + cedula + "','" + tipo + "')";
+        try {
+            int i = statement.executeUpdate(sql);
+            if (i > 0) {
+                JOptionPane.showMessageDialog(null, "Oficial agregado correctamente.");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al agregar oficial: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado al agregar oficial: " + e.getMessage());
+        }
     }
 
     public void eliminarOficial(int indexGuarda) {
@@ -158,15 +185,35 @@ public class Controlador {
 
     // donde se comprueba el inicio e sesion del guarda
     public void loginOficial(String idAcceso, String contrasena) {
-        for (Guarda oficial : oficiales) {
-            if (oficial.getIDAcceso().equals(idAcceso) && oficial.getContrasena().equals(contrasena)) {
-                sesionInciadaOficial = true;
-                idOficialActual = oficial.getIDAcceso(); // Guardar el índice del oficial actual
-                JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso.");
-                return;
+        try {
+            String sql = "SELECT * FROM usuarios WHERE nombreUsuario = '" + idAcceso + "' AND tipoUsuario = 'Guarda'"; ;
+
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs.next()) {
+
+                String contrasenaDB = rs.getString("contraseña");
+                String nombreUsuarioBD = rs.getString("nombreUsuario");
+               
+
+                if (contrasenaDB != null && contrasenaDB.equals(contrasena) && nombreUsuarioBD.equals(idAcceso)) {
+                    String nombre1 = rs.getString("nombre1");
+                    String nombre2 = rs.getString("nombre2");
+                    String apellido1 = rs.getString("apellido1");
+                    String apellido2 = rs.getString("apellido2");
+                    sesionInciadaOficial = true;
+                    idOficialActual = idAcceso;
+                    JOptionPane.showMessageDialog(null, "Bienvenido " + nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos.");
             }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al intentar iniciar sesión: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado al iniciar sesión: " + e.getMessage());
         }
-        JOptionPane.showMessageDialog(null, "ID de acceso o contraseña incorrectos.");
     }
 //comprueba el inicio de sesion de adminitrador
 

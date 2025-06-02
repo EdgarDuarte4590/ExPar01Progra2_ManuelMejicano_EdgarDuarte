@@ -110,16 +110,16 @@ public class VistaAdmin extends JFrame {
     }
   
 
-    public void agregarOficial(String nombre, String idAcceso, String contrasena, String telefono, int id) {
+    public void agregarOficial(String nombre, String nombreUsuario, String contrasena, String telefono, String id) {
         // Lógica para agregar el oficial
 
-        if (nombre.isEmpty() || idAcceso.isEmpty() || contrasena.isEmpty() || telefono.isEmpty()) {
+        if (nombre.isEmpty() || nombreUsuario.isEmpty() || contrasena.isEmpty() || telefono.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
             return;
         }
 
-        Guarda nuevoOficial = new Guarda(nombre, id, idAcceso, contrasena, telefono);
-        controlador.agregarOficial(nuevoOficial);
+        controlador.agregarOficial(nombre,nombreUsuario, contrasena, telefono,id);
+    
         generarTablaOficiales();
     }
 

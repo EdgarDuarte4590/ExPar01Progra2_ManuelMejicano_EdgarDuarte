@@ -83,7 +83,7 @@ public class PanelOficialesAdmin  extends JPanel{
             }
             //agregar al oficial al arraylist correspondiente
             vistaAdministrador.agregarOficial(textFieldNombre.getText(), textFieldIDAcceso.getText(), textFieldContrasena.getText(),
-                    textFieldTelefono.getText(), Integer.parseInt(textFieldID.getText()));
+                    textFieldTelefono.getText(), textFieldID.getText());
             textFieldNombre.setText(""); // Limpiar el campo de texto
             textFieldID.setText(""); // Limpiar el campo de texto
             textFieldTelefono.setText(""); // Limpiar el campo de texto
@@ -107,7 +107,7 @@ public class PanelOficialesAdmin  extends JPanel{
 
             }
             vistaAdministrador.agregarOficial(textFieldNombre.getText(), textFieldIDAcceso.getText(), textFieldContrasena.getText(),
-                    textFieldTelefono.getText(), Integer.parseInt(textFieldID.getText()));
+                    textFieldTelefono.getText(), textFieldID.getText());
             textFieldNombre.setText(""); // Limpiar el campo de texto
             textFieldID.setText(""); // Limpiar el campo de texto
             textFieldTelefono.setText(""); // Limpiar el campo de texto
