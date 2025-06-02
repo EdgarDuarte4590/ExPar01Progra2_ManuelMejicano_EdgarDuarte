@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.MediaTracker;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -121,7 +122,12 @@ public class MenuPrincipal extends JFrame{
             } else {
                 vistaAdmin.setVisible(true);
                 vistaAdmin.generarTablaEstudiantes();
-                vistaAdmin.generarTablaOficiales();
+                try {
+                    vistaAdmin.generarTablaOficiales();
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             }
         });
 

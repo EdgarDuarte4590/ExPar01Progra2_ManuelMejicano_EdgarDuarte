@@ -1,6 +1,7 @@
 package vista.administrador;
 
 import java.awt.Color;
+import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -82,8 +83,13 @@ public class PanelOficialesAdmin  extends JPanel{
 
             }
             //agregar al oficial al arraylist correspondiente
-            vistaAdministrador.agregarOficial(textFieldNombre.getText(), textFieldIDAcceso.getText(), textFieldContrasena.getText(),
-                    textFieldTelefono.getText(), textFieldID.getText());
+            try {
+                vistaAdministrador.agregarOficial(textFieldNombre.getText(), textFieldIDAcceso.getText(), textFieldContrasena.getText(),
+                        textFieldTelefono.getText(), textFieldID.getText());
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
             textFieldNombre.setText(""); // Limpiar el campo de texto
             textFieldID.setText(""); // Limpiar el campo de texto
             textFieldTelefono.setText(""); // Limpiar el campo de texto
@@ -106,8 +112,13 @@ public class PanelOficialesAdmin  extends JPanel{
                 return;
 
             }
-            vistaAdministrador.agregarOficial(textFieldNombre.getText(), textFieldIDAcceso.getText(), textFieldContrasena.getText(),
-                    textFieldTelefono.getText(), textFieldID.getText());
+            try {
+                vistaAdministrador.agregarOficial(textFieldNombre.getText(), textFieldIDAcceso.getText(), textFieldContrasena.getText(),
+                        textFieldTelefono.getText(), textFieldID.getText());
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
             textFieldNombre.setText(""); // Limpiar el campo de texto
             textFieldID.setText(""); // Limpiar el campo de texto
             textFieldTelefono.setText(""); // Limpiar el campo de texto
@@ -136,7 +147,12 @@ public class PanelOficialesAdmin  extends JPanel{
                 JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna fila para eliminar");
                 System.out.println("fila seleccionada: " + filaSeleccionada);
             }
-            vistaAdministrador.generarTablaOficiales();
+            try {
+                vistaAdministrador.generarTablaOficiales();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
         });
         return panelOficiales;
     }

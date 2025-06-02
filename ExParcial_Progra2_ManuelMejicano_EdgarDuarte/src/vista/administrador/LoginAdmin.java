@@ -84,6 +84,7 @@ public class LoginAdmin extends JFrame {
                     System.out.println("Sesión iniciada correctamente.");
                     this.dispose();
                     controlador.menuPrincipal.vistaAdmin.setVisible(true);
+                    controlador.menuPrincipal.vistaAdmin.generarTablaOficiales();
                     controlador.menuPrincipal.vistaAdmin.setLocationRelativeTo(null);
                 } else {
                     System.out.println("Error al iniciar sesión. Verifique sus credenciales.");

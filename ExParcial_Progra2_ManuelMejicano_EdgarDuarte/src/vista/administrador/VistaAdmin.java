@@ -1,5 +1,6 @@
 package vista.administrador;
 
+import com.sun.source.tree.WhileLoopTree;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -20,6 +21,8 @@ import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
 
 import controlador.Controlador;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import modelo.Estudiante;
 import modelo.Guarda;
 
@@ -110,7 +113,7 @@ public class VistaAdmin extends JFrame {
     }
   
 
-    public void agregarOficial(String nombre, String nombreUsuario, String contrasena, String telefono, String id) {
+    public void agregarOficial(String nombre, String nombreUsuario, String contrasena, String telefono, String id) throws SQLException {
         // Lógica para agregar el oficial
 
         if (nombre.isEmpty() || nombreUsuario.isEmpty() || contrasena.isEmpty() || telefono.isEmpty()) {
@@ -140,16 +143,29 @@ public class VistaAdmin extends JFrame {
         }
     }
 //carga la tabla de oficiales cada que se agrega o elimina
-    public void generarTablaOficiales() {
+    public void generarTablaOficiales() throws SQLException {
         modeloTablaOficiales.setRowCount(0);
-        for (Guarda guarda : controlador.getOficiales()) {
-            modeloTablaOficiales.addRow(new Object[] {
-                    guarda.getNombre(),
-                    guarda.getId(),
-                    guarda.getNumeroTelefono(),
-                    guarda.getIDAcceso(),
-                    guarda.getContrasena()
+        ResultSet rs=controlador.statement.executeQuery("SELECT * FROM usuarios WHERE tipoUsuario='Guarda'");
+        while (rs.next()) { 
+            String nc=null;
+            String nombre1=rs.getString("nombre1");
+            String nombre2=rs.getString("nombre2");
+            String apellido1=rs.getString("apellido1");
+            String apellido2=rs.getString("apellido2");
+            String telefono=rs.getString("numeroTelefono");
+            String nombreUsuario=rs.getString("nombreUsuario");
+            String contrasena=rs.getString("contraseña");
+            String id=rs.getString("cedula");
+
+            if (nombre2 != null && !nombre2.isEmpty()) {
+                nc = nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2;
+            } else {
+                nc = nombre1 + " " + apellido1 + " " + apellido2;
+            }
+            modeloTablaOficiales.addRow(new Object[]{
+                nc,id,telefono,nombreUsuario,contrasena
             });
         }
+        
     }
 }

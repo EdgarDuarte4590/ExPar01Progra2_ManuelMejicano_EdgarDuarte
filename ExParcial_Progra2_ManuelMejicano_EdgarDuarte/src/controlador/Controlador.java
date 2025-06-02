@@ -39,7 +39,7 @@ public class Controlador {
 
     //private String idAcceso = "1234", contraAdmin = "Douglas2025";
     Connection connection = null;
-    Statement statement = null;
+  public   Statement statement = null;
     ResultSet resultSet = null;
 
     private String idOficialActual;// guarda el id del oficial que inicio sesion
