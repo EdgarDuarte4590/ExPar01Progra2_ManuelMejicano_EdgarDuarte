@@ -21,8 +21,13 @@ public class Controlador {
 //commo de ociciales, ademas de manejar la interaccion con los objetos de las clases modelo
 
     //declaracion de los arraylist que guardaran los objetos de cada clase 
-    private ArrayList<modelo.Administrador> administradores;
-    private ArrayList<Guarda> oficiales;
+
+
+   // se elimino el arraylist de Admins ya que funciona con la base de datos, y se guardan los administradores en la base de datos
+   
+   //no se puede eliminar el arraylist de oficiales, ya que apesar de que se guarda en la base de datos, se utiliza para mostrar los oficiales en la vista de oficiales, cuando todo se conecte a la 
+    //base de datos, se eliminara este arraylist y se utilizara la base de datos para obtener los oficiales
+   private ArrayList<Guarda> oficiales;
     private ArrayList<Estudiante> estudiantes;
     private ArrayList<Funcionario> funcionarios;
     private ArrayList<IngresoFuncionario> ingresosFuncionarios;
@@ -53,7 +58,7 @@ public class Controlador {
         } catch (SQLException e) {
         }
         //inicializacion de los arraylist de cada clase
-        administradores = new ArrayList<>();
+       // administradores = new ArrayList<>();
 
         oficiales = new ArrayList<>();
         estudiantes = new ArrayList<>();
@@ -248,13 +253,7 @@ public class Controlador {
         return sesionIniciadaAdmin;
     }
 
-    public ArrayList<modelo.Administrador> getAdministradores() {
-        return administradores;
-    }
 
-    public void setAdministradores(ArrayList<modelo.Administrador> administradores) {
-        this.administradores = administradores;
-    }
 
     public ArrayList<Guarda> getOficiales() {
         return oficiales;
