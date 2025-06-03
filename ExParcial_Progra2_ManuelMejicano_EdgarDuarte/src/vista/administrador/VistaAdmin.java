@@ -124,6 +124,10 @@ public class VistaAdmin extends JFrame {
         if (fechaActual.getDayOfYear() < fechaNacimiento.getDayOfYear()) {
             edad--;
         }
+        if (edad < 0) {
+            return 0; 
+            
+        }
         return edad;
 
     }

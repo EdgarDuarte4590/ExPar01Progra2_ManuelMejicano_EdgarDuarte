@@ -174,6 +174,14 @@ public class PanelEstudiantesAdmin extends JPanel {
         btnEditar.setBorderPainted(false);
         btnEditar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
         panelEstudiantes.add(btnEditar);
+        btnEditar.addActionListener(e -> {
+            int filaSeleccionada = vistaAdministrador.tablaEstudiantes.getSelectedRow();
+            if (filaSeleccionada != -1) {
+                String carnet = (String) vistaAdministrador.tablaEstudiantes.getValueAt(filaSeleccionada, 5);
+                vistaAdministrador.controlador.set
+            }
+
+        });
 
         // Creacion de tabla de estudiantes
         vistaAdministrador.tablaEstudiantes = new JTable();
@@ -182,7 +190,7 @@ public class PanelEstudiantesAdmin extends JPanel {
         scrollPane.setBounds(500, 100, 800, 400);
         panelEstudiantes.add(scrollPane);
         vistaAdministrador.modeloTablaEstudiantes.setColumnIdentifiers(new String[] { "Nombre completo",
-                "Identificación", "Fecha de nacimiento","Edad", "Nacionalidad", "Carnet estudiantil",
+                "Identificación", "Fecha de nacimiento", "Edad", "Nacionalidad", "Carnet estudiantil",
                 "Dirección (Distrito)" });
         vistaAdministrador.tablaEstudiantes.setModel(vistaAdministrador.modeloTablaEstudiantes);
 

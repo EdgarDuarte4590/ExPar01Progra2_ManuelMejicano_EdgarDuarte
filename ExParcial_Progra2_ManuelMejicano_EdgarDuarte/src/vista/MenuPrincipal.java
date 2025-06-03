@@ -47,6 +47,7 @@ public class MenuPrincipal extends JFrame{
             public void windowClosing(WindowEvent e) {
                try {
                 controlador.connection.isClosed();
+                System.exit(0);
                } catch (SQLException e1) {
                 e1.printStackTrace();
                }
