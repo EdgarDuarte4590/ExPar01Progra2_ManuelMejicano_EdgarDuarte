@@ -19,6 +19,7 @@ public class App {
         }
 
         //instancia de la clase controlador quien es el que controla la apliacion
+        
         Controlador controlador = new Controlador();
          
     }

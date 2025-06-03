@@ -42,7 +42,7 @@ public class PanelOficialesAdmin extends JPanel {
         label.setBounds(40, 50, 500, 30); // Establecer la posición y el tamaño del JLabel
         label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14)); // Establecer la fuente del JLabel
         panelOficiales.add(label);
-        
+
 
         JLabel label2 = new JLabel("Primer nombre:");
         label2.setBounds(40, 100, 500, 30);
