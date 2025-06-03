@@ -77,11 +77,19 @@ public class PanelFuncionarios extends JPanel {
 
         JButton btnRegistrar = new JButton("Registrar funcionario");
 
-        btnRegistrar.setBounds(50, 450, 200, 30);
+        btnRegistrar.setBounds(50, 500, 200, 30);
         btnRegistrar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
         btnRegistrar.setBackground(new java.awt.Color(0xFF0A1419));
         btnRegistrar.setForeground(Color.WHITE);
         panelFuncionarios.add(btnRegistrar);
+
+        JButton btnEditar = new JButton("Editar Oficial");
+        btnEditar.setBounds(50, 550, 200, 30);
+        btnEditar.setBackground(new Color(0xFF054FBE));
+        btnEditar.setForeground(Color.WHITE);
+        btnEditar.setBorderPainted(false);
+        btnEditar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+        panelFuncionarios.add(btnEditar);
 
         vistaOficiales.tablaFuncionarios = new JTable();
         JScrollPane scrollPane = new JScrollPane(vistaOficiales.tablaFuncionarios);

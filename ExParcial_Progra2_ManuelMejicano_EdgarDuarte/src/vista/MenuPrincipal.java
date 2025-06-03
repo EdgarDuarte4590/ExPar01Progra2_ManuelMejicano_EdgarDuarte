@@ -8,7 +8,8 @@ import controlador.Controlador;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.MediaTracker;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
@@ -27,7 +28,7 @@ public class MenuPrincipal extends JFrame{
     public VistaOficiales vistaOficiales; //Composición
     
 
-    Controlador controlador; // Instancia del controlador
+    public Controlador controlador; // Instancia del controlador
 
     public MenuPrincipal(Controlador controlador) {
         this.controlador = controlador; // Inicializar el controlador
@@ -38,8 +39,24 @@ public class MenuPrincipal extends JFrame{
         setLayout(null); 
 
         inicializarComponentes();
+
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+               try {
+                controlador.connection.isClosed();
+               } catch (SQLException e1) {
+                e1.printStackTrace();
+               }
+            }
+        });
+
+       
     }
 
+    
     private void inicializarComponentes() {
         vistaAdmin = new VistaAdmin(this.controlador);
         vistaOficiales = new VistaOficiales(controlador);  
@@ -98,6 +115,7 @@ public class MenuPrincipal extends JFrame{
                 Login login = new Login(controlador); // Crear una nueva instancia de Login
                 login.setVisible(true);
                 login.setLocationRelativeTo(null); 
+        
                
             } else{
                 vistaOficiales.setVisible(true);

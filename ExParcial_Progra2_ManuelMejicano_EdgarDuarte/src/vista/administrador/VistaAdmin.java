@@ -37,7 +37,7 @@ public class VistaAdmin extends JFrame {
     DefaultTableModel modeloTablaEstudiantes = new DefaultTableModel();
 
     PanelOficialesAdmin panelOficiales = new PanelOficialesAdmin(this);
-  public  PanelEstudiantesAdmin panelEstudiantes = new PanelEstudiantesAdmin(this);
+    public PanelEstudiantesAdmin panelEstudiantes = new PanelEstudiantesAdmin(this);
 
     public VistaAdmin(Controlador controlador) {
         this.controlador = controlador;
@@ -62,12 +62,14 @@ public class VistaAdmin extends JFrame {
         setVisible(true);
 
     }
-    //inicializacion de el tabbedpane que contendra los paneles de estudiantes y oficilaes
+
+    // inicializacion de el tabbedpane que contendra los paneles de estudiantes y
+    // oficilaes
     private void inicializarComponentes() {
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.setBounds(0, 0, 1366, 720); // Establecer el tamaño del JTabbedPane
         super.add(tabbedPane); // Agregar el JTabbedPane a la ventana
-        //tabbedPane.add("Menu Administrativo", panelAdministradores());
+        // tabbedPane.add("Menu Administrativo", panelAdministradores());
         tabbedPane.add("Oficiales", panelOficiales.initComponents());
         tabbedPane.add("Estudiantes", panelEstudiantes.initComponents());
 
@@ -100,7 +102,8 @@ public class VistaAdmin extends JFrame {
 
         switch (opcion) {
             case 0: // Cerrar sesión
-                controlador.setSesionIniciadaAdmin(false);;
+                controlador.setSesionIniciadaAdmin(false);
+                ;
                 this.dispose();
                 break;
             case 1: // Salir
@@ -111,9 +114,60 @@ public class VistaAdmin extends JFrame {
                 break;
         }
     }
-  
 
-    public void agregarOficial(String nombre, String nombreUsuario, String contrasena, String telefono, String id) throws SQLException {
+    public int calcularEdad(LocalDate fechaNacimiento) {
+        if (fechaNacimiento == null) {
+            return 0;
+        }
+        LocalDate fechaActual = LocalDate.now();
+        int edad = fechaActual.getYear() - fechaNacimiento.getYear();
+        if (fechaActual.getDayOfYear() < fechaNacimiento.getDayOfYear()) {
+            edad--;
+        }
+
+        if (edad < 0) {
+            return 0; 
+        }
+        return edad;
+
+    }
+
+    public void agregarEstudiante(String nombre1, String nombre2, String apellido1, String apellido2,
+            String cedula, LocalDate fechaNacimiento, String carnet, String nacionalidad, String direccion) {
+        // Lógica para agregar el estudiante
+
+        if (cedula.isEmpty() || carnet.isEmpty() || nombre1.isEmpty() || apellido1.isEmpty()
+                || apellido2.isEmpty() || fechaNacimiento == null || nacionalidad.isEmpty() || direccion.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
+            return;
+        }
+
+        java.sql.Date sqlFechaNacimiento = java.sql.Date.valueOf(fechaNacimiento);
+        int edad = calcularEdad(fechaNacimiento);
+        if (edad < 0) {
+            JOptionPane.showMessageDialog(null, "Fecha de nacimiento no válida.");
+            return;
+        }
+
+        String SQL = "INSERT INTO estudiantes (nombre1, nombre2, apellido1, apellido2, cedula, fechaNacimiento, carnet, nacionalidad, direccion, edad) VALUES ('"
+                + nombre1 + "', '" + nombre2 + "', '" + apellido1 + "', '" + apellido2 + "', '" + cedula + "', '"
+                + sqlFechaNacimiento + "', '" + carnet + "', '" + nacionalidad + "', '" + direccion + "', '" + edad
+                + "' )";
+
+        try {
+            controlador.statement.executeUpdate(SQL);
+            JOptionPane.showMessageDialog(null, "Estudiante agregado correctamente.");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al agregar estudiante: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado al agregar estudiante: " + e.getMessage());
+        }
+
+        generarTablaEstudiantes();
+    }
+
+    public void agregarOficial(String nombre, String nombreUsuario, String contrasena, String telefono, String id)
+            throws SQLException {
         // Lógica para agregar el oficial
 
         if (nombre.isEmpty() || nombreUsuario.isEmpty() || contrasena.isEmpty() || telefono.isEmpty()) {
@@ -121,51 +175,84 @@ public class VistaAdmin extends JFrame {
             return;
         }
 
-        controlador.agregarOficial(nombre,nombreUsuario, contrasena, telefono,id);
-    
+        controlador.agregarOficial(nombre, nombreUsuario, contrasena, telefono, id);
+
         generarTablaOficiales();
     }
 
-    
-//carga la tabla de estudiantes cada que se agrega o elimina
+    // carga la tabla de estudiantes cada que se agrega o elimina
     public void generarTablaEstudiantes() {
-        modeloTablaEstudiantes.setRowCount(0);
-        for (Estudiante estudiante : controlador.getEstudiantes()) {
-            modeloTablaEstudiantes.addRow(new Object[] {
-                    estudiante.getNombre(),
-                    estudiante.getId(),
-                    estudiante.getFechaNacimiento(),
-                    estudiante.getNacionalidad(),
-                    estudiante.getCarnet(),
-                    estudiante.getDireccion()
-            });
 
+        modeloTablaEstudiantes.setRowCount(0);
+        String SQL = "SELECT * FROM estudiantes";
+        try {
+            ResultSet rs = controlador.statement.executeQuery(SQL);
+
+            while (rs.next()) {
+                String nombre1 = rs.getString("nombre1");
+                String nombre2 = rs.getString("nombre2");
+                String apellido1 = rs.getString("apellido1");
+                String apellido2 = rs.getString("apellido2");
+                String cedula = rs.getString("cedula");
+                LocalDate fechaNacimiento = rs.getDate("fechaNacimiento").toLocalDate();
+                String carnet = rs.getString("carnet");
+                String nacionalidad = rs.getString("nacionalidad");
+                String direccion = rs.getString("direccion");
+
+                // Concatenar nombres y apellidos
+                String nombreCompleto;
+                if (nombre2 != null && !nombre2.isEmpty()) {
+                    nombreCompleto = nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2;
+                } else {
+                    nombreCompleto = nombre1 + " " + apellido1 + " " + apellido2;
+                }
+
+                modeloTablaEstudiantes.addRow(new Object[] {
+                        nombreCompleto, cedula, fechaNacimiento, calcularEdad(fechaNacimiento), nacionalidad, carnet,
+                        direccion
+                });
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al cargar los estudiantes: " + e.getMessage());
+            return;
         }
+        // for (Estudiante estudiante : controlador.getEstudiantes()) {
+        // modeloTablaEstudiantes.addRow(new Object[] {
+        // estudiante.getNombre(),
+        // estudiante.getId(),
+        // estudiante.getFechaNacimiento(),
+        // estudiante.getNacionalidad(),
+        // estudiante.getCarnet(),
+        // estudiante.getDireccion()
+        // });
+
+        // }
     }
-//carga la tabla de oficiales cada que se agrega o elimina
+
+    // carga la tabla de oficiales cada que se agrega o elimina
     public void generarTablaOficiales() throws SQLException {
         modeloTablaOficiales.setRowCount(0);
-        ResultSet rs=controlador.statement.executeQuery("SELECT * FROM usuarios WHERE tipoUsuario='Guarda'");
-        while (rs.next()) { 
-            String nc=null;
-            String nombre1=rs.getString("nombre1");
-            String nombre2=rs.getString("nombre2");
-            String apellido1=rs.getString("apellido1");
-            String apellido2=rs.getString("apellido2");
-            String telefono=rs.getString("numeroTelefono");
-            String nombreUsuario=rs.getString("nombreUsuario");
-            String contrasena=rs.getString("contraseña");
-            String id=rs.getString("cedula");
+        ResultSet rs = controlador.statement.executeQuery("SELECT * FROM usuarios WHERE tipoUsuario='Guarda'");
+        while (rs.next()) {
+            String nc = null;
+            String nombre1 = rs.getString("nombre1");
+            String nombre2 = rs.getString("nombre2");
+            String apellido1 = rs.getString("apellido1");
+            String apellido2 = rs.getString("apellido2");
+            String telefono = rs.getString("numeroTelefono");
+            String nombreUsuario = rs.getString("nombreUsuario");
+            String contrasena = rs.getString("contraseña");
+            String id = rs.getString("cedula");
 
             if (nombre2 != null && !nombre2.isEmpty()) {
                 nc = nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2;
             } else {
                 nc = nombre1 + " " + apellido1 + " " + apellido2;
             }
-            modeloTablaOficiales.addRow(new Object[]{
-                nc,id,telefono,nombreUsuario,contrasena
+            modeloTablaOficiales.addRow(new Object[] {
+                    nc, id, telefono, nombreUsuario, contrasena
             });
         }
-        
+
     }
 }

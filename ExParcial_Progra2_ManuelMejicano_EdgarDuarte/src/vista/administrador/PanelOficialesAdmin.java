@@ -131,7 +131,6 @@ public class PanelOficialesAdmin extends JPanel {
             textFieldNombreUsuario.setText("");
             textFieldContrasena.setText("");
         });
-        ;
 
         JButton btnAgregar = new JButton("Agregar Oficial");
         btnAgregar.setBounds(300, 500, 150, 30); // Establecer la posición y el tamaño del botón
@@ -141,13 +140,14 @@ public class PanelOficialesAdmin extends JPanel {
         btnAgregar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12)); // Establecer la fuente del botón
         panelOficiales.add(btnAgregar); // Agregar el botón al panel de oficiales
         btnAgregar.addActionListener(e -> {
-            if (textFieldID.getText().isEmpty() || textFieldNombre1.getText().isEmpty()
-                    || textFieldNombre2.getText().isEmpty() || textFieldApellido1.getText().isEmpty()
+            if (textFieldID.getText().isEmpty() || textFieldNombre1.getText().isEmpty() ||
+                    textFieldNombre2.getText().isEmpty() || textFieldApellido1.getText().isEmpty()
                     || textFieldApellido2.getText().isEmpty() || textFieldTelefono.getText().isEmpty()
                     || textFieldNombreUsuario.getText().isEmpty() || textFieldContrasena.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
                 return;
             }
+
             if (editando) {
                 int filaSeleccionada = vistaAdministrador.tablaOficiales.getSelectedRow();
                 // obtener el nombre de usuario del oficial seleccionado

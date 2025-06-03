@@ -42,7 +42,7 @@ public class Controlador {
     private boolean sesionInciadaOficial = false;
     private boolean sesionIniciadaAdmin = true;
     // private String idAcceso = "1234", contraAdmin = "Douglas2025";
-    Connection connection = null;
+    public Connection connection = null;
     public Statement statement = null;
     ResultSet resultSet = null;
 
