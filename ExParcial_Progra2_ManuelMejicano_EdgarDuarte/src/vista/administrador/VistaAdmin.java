@@ -115,7 +115,6 @@ public class VistaAdmin extends JFrame {
         }
     }
 
-<<<<<<< HEAD
     public int calcularEdad(LocalDate fechaNacimiento) {
         if (fechaNacimiento == null) {
             return 0;
@@ -124,10 +123,6 @@ public class VistaAdmin extends JFrame {
         int edad = fechaActual.getYear() - fechaNacimiento.getYear();
         if (fechaActual.getDayOfYear() < fechaNacimiento.getDayOfYear()) {
             edad--;
-        }
-
-        if (edad < 0) {
-            return 0; 
         }
         return edad;
 
@@ -152,8 +147,7 @@ public class VistaAdmin extends JFrame {
 
         String SQL = "INSERT INTO estudiantes (nombre1, nombre2, apellido1, apellido2, cedula, fechaNacimiento, carnet, nacionalidad, direccion, edad) VALUES ('"
                 + nombre1 + "', '" + nombre2 + "', '" + apellido1 + "', '" + apellido2 + "', '" + cedula + "', '"
-                + sqlFechaNacimiento + "', '" + carnet + "', '" + nacionalidad + "', '" + direccion + "', '" + edad
-                + "' )";
+                + sqlFechaNacimiento + "', '" + carnet + "', '" + nacionalidad + "', '" + direccion + "', '" + edad + "' )";
 
         try {
             controlador.statement.executeUpdate(SQL);
@@ -169,26 +163,15 @@ public class VistaAdmin extends JFrame {
 
     public void agregarOficial(String nombre, String nombreUsuario, String contrasena, String telefono, String id)
             throws SQLException {
-=======
-    public void agregarOficial(String nombre1,String nombre2,String apellido1,String apellido2, String nombreUsuario, String contrasena, String telefono, String id) throws SQLException {
->>>>>>> 3302754f5e13459577d15a0bb0887fec808e1bfd
         // Lógica para agregar el oficial
 
-    if (nombre1.isEmpty() || apellido1.isEmpty() || nombreUsuario.isEmpty() || contrasena.isEmpty() || telefono.isEmpty() || id.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+        if (nombre.isEmpty() || nombreUsuario.isEmpty() || contrasena.isEmpty() || telefono.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
             return;
         }
 
-<<<<<<< HEAD
         controlador.agregarOficial(nombre, nombreUsuario, contrasena, telefono, id);
 
-=======
-        
-  
-
-    controlador.agregarOficial(nombre1, nombre2, apellido1, apellido2, nombreUsuario, contrasena, telefono, id);
-    
->>>>>>> 3302754f5e13459577d15a0bb0887fec808e1bfd
         generarTablaOficiales();
     }
 
@@ -220,8 +203,7 @@ public class VistaAdmin extends JFrame {
                 }
 
                 modeloTablaEstudiantes.addRow(new Object[] {
-                        nombreCompleto, cedula, fechaNacimiento, calcularEdad(fechaNacimiento), nacionalidad, carnet,
-                        direccion
+                        nombreCompleto, cedula, fechaNacimiento,calcularEdad(fechaNacimiento), nacionalidad, carnet, direccion
                 });
             }
         } catch (SQLException e) {
@@ -229,14 +211,14 @@ public class VistaAdmin extends JFrame {
             return;
         }
         // for (Estudiante estudiante : controlador.getEstudiantes()) {
-        // modeloTablaEstudiantes.addRow(new Object[] {
-        // estudiante.getNombre(),
-        // estudiante.getId(),
-        // estudiante.getFechaNacimiento(),
-        // estudiante.getNacionalidad(),
-        // estudiante.getCarnet(),
-        // estudiante.getDireccion()
-        // });
+        //     modeloTablaEstudiantes.addRow(new Object[] {
+        //             estudiante.getNombre(),
+        //             estudiante.getId(),
+        //             estudiante.getFechaNacimiento(),
+        //             estudiante.getNacionalidad(),
+        //             estudiante.getCarnet(),
+        //             estudiante.getDireccion()
+        //     });
 
         // }
     }
@@ -256,7 +238,6 @@ public class VistaAdmin extends JFrame {
             String contrasena = rs.getString("contraseña");
             String id = rs.getString("cedula");
 
-<<<<<<< HEAD
             if (nombre2 != null && !nombre2.isEmpty()) {
                 nc = nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2;
             } else {
@@ -264,11 +245,6 @@ public class VistaAdmin extends JFrame {
             }
             modeloTablaOficiales.addRow(new Object[] {
                     nc, id, telefono, nombreUsuario, contrasena
-=======
-            nc=nombre1+ " "+nombre2+" "+apellido1+" "+apellido2;	
-            modeloTablaOficiales.addRow(new Object[]{
-                nc,id,telefono,nombreUsuario,contrasena
->>>>>>> 3302754f5e13459577d15a0bb0887fec808e1bfd
             });
         }
 
