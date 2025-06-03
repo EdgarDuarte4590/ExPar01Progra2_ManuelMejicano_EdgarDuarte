@@ -1,6 +1,7 @@
 package vista.administrador;
 
 import java.awt.Color;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -21,12 +22,12 @@ public class PanelOficialesAdmin extends JPanel {
         initComponents();
     }
 
-    //inicializacion del panel de ofiioales  donde se registran los oficiaes 
+    // inicializacion del panel de ofiioales donde se registran los oficiaes
     /**
      * @return
      */
     public JPanel initComponents() {
-        String[] nombreColumnas = {"Nombre", "ID", "Teléfono", "Nombre Usuario", "Contraseña"};
+        String[] nombreColumnas = { "Nombre", "ID", "Teléfono", "Nombre Usuario", "Contraseña" };
         vistaAdministrador.modeloTablaOficiales = new DefaultTableModel();
         vistaAdministrador.modeloTablaOficiales.setColumnIdentifiers(nombreColumnas);
         vistaAdministrador.tablaOficiales = new JTable();
@@ -42,57 +43,89 @@ public class PanelOficialesAdmin extends JPanel {
         label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14)); // Establecer la fuente del JLabel
         panelOficiales.add(label);
 
-        JLabel label2 = new JLabel("Nombre completo de Oficial:");
+        JLabel label2 = new JLabel("Primer nombre:");
         label2.setBounds(40, 100, 500, 30);
         panelOficiales.add(label2); // Agregar el JLabel al panel de oficiales
 
-        JTextField textFieldNombre = new JTextField();
-        textFieldNombre.setBounds(250, 100, 200, 30); // Establecer la posición y el tamaño del JTextField
-        panelOficiales.add(textFieldNombre); // Agregar el JTextField al panel de oficiales
+        JTextField textFieldNombre1 = new JTextField();
+        textFieldNombre1.setBounds(250, 100, 200, 30); // Establecer la posición y el tamaño del JTextField
+        panelOficiales.add(textFieldNombre1); // Agregar el JTextField al panel de oficiales
+
+        JLabel label7 = new JLabel("Segundo nombre:");
+        label7.setBounds(40, 150, 500, 30);
+        panelOficiales.add(label7); // Agregar el JLabel al panel de oficiales
+
+        JTextField textFieldNombre2 = new JTextField();
+        textFieldNombre2.setBounds(250, 150, 200, 30);
+        panelOficiales.add(textFieldNombre2);
+
+        JLabel label8 = new JLabel("Primer apellido:");
+        label8.setBounds(40, 200, 500, 30);
+        panelOficiales.add(label8); // Agregar el JLabel al panel de oficiales
+
+        JTextField textFieldApellido1 = new JTextField();
+        textFieldApellido1.setBounds(250, 200, 200, 30);
+        panelOficiales.add(textFieldApellido1);
+
+        JLabel label9 = new JLabel("Segundo apellido:");
+        label9.setBounds(40, 250, 500, 30);
+        panelOficiales.add(label9); // Agregar el JLabel al panel de oficiales
+
+        JTextField textFieldApellido2 = new JTextField();
+        textFieldApellido2.setBounds(250, 250, 200, 30);
+        panelOficiales.add(textFieldApellido2);
 
         JLabel label3 = new JLabel("Número de identificación:");
-        label3.setBounds(40, 150, 500, 30);
-        panelOficiales.add(label3); // Agregar el JLabel al panel de oficiales
+        label3.setBounds(40, 300, 500, 30);
+        panelOficiales.add(label3);
 
         JTextField textFieldID = new JTextField();
-        textFieldID.setBounds(250, 150, 200, 30); // Establecer la posición y el tamaño del JTextField
-        panelOficiales.add(textFieldID); // Agregar el JTextField al panel de oficiales
+        textFieldID.setBounds(250, 300, 200, 30);
+        panelOficiales.add(textFieldID);
 
         JTextField textFieldTelefono = new JTextField();
-        textFieldTelefono.setBounds(250, 200, 200, 30); // Establecer la posición y el tamaño del JTextField
-        panelOficiales.add(textFieldTelefono); // Agregar el JTextField al panel de oficiales
+        textFieldTelefono.setBounds(250, 350, 200, 30);
+        panelOficiales.add(textFieldTelefono);
 
         JLabel label4 = new JLabel("Número de teléfono:");
-        label4.setBounds(40, 200, 500, 30); // Establecer la posición y el tamaño del JLabel
-        panelOficiales.add(label4); // Agregar el JLabel al panel de oficiales
-
+        label4.setBounds(40, 350, 500, 30);
+        panelOficiales.add(label4);
         JLabel label5 = new JLabel("Nombre de Usuario:");
-        label5.setBounds(40, 250, 500, 30); // Establecer la posición y el tamaño del JLabel
-        panelOficiales.add(label5); // Agregar el JLabel al panel de oficiales
+        label5.setBounds(40, 400, 500, 30);
+        panelOficiales.add(label5);
 
         JTextField textFieldNombreUsuario = new JTextField();
-        textFieldNombreUsuario.setBounds(250, 250, 200, 30); // Establecer la posición y el tamaño del JTextField
-        panelOficiales.add(textFieldNombreUsuario); // Agregar el JTextField al panel de oficiales
+        textFieldNombreUsuario.setBounds(250, 400, 200, 30);
+        panelOficiales.add(textFieldNombreUsuario);
 
         JLabel label6 = new JLabel("Contraseña:");
-        label6.setBounds(40, 300, 500, 30); // Establecer la posición y el tamaño del JLabel
-        panelOficiales.add(label6); // Agregar el JLabel al panel de oficiales
+        label6.setBounds(40, 450, 500, 30);
+        panelOficiales.add(label6);
 
         JTextField textFieldContrasena = new JTextField();
-        textFieldContrasena.setBounds(250, 300, 200, 30); // Establecer la posición y el tamaño del JTextField
-        panelOficiales.add(textFieldContrasena); // Agregar el JTextField al panel de oficiales}
+        textFieldContrasena.setBounds(250, 450, 200, 30);
+        panelOficiales.add(textFieldContrasena);
         textFieldContrasena.addActionListener(e -> {
-            if (textFieldID.getText().isEmpty() || textFieldNombre.getText().isEmpty() || textFieldTelefono.getText().isEmpty() || textFieldNombreUsuario.getText().isEmpty() || textFieldContrasena.getText().isEmpty()) {
+            if (textFieldID.getText().isEmpty() || textFieldNombre1.getText().isEmpty()
+                    || textFieldNombre2.getText().isEmpty() || textFieldApellido1.getText().isEmpty()
+                    || textFieldApellido2.getText().isEmpty() || textFieldTelefono.getText().isEmpty()
+                    || textFieldNombreUsuario.getText().isEmpty() || textFieldContrasena.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
                 return;
             }
             try {
-                vistaAdministrador.agregarOficial(textFieldNombre.getText(), textFieldNombreUsuario.getText(), textFieldContrasena.getText(),
+                vistaAdministrador.agregarOficial(
+                        textFieldNombre1.getText() + " " + textFieldNombre2.getText() + " "
+                                + textFieldApellido1.getText() + " " + textFieldApellido2.getText(),
+                        textFieldNombreUsuario.getText(), textFieldContrasena.getText(),
                         textFieldTelefono.getText(), textFieldID.getText());
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Error al agregar oficial: " + ex.getMessage());
             }
-            textFieldNombre.setText("");
+            textFieldNombre1.setText("");
+            textFieldNombre2.setText("");
+            textFieldApellido1.setText("");
+            textFieldApellido2.setText("");
             textFieldID.setText("");
             textFieldTelefono.setText("");
             textFieldNombreUsuario.setText("");
@@ -101,27 +134,33 @@ public class PanelOficialesAdmin extends JPanel {
         ;
 
         JButton btnAgregar = new JButton("Agregar Oficial");
-        btnAgregar.setBounds(300, 350, 150, 30); // Establecer la posición y el tamaño del botón
+        btnAgregar.setBounds(300, 500, 150, 30); // Establecer la posición y el tamaño del botón
         btnAgregar.setBackground(new Color(0xFF054FBE));
         btnAgregar.setForeground(Color.WHITE); // Establecer el color del texto del botón
         btnAgregar.setBorderPainted(false); // Quitar el borde del botón
         btnAgregar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12)); // Establecer la fuente del botón
         panelOficiales.add(btnAgregar); // Agregar el botón al panel de oficiales
         btnAgregar.addActionListener(e -> {
-            if (textFieldID.getText().isEmpty() || textFieldNombre.getText().isEmpty() || textFieldTelefono.getText().isEmpty() || textFieldNombreUsuario.getText().isEmpty() || textFieldContrasena.getText().isEmpty()) {
+            if (textFieldID.getText().isEmpty() || textFieldNombre1.getText().isEmpty()
+                    || textFieldNombre2.getText().isEmpty() || textFieldApellido1.getText().isEmpty()
+                    || textFieldApellido2.getText().isEmpty() || textFieldTelefono.getText().isEmpty()
+                    || textFieldNombreUsuario.getText().isEmpty() || textFieldContrasena.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
                 return;
             }
             if (editando) {
                 int filaSeleccionada = vistaAdministrador.tablaOficiales.getSelectedRow();
-                //obtener el nombre de usuario del oficial seleccionado
+                // obtener el nombre de usuario del oficial seleccionado
 
                 if (filaSeleccionada != -1) {
                     // aqui vamos obtener todos los datos desde los textfields
-                    
 
                     try {
-                        //vistaAdministrador.editarOficial(filaSeleccionada, textFieldNombre.getText(), textFieldNombreUsuario.getText(), textFieldContrasena.getText(), textFieldTelefono.getText(), textFieldID.getText());
+                        // vistaAdministrador.editarOficial(filaSeleccionada, textFieldNombre1.getText()
+                        // + " " + textFieldNombre2.getText() + " " + textFieldApellido1.getText() + " "
+                        // + textFieldApellido2.getText(), textFieldNombreUsuario.getText(),
+                        // textFieldContrasena.getText(), textFieldTelefono.getText(),
+                        // textFieldID.getText());
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, "Error al editar oficial: " + ex.getMessage());
                     }
@@ -131,12 +170,19 @@ public class PanelOficialesAdmin extends JPanel {
                 }
             } else {
                 try {
-                    vistaAdministrador.agregarOficial(textFieldNombre.getText(), textFieldNombreUsuario.getText(), textFieldContrasena.getText(), textFieldTelefono.getText(), textFieldID.getText());
+                    vistaAdministrador.agregarOficial(
+                            textFieldNombre1.getText() + " " + textFieldNombre2.getText() + " "
+                                    + textFieldApellido1.getText() + " " + textFieldApellido2.getText(),
+                            textFieldNombreUsuario.getText(), textFieldContrasena.getText(),
+                            textFieldTelefono.getText(), textFieldID.getText());
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Error al agregar oficial: " + ex.getMessage());
                 }
             }
-            textFieldNombre.setText("");
+            textFieldNombre1.setText("");
+            textFieldNombre2.setText("");
+            textFieldApellido1.setText("");
+            textFieldApellido2.setText("");
             textFieldID.setText("");
             textFieldTelefono.setText("");
             textFieldNombreUsuario.setText("");
@@ -165,13 +211,28 @@ public class PanelOficialesAdmin extends JPanel {
             int filaSeleccionada = vistaAdministrador.tablaOficiales.getSelectedRow();
             if (filaSeleccionada != -1) {
                 editando = true;
-                textFieldNombre.setText(vistaAdministrador.tablaOficiales.getValueAt(filaSeleccionada, 0).toString());
-                textFieldID.setText(vistaAdministrador.tablaOficiales.getValueAt(filaSeleccionada, 1).toString());
-                textFieldTelefono.setText(vistaAdministrador.tablaOficiales.getValueAt(filaSeleccionada, 2).toString());
-                textFieldNombreUsuario.setText(vistaAdministrador.tablaOficiales.getValueAt(filaSeleccionada, 3).toString());
-                textFieldContrasena.setText(vistaAdministrador.tablaOficiales.getValueAt(filaSeleccionada, 4).toString());
-                btnAgregar.setText("Actualizar Oficial");
-                vistaAdministrador.tablaOficiales.setEnabled(false);
+                String userName = vistaAdministrador.tablaOficiales.getValueAt(filaSeleccionada, 3).toString();
+                String SQL = "SELECT * FROM usuarios WHERE nombreUsuario = '" + userName + "'";
+                try {
+                    ResultSet rs = vistaAdministrador.controlador.statement.executeQuery(SQL);
+                    if (rs.next()) {
+                        textFieldNombre1.setText(rs.getString("nombre1"));
+                        textFieldNombre2.setText(rs.getString("nombre2"));
+                        textFieldApellido1.setText(rs.getString("apellido1"));
+                        textFieldApellido2.setText(rs.getString("apellido2"));
+                        textFieldID.setText(rs.getString("cedula"));
+                        textFieldTelefono.setText(rs.getString("numeroTelefono"));
+                        textFieldNombreUsuario.setText(rs.getString("nombreUsuario"));
+                        textFieldContrasena.setText(rs.getString("contraseña"));
+                        btnAgregar.setText("Actualizar Oficial");
+                        vistaAdministrador.tablaOficiales.setEnabled(false);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se encontró el usuario.");
+                    }
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+
             } else {
                 JOptionPane.showMessageDialog(null, "Seleccione una fila para editar.");
             }

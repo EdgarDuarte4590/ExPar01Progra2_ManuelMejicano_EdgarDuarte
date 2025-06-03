@@ -17,17 +17,22 @@ import vista.MenuPrincipal;
 // Clase Controlador: Maneja la lógica del programa y la interacción entre vistas y modelos.
 // Atributos y métodos principales: Implementa la lógica de negocio y coordina las vistas.
 public class Controlador {
-// esta clase es el controlador de la aplicacion, se encarga de manejar la logica del programa y de interactuar con las vistas tanto de admistrador 
-//commo de ociciales, ademas de manejar la interaccion con los objetos de las clases modelo
+    // esta clase es el controlador de la aplicacion, se encarga de manejar la
+    // logica del programa y de interactuar con las vistas tanto de admistrador
+    // commo de ociciales, ademas de manejar la interaccion con los objetos de las
+    // clases modelo
 
-    //declaracion de los arraylist que guardaran los objetos de cada clase 
+    // declaracion de los arraylist que guardaran los objetos de cada clase
 
+    // se elimino el arraylist de Admins ya que funciona con la base de datos, y se
+    // guardan los administradores en la base de datos
 
-   // se elimino el arraylist de Admins ya que funciona con la base de datos, y se guardan los administradores en la base de datos
-   
-   //no se puede eliminar el arraylist de oficiales, ya que apesar de que se guarda en la base de datos, se utiliza para mostrar los oficiales en la vista de oficiales, cuando todo se conecte a la 
-    //base de datos, se eliminara este arraylist y se utilizara la base de datos para obtener los oficiales
-   private ArrayList<Guarda> oficiales;
+    // no se puede eliminar el arraylist de oficiales, ya que apesar de que se
+    // guarda en la base de datos, se utiliza para mostrar los oficiales en la vista
+    // de oficiales, cuando todo se conecte a la
+    // base de datos, se eliminara este arraylist y se utilizara la base de datos
+    // para obtener los oficiales
+    private ArrayList<Guarda> oficiales;
     private ArrayList<Estudiante> estudiantes;
     private ArrayList<Funcionario> funcionarios;
     private ArrayList<IngresoFuncionario> ingresosFuncionarios;
@@ -35,17 +40,16 @@ public class Controlador {
     private ArrayList<VehiculoExterno> ingresosVehiculoExterno;
     private ArrayList<Salida> salidasEstudiantes;
     private boolean sesionInciadaOficial = false;
-    private boolean sesionIniciadaAdmin = false;
-
-    //private String idAcceso = "1234", contraAdmin = "Douglas2025";
+    private boolean sesionIniciadaAdmin = true;
+    // private String idAcceso = "1234", contraAdmin = "Douglas2025";
     Connection connection = null;
-  public   Statement statement = null;
+    public Statement statement = null;
     ResultSet resultSet = null;
 
     private String idOficialActual;// guarda el id del oficial que inicio sesion
-    public MenuPrincipal menuPrincipal;//declaracion de la interface grafica del menu principal
-    public DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss"); // formato en que se guardara y mostrara la hora
-
+    public MenuPrincipal menuPrincipal;// declaracion de la interface grafica del menu principal
+    public DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss"); // formato en que se guardara y mostrara
+                                                                                // la hora
     public Controlador() throws ClassNotFoundException, SQLException {
 
         try {
@@ -57,8 +61,8 @@ public class Controlador {
             JOptionPane.showMessageDialog(null, "Conexión exitosa a la base de datos.");
         } catch (SQLException e) {
         }
-        //inicializacion de los arraylist de cada clase
-       // administradores = new ArrayList<>();
+        // inicializacion de los arraylist de cada clase
+        // administradores = new ArrayList<>();
 
         oficiales = new ArrayList<>();
         estudiantes = new ArrayList<>();
@@ -73,11 +77,15 @@ public class Controlador {
         menuPrincipal.setLocationRelativeTo(null);
     }
 
-    //metodo que se encarga  de buscar un estudainte por su carnet, este metodo se utiliza en la vista de oficiales para buscar un estudiante
-    //en la vista de salida de estudiantes, se le pasa el carnet y se busca en el arraylist de estudiantes
-    //y asi se selecciona el estudiante en el combo box de la vista de salida de estudiantes
-    //por medio de esta busca podemos obteber el index del estudiante en el arraylist yposterior sus atributos
-    public int buscarEstudiante(String carnet) { //Ocupa el numero de carnet
+    // metodo que se encarga de buscar un estudainte por su carnet, este metodo se
+    // utiliza en la vista de oficiales para buscar un estudiante
+    // en la vista de salida de estudiantes, se le pasa el carnet y se busca en el
+    // arraylist de estudiantes
+    // y asi se selecciona el estudiante en el combo box de la vista de salida de
+    // estudiantes
+    // por medio de esta busca podemos obteber el index del estudiante en el
+    // arraylist yposterior sus atributos
+    public int buscarEstudiante(String carnet) { // Ocupa el numero de carnet
         for (int i = 0; i < estudiantes.size(); i++) {
 
             if (estudiantes.get(i).getCarnet().equals(carnet)) {
@@ -89,10 +97,14 @@ public class Controlador {
         return -1;
     }
 
-    //metodo que se encarga de buscar un funcionario por su placa, este metodo se utiliza en la vista de oficiales para buscar un funcionario
-    //en la vista de ingreso de funcionarios, se le pasa la placa y se busca en el arraylist de funcionarios
-    //y asi se selecciona el funcionario en el combo box de la vista de ingreso de funcionarios
-    //por medio de esta busca podemos obteber el index del funcionario en el arraylist y posterior obterner sus atributos
+    // metodo que se encarga de buscar un funcionario por su placa, este metodo se
+    // utiliza en la vista de oficiales para buscar un funcionario
+    // en la vista de ingreso de funcionarios, se le pasa la placa y se busca en el
+    // arraylist de funcionarios
+    // y asi se selecciona el funcionario en el combo box de la vista de ingreso de
+    // funcionarios
+    // por medio de esta busca podemos obteber el index del funcionario en el
+    // arraylist y posterior obterner sus atributos
     public Funcionario buscarFuncionarioPorPlaca(String placa) {
         for (Funcionario funcionario : getFuncionarios()) {
             if (funcionario.getVehiculo() != null && funcionario.getVehiculo().getPlaca().equals(placa)) {
@@ -117,7 +129,8 @@ public class Controlador {
     }
 
     public void guardar() {
-        InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/modelo/administradores.json"));
+        InputStreamReader reader = new InputStreamReader(
+                getClass().getResourceAsStream("/modelo/administradores.json"));
     }
 
     public void setSesionIniciadaAdmin(boolean sesionIniciadaAdmin) {
@@ -148,7 +161,8 @@ public class Controlador {
         this.menuPrincipal = menuPrincipal;
     }
 
-    public void agregarOficial(String nombreCompleto, String nombreUsuario, String contrasena, String telefono, String cedula) {
+    public void agregarOficial(String nombreCompleto, String nombreUsuario, String contrasena, String telefono,
+            String cedula) {
         String[] partes = nombreCompleto.trim().split("\\s+");
         String nombre1 = "", nombre2 = "", apellido1 = "", apellido2 = "", tipo = "Guarda";
         if (partes.length == 1) {
@@ -166,7 +180,9 @@ public class Controlador {
             apellido1 = partes[2];
             apellido2 = partes[3];
         }
-        String sql = "INSERT INTO usuarios (nombre1, nombre2, apellido1, apellido2, nombreUsuario, contraseña, numeroTelefono, cedula, tipoUsuario) VALUES ('" + nombre1 + "', '" + nombre2 + "', '" + apellido1 + "', '" + apellido2 + "', '" + nombreUsuario + "', '" + contrasena + "', '" + telefono + "', '" + cedula + "','" + tipo + "')";
+        String sql = "INSERT INTO usuarios (nombre1, nombre2, apellido1, apellido2, nombreUsuario, contraseña, numeroTelefono, cedula, tipoUsuario) VALUES ('"
+                + nombre1 + "', '" + nombre2 + "', '" + apellido1 + "', '" + apellido2 + "', '" + nombreUsuario + "', '"
+                + contrasena + "', '" + telefono + "', '" + cedula + "','" + tipo + "')";
         try {
             int i = statement.executeUpdate(sql);
             if (i > 0) {
@@ -191,14 +207,14 @@ public class Controlador {
     // donde se comprueba el inicio e sesion del guarda
     public void loginOficial(String idAcceso, String contrasena) {
         try {
-            String sql = "SELECT * FROM usuarios WHERE nombreUsuario = '" + idAcceso + "' AND tipoUsuario = 'Guarda'"; ;
+            String sql = "SELECT * FROM usuarios WHERE nombreUsuario = '" + idAcceso + "' AND tipoUsuario = 'Guarda'";
+            ;
 
             ResultSet rs = statement.executeQuery(sql);
             if (rs.next()) {
 
                 String contrasenaDB = rs.getString("contraseña");
                 String nombreUsuarioBD = rs.getString("nombreUsuario");
-               
 
                 if (contrasenaDB != null && contrasenaDB.equals(contrasena) && nombreUsuarioBD.equals(idAcceso)) {
                     String nombre1 = rs.getString("nombre1");
@@ -207,7 +223,8 @@ public class Controlador {
                     String apellido2 = rs.getString("apellido2");
                     sesionInciadaOficial = true;
                     idOficialActual = idAcceso;
-                    JOptionPane.showMessageDialog(null, "Bienvenido " + nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2);
+                    JOptionPane.showMessageDialog(null,
+                            "Bienvenido " + nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2);
                 } else {
                     JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos.");
                 }
@@ -220,7 +237,7 @@ public class Controlador {
             JOptionPane.showMessageDialog(null, "Error inesperado al iniciar sesión: " + e.getMessage());
         }
     }
-//comprueba el inicio de sesion de adminitrador
+    // comprueba el inicio de sesion de adminitrador
 
     public void loginAdmin(String nombreUsuario, String contrasena) {
         try {
@@ -235,7 +252,8 @@ public class Controlador {
                     String apellido1 = rs.getString("apellido1");
                     String apellido2 = rs.getString("apellido2");
                     sesionIniciadaAdmin = true;
-                    JOptionPane.showMessageDialog(null, "Bienvenido " + nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2);
+                    JOptionPane.showMessageDialog(null,
+                            "Bienvenido " + nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2);
                 } else {
                     JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectas.");
                 }
@@ -252,8 +270,6 @@ public class Controlador {
     public boolean isSesionIniciadaAdmin() {
         return sesionIniciadaAdmin;
     }
-
-
 
     public ArrayList<Guarda> getOficiales() {
         return oficiales;
