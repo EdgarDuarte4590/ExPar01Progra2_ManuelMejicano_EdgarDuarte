@@ -168,24 +168,14 @@ public class VistaAdmin extends JFrame {
     public void agregarOficial(String nombre1,String nombre2,String apellido1,String apellido2, String nombreUsuario, String contrasena, String telefono, String id)
             throws SQLException {
         // Lógica para agregar el oficial
-<<<<<<< HEAD
         if (nombre1.isEmpty() || apellido1.isEmpty() || apellido2.isEmpty() || nombreUsuario.isEmpty()
                 || contrasena.isEmpty() || telefono.isEmpty() || id.isEmpty()) {
-=======
-
-        if (id.isEmpty() || nombre1.isEmpty() || apellido1.isEmpty() || apellido2.isEmpty()
-                || nombreUsuario.isEmpty() || contrasena.isEmpty() || telefono.isEmpty()) {
->>>>>>> e80ab151dfb0d79fc5014ec66df70f487f24b2ce
             JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
             return;
         }
         
         controlador.editarOficial(nombre1, nombre2, apellido1, apellido2, telefono, nombreUsuario, contrasena,telefono, id);
 
-<<<<<<< HEAD
-=======
-        controlador.agregarOficial(nombre1, nombre2,apellido1, apellido2, nombreUsuario, contrasena, telefono, id);
->>>>>>> e80ab151dfb0d79fc5014ec66df70f487f24b2ce
 
         generarTablaOficiales();
     }
