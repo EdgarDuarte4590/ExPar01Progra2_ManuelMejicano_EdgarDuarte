@@ -161,25 +161,9 @@ public class Controlador {
         this.menuPrincipal = menuPrincipal;
     }
 
-    public void agregarOficial(String nombreCompleto, String nombreUsuario, String contrasena, String telefono,
+    public void agregarOficial(String nombre1,String nombre2,String apellido1,String apellido2, String nombreUsuario, String contrasena, String telefono,
             String cedula) {
-        String[] partes = nombreCompleto.trim().split("\\s+");
-        String nombre1 = "", nombre2 = "", apellido1 = "", apellido2 = "", tipo = "Guarda";
-        if (partes.length == 1) {
-            nombre1 = partes[0];
-        } else if (partes.length == 2) {
-            nombre1 = partes[0];
-            apellido1 = partes[1];
-        } else if (partes.length == 3) {
-            nombre1 = partes[0];
-            apellido1 = partes[1];
-            apellido2 = partes[2];
-        } else if (partes.length >= 4) {
-            nombre1 = partes[0];
-            nombre2 = partes[1];
-            apellido1 = partes[2];
-            apellido2 = partes[3];
-        }
+                String tipo = "Guarda";
         String sql = "INSERT INTO usuarios (nombre1, nombre2, apellido1, apellido2, nombreUsuario, contraseña, numeroTelefono, cedula, tipoUsuario) VALUES ('"
                 + nombre1 + "', '" + nombre2 + "', '" + apellido1 + "', '" + apellido2 + "', '" + nombreUsuario + "', '"
                 + contrasena + "', '" + telefono + "', '" + cedula + "','" + tipo + "')";
@@ -329,6 +313,21 @@ public class Controlador {
 
     public void setSalidasEstudiantes(ArrayList<Salida> salidasEstudiantes) {
         this.salidasEstudiantes = salidasEstudiantes;
+    }
+
+    public void editarOficial(String nombre1, String nombre2, String apellido1, String apellido2, String telefono, String nombreUsuario, String contrasena, String id, String nombreUsuarioModi) {
+        String sql = "UPDATE usuarios SET cedula = '" + id + "', nombre1 = '" + nombre1 + "', nombre2 = '" + nombre2 + "', apellido1 = '" + apellido1 + "', apellido2 = '" + apellido2 + "', numeroTelefono = '"
+                + telefono + "', nombreUsuario = '" + nombreUsuario + "', contraseña = '" + contrasena + "' WHERE nombreUsuario = '" + nombreUsuarioModi + "'";
+        try {
+            int i = statement.executeUpdate(sql);
+            if (i > 0) {
+                JOptionPane.showMessageDialog(null, "Oficial editado correctamente.");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al editar oficial: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado al editar oficial: " + e.getMessage());
+        }
     }
 
 }

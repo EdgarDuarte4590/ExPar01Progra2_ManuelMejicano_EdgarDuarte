@@ -115,6 +115,7 @@ public class VistaAdmin extends JFrame {
         }
     }
 
+<<<<<<< HEAD
     public int calcularEdad(LocalDate fechaNacimiento) {
         if (fechaNacimiento == null) {
             return 0;
@@ -168,15 +169,26 @@ public class VistaAdmin extends JFrame {
 
     public void agregarOficial(String nombre, String nombreUsuario, String contrasena, String telefono, String id)
             throws SQLException {
+=======
+    public void agregarOficial(String nombre1,String nombre2,String apellido1,String apellido2, String nombreUsuario, String contrasena, String telefono, String id) throws SQLException {
+>>>>>>> 3302754f5e13459577d15a0bb0887fec808e1bfd
         // Lógica para agregar el oficial
 
-        if (nombre.isEmpty() || nombreUsuario.isEmpty() || contrasena.isEmpty() || telefono.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
+    if (nombre1.isEmpty() || apellido1.isEmpty() || nombreUsuario.isEmpty() || contrasena.isEmpty() || telefono.isEmpty() || id.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
+<<<<<<< HEAD
         controlador.agregarOficial(nombre, nombreUsuario, contrasena, telefono, id);
 
+=======
+        
+  
+
+    controlador.agregarOficial(nombre1, nombre2, apellido1, apellido2, nombreUsuario, contrasena, telefono, id);
+    
+>>>>>>> 3302754f5e13459577d15a0bb0887fec808e1bfd
         generarTablaOficiales();
     }
 
@@ -244,6 +256,7 @@ public class VistaAdmin extends JFrame {
             String contrasena = rs.getString("contraseña");
             String id = rs.getString("cedula");
 
+<<<<<<< HEAD
             if (nombre2 != null && !nombre2.isEmpty()) {
                 nc = nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2;
             } else {
@@ -251,6 +264,11 @@ public class VistaAdmin extends JFrame {
             }
             modeloTablaOficiales.addRow(new Object[] {
                     nc, id, telefono, nombreUsuario, contrasena
+=======
+            nc=nombre1+ " "+nombre2+" "+apellido1+" "+apellido2;	
+            modeloTablaOficiales.addRow(new Object[]{
+                nc,id,telefono,nombreUsuario,contrasena
+>>>>>>> 3302754f5e13459577d15a0bb0887fec808e1bfd
             });
         }
 
