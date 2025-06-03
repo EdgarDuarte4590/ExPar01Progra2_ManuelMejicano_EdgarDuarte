@@ -1,6 +1,8 @@
 package vista.administrador;
 
 import java.awt.Color;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 import javax.swing.JButton;
@@ -178,8 +180,37 @@ public class PanelEstudiantesAdmin extends JPanel {
             int filaSeleccionada = vistaAdministrador.tablaEstudiantes.getSelectedRow();
             if (filaSeleccionada != -1) {
                 String carnet = (String) vistaAdministrador.tablaEstudiantes.getValueAt(filaSeleccionada, 5);
-                vistaAdministrador.controlador.set
+                try (ResultSet rs = vistaAdministrador.controlador.statement.executeQuery("SELECT * FROM estudiantes WHERE carnet = '" + carnet + "'")) {
+                    if (rs.next()) {
+                        String nombre1 = rs.getString("nombre1");
+                        String nombre2 = rs.getString("nombre2");
+                        String apellido1 = rs.getString("apellido1");
+                        String apellido2 = rs.getString("apellido2");
+                        String cedula = rs.getString("cedula");
+                        LocalDate fechaNacimiento = rs.getDate("fechaNacimiento").toLocalDate();
+                        String nacionalidad = rs.getString("nacionalidad");
+                        String direccion = rs.getString("direccion");
+
+                        // Actualizar los campos de texto con los datos del estudiante seleccionado
+                        textFieldNombre1.setText(nombre1);
+                        textFieldNombre2.setText(nombre2);
+                        textFieldApellido1.setText(apellido1);
+                        textFieldApellido2.setText(apellido2);
+                        textFieldID.setText(cedula);
+                        jDateChooser.setDate(java.sql.Date.valueOf(fechaNacimiento));
+                        textFieldCarnet.setText(carnet);
+                        jComboBoxEstudiante.setSelectedItem(nacionalidad);
+                        jComboBoxDireccion.setSelectedItem(direccion);
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se encontró el estudiante seleccionado.");
+                    }
+                } catch (SQLException e1) {
+                    
+                    e1.printStackTrace();
+                }
             }
+
 
         });
 
