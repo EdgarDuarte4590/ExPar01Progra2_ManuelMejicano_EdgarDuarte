@@ -113,15 +113,18 @@ public class VistaAdmin extends JFrame {
     }
   
 
-    public void agregarOficial(String nombre, String nombreUsuario, String contrasena, String telefono, String id) throws SQLException {
+    public void agregarOficial(String nombre1,String nombre2,String apellido1,String apellido2, String nombreUsuario, String contrasena, String telefono, String id) throws SQLException {
         // Lógica para agregar el oficial
 
-        if (nombre.isEmpty() || nombreUsuario.isEmpty() || contrasena.isEmpty() || telefono.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
+    if (nombre1.isEmpty() || apellido1.isEmpty() || nombreUsuario.isEmpty() || contrasena.isEmpty() || telefono.isEmpty() || id.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        controlador.agregarOficial(nombre,nombreUsuario, contrasena, telefono,id);
+        
+  
+
+    controlador.agregarOficial(nombre1, nombre2, apellido1, apellido2, nombreUsuario, contrasena, telefono, id);
     
         generarTablaOficiales();
     }
@@ -157,11 +160,7 @@ public class VistaAdmin extends JFrame {
             String contrasena=rs.getString("contraseña");
             String id=rs.getString("cedula");
 
-            if (nombre2 != null && !nombre2.isEmpty()) {
-                nc = nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2;
-            } else {
-                nc = nombre1 + " " + apellido1 + " " + apellido2;
-            }
+            nc=nombre1+ " "+nombre2+" "+apellido1+" "+apellido2;	
             modeloTablaOficiales.addRow(new Object[]{
                 nc,id,telefono,nombreUsuario,contrasena
             });

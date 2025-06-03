@@ -115,8 +115,8 @@ public class PanelOficialesAdmin extends JPanel {
             }
             try {
                 vistaAdministrador.agregarOficial(
-                        textFieldNombre1.getText() + " " + textFieldNombre2.getText() + " "
-                                + textFieldApellido1.getText() + " " + textFieldApellido2.getText(),
+                        textFieldNombre1.getText(),textFieldNombre2.getText() ,
+                                 textFieldApellido1.getText() , textFieldApellido2.getText(),
                         textFieldNombreUsuario.getText(), textFieldContrasena.getText(),
                         textFieldTelefono.getText(), textFieldID.getText());
             } catch (Exception ex) {
@@ -150,17 +150,18 @@ public class PanelOficialesAdmin extends JPanel {
             }
             if (editando) {
                 int filaSeleccionada = vistaAdministrador.tablaOficiales.getSelectedRow();
-                // obtener el nombre de usuario del oficial seleccionado
+                
 
                 if (filaSeleccionada != -1) {
-                    // aqui vamos obtener todos los datos desde los textfields
+                    String userName = vistaAdministrador.tablaOficiales.getValueAt(filaSeleccionada, 3).toString();
+                    vistaAdministrador.controlador.editarOficial(
+                            textFieldNombre1.getText(), textFieldNombre2.getText(),
+                            textFieldApellido1.getText(), textFieldApellido2.getText(),textFieldTelefono.getText(),
+                            textFieldNombreUsuario.getText(), textFieldContrasena.getText(),
+                             textFieldID.getText(), userName);
 
                     try {
-                        // vistaAdministrador.editarOficial(filaSeleccionada, textFieldNombre1.getText()
-                        // + " " + textFieldNombre2.getText() + " " + textFieldApellido1.getText() + " "
-                        // + textFieldApellido2.getText(), textFieldNombreUsuario.getText(),
-                        // textFieldContrasena.getText(), textFieldTelefono.getText(),
-                        // textFieldID.getText());
+                 
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, "Error al editar oficial: " + ex.getMessage());
                     }
@@ -171,8 +172,8 @@ public class PanelOficialesAdmin extends JPanel {
             } else {
                 try {
                     vistaAdministrador.agregarOficial(
-                            textFieldNombre1.getText() + " " + textFieldNombre2.getText() + " "
-                                    + textFieldApellido1.getText() + " " + textFieldApellido2.getText(),
+                            textFieldNombre1.getText(), textFieldNombre2.getText(),
+                            textFieldApellido1.getText(), textFieldApellido2.getText(),
                             textFieldNombreUsuario.getText(), textFieldContrasena.getText(),
                             textFieldTelefono.getText(), textFieldID.getText());
                 } catch (Exception ex) {
