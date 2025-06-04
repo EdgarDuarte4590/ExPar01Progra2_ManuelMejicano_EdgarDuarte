@@ -29,7 +29,7 @@ public class MenuPrincipal extends JFrame {
     public VistaOficiales vistaOficiales; // Composición
     public Controlador controlador; // Instancia del controlador
 
-    public MenuPrincipal(Controlador controlador) {
+    public MenuPrincipal(Controlador controlador) throws SQLException {
         this.controlador = controlador; // Inicializar el controlador
         setTitle("Menu Principal");
         setSize(1366, 720);
@@ -56,7 +56,7 @@ public class MenuPrincipal extends JFrame {
         });
     }
 
-    private void inicializarComponentes() {
+    private void inicializarComponentes() throws SQLException {
         vistaAdmin = new VistaAdmin(this.controlador);
         vistaOficiales = new VistaOficiales(controlador);
 
@@ -103,7 +103,9 @@ public class MenuPrincipal extends JFrame {
                 login.setLocationRelativeTo(null);
             } else {
                 vistaOficiales.setVisible(true);
-                vistaOficiales.generarJComboEstudiantes();
+                
+                    vistaOficiales.generarJComboEstudiantes();
+             
             }
         });
 

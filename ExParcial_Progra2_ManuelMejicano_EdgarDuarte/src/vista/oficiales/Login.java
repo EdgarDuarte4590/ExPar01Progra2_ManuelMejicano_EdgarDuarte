@@ -4,6 +4,8 @@ import controlador.Controlador;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Image;
+import java.sql.SQLException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -89,7 +91,9 @@ public class Login extends JFrame{
                 if (controlador.isSesionInciadaOficial()) {
                     System.out.println("Sesión iniciada correctamente.");
                     this.dispose(); // Cerrar la ventana de inicio de sesión
-                    controlador.menuPrincipal.vistaOficiales.generarJComboEstudiantes();
+                    
+                        controlador.menuPrincipal.vistaOficiales.generarJComboEstudiantes();
+                 
                     controlador.menuPrincipal.vistaOficiales.GenerarTablaIngresoFuncionarios();
                     controlador.menuPrincipal.vistaOficiales.setVisible(true);; // Abrir la vista de oficiales
                 } else {

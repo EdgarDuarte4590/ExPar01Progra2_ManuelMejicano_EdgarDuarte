@@ -1,6 +1,7 @@
 package vista.oficiales;
 
 import java.awt.Color;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import javax.swing.ImageIcon;
@@ -20,12 +21,14 @@ public class PanelSalidaEstudiante extends JPanel {
 
     
 
-    public PanelSalidaEstudiante(VistaOficiales vistaOficiales) {
+    public PanelSalidaEstudiante(VistaOficiales vistaOficiales) throws SQLException {
         this.vistaOficiales = vistaOficiales;
-        initComponents();
+        
+            initComponents();
+      
     }
 
-    public JPanel initComponents() {
+    public JPanel initComponents() throws SQLException  {
         JPanel panelEstSalidas = new JPanel();
         panelEstSalidas.setLayout(null); // Establecer el diseño nulo para el panel de ingreso
         panelEstSalidas.setBounds(0, 0, 1366, 720);
@@ -116,7 +119,9 @@ public class PanelSalidaEstudiante extends JPanel {
          /*    Salida salida = new Salida(fechaSalida, horaSalida, motivoSalida, estudiante, guarda);
             vistaOficiales.controlador.getSalidasEstudiantes().add(salida); */
             vistaOficiales.generarTablaSalidasEstudiantes();
-            vistaOficiales.generarJComboEstudiantes();
+            
+                vistaOficiales.generarJComboEstudiantes();
+           
 
             // Limpiar los campos después de registrar
             vistaOficiales.comboEstudiantes.setSelectedIndex(0);
@@ -132,7 +137,10 @@ public class PanelSalidaEstudiante extends JPanel {
         scrollPane.setBounds(25, 200, 1300, 400);
         vistaOficiales.tablaSalidasEstudiantes.setBounds(0, 0, 100, 500);
 
-        vistaOficiales.generarJComboEstudiantes();
+        
+             vistaOficiales.generarJComboEstudiantes();
+    
+
         vistaOficiales.generarTablaSalidasEstudiantes();
 
         return panelEstSalidas;

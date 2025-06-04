@@ -3,7 +3,10 @@ package vista.oficiales;
 import controlador.Controlador;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.security.interfaces.RSAKey;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -34,7 +37,7 @@ public class VistaOficiales extends javax.swing.JFrame {
     PanelIngresoFuncionario panelIngresoFuncionario;
     PanelIngresoExterno panelIngresoExterno;
 
-    public VistaOficiales(Controlador controlador) {
+    public VistaOficiales(Controlador controlador) throws SQLException {
         this.controlador = controlador;
         initComponents();
         setLocationRelativeTo(null);
@@ -49,7 +52,7 @@ public class VistaOficiales extends javax.swing.JFrame {
         });
     }
 
-    private void initComponents() {
+    private void initComponents() throws SQLException {
         setTitle("Vista Oficiales");
         setSize(1366, 720);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -124,27 +127,22 @@ public class VistaOficiales extends javax.swing.JFrame {
         }
     }
 
-    public void generarJComboEstudiantes() {
-        comboEstudiantes.removeAllItems();
-
-        String sql= "SELECT * FROM estudiantes";
-        try {
-            
-            ResultSet rs=controlador.statement.executeQuery(sql);
-            while (rs.next()){
-                String nombre1=rs.getString("nombre1");
-                String nombre2=rs.getString("nombre2");
-                String apellido1=rs.getString("apellido1");
-                String apellido2=rs.getString("apellido2");
-
-                comboEstudiantes.addItem(nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2);
-
-            }
-        } catch (Exception e) {
+public void generarJComboEstudiantes()  {
+    comboEstudiantes.removeAllItems();
+    try {
+        ResultSet rs = controlador.statement.executeQuery("SELECT nombre1, nombre2, apellido1, apellido2 FROM estudiantes");
+        while (rs.next()) {
+            String nombreCompleto = rs.getString("nombre1") + " " +
+                                   rs.getString("nombre2") + " " +
+                                   rs.getString("apellido1") + " " +
+                                   rs.getString("apellido2");
+            comboEstudiantes.addItem(nombreCompleto.trim());
         }
-
-
+        rs.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+}
 
     
     public void generarTablaFuncionarios() {
