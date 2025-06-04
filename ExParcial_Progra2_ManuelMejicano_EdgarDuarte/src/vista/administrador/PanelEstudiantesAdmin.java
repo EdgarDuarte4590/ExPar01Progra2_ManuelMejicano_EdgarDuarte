@@ -1,6 +1,7 @@
 package vista.administrador;
 
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import com.toedter.calendar.JDateChooser;
+import java.awt.event.KeyEvent;
 
 import modelo.Estudiante;
 
@@ -257,6 +259,33 @@ btnEditar.addActionListener(e -> {
 });
 
 
+    JLabel labelBuscar=new JLabel("Buscar Estudiante:");
+    labelBuscar.setBounds(500, 50, 200, 30);
+    labelBuscar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+    panelEstudiantes.add(labelBuscar);
+
+
+        JTextField textFieldBuscar = new JTextField();
+        textFieldBuscar.setBounds(650, 50, 200, 30);
+        textFieldBuscar.setToolTipText("Buscar por nombre, apellido, identificación o carnet");
+       panelEstudiantes.add(textFieldBuscar);
+               textFieldBuscar.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String busqueda = textFieldBuscar.getText();
+                if (!busqueda.isEmpty()) {
+                    consultarEstudiante(busqueda);
+                } else {
+                    try {
+                        vistaAdministrador.generarTablaOficiales();
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
+
+
         // Creacion de tabla de estudiantes
         vistaAdministrador.tablaEstudiantes = new JTable();
         vistaAdministrador.tablaEstudiantes.setBounds(0, 0, 800, 400);
@@ -297,5 +326,37 @@ btnEliminar.addActionListener(e -> {
 
 
         return panelEstudiantes;
+    }
+
+    public void consultarEstudiante(String busqueda) {
+        try {
+            ResultSet rs = vistaAdministrador.controlador.statement.executeQuery(
+                "SELECT * FROM estudiantes WHERE nombre1 LIKE '%" + busqueda + "%' OR "
+                + "nombre2 LIKE '%" + busqueda + "%' OR "
+                + "apellido1 LIKE '%" + busqueda + "%' OR "
+                + "apellido2 LIKE '%" + busqueda + "%' OR "
+                + "cedula LIKE '%" + busqueda + "%' OR "
+                + "carnet LIKE '%" + busqueda + "%'"
+            );
+            vistaAdministrador.modeloTablaEstudiantes.setRowCount(0);
+            while (rs.next()) {
+                String nombreCompleto = rs.getString("nombre1") + " " +
+                                        rs.getString("nombre2") + " " +
+                                        rs.getString("apellido1") + " " +
+                                        rs.getString("apellido2");
+                String cedula = rs.getString("cedula");
+                LocalDate fechaNacimiento = rs.getDate("fechaNacimiento").toLocalDate();
+                int edad = LocalDate.now().getYear() - fechaNacimiento.getYear();
+                String nacionalidad = rs.getString("nacionalidad");
+                String carnet = rs.getString("carnet");
+                String direccion = rs.getString("direccion");
+
+                vistaAdministrador.modeloTablaEstudiantes.addRow(new Object[] {
+                    nombreCompleto, cedula, fechaNacimiento, edad, nacionalidad, carnet, direccion
+                });
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+}
     }
 }
