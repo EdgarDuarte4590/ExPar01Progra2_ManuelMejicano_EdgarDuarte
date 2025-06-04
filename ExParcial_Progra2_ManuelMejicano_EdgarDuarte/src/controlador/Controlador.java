@@ -2,6 +2,7 @@ package controlador;
 
 import java.io.InputStreamReader;
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -23,10 +24,8 @@ public class Controlador {
     // clases modelo
 
     // declaracion de los arraylist que guardaran los objetos de cada clase
-
     // se elimino el arraylist de Admins ya que funciona con la base de datos, y se
     // guardan los administradores en la base de datos
-
     // no se puede eliminar el arraylist de oficiales, ya que apesar de que se
     // guarda en la base de datos, se utiliza para mostrar los oficiales en la vista
     // de oficiales, cuando todo se conecte a la
@@ -49,9 +48,9 @@ public class Controlador {
     private String idOficialActual;// guarda el id del oficial que inicio sesion
     public MenuPrincipal menuPrincipal;// declaracion de la interface grafica del menu principal
     public DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss"); // formato en que se guardara y mostrara
-                                                                                // la hora
-    
-                                                                                public Controlador() throws ClassNotFoundException, SQLException {
+    // la hora
+
+    public Controlador() throws ClassNotFoundException, SQLException {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -115,7 +114,7 @@ public class Controlador {
 
     public String buscarGuardaPorUsuario(String nombreUsuario) {
         String sql = "SELECT * FROM usuarios WHERE nombreUsuario = '" + nombreUsuario + "' AND tipoUsuario = 'Guarda'";
-        String nombreGuarda=null;
+        String nombreGuarda = null;
         try {
             ResultSet rs = statement.executeQuery(sql);
             if (rs.next()) {
@@ -171,9 +170,9 @@ public class Controlador {
         this.menuPrincipal = menuPrincipal;
     }
 
-    public void agregarOficial(String nombre1,String nombre2,String apellido1,String apellido2, String nombreUsuario, String contrasena, String telefono,
+    public void agregarOficial(String nombre1, String nombre2, String apellido1, String apellido2, String nombreUsuario, String contrasena, String telefono,
             String cedula) {
-                String tipo = "Guarda";
+        String tipo = "Guarda";
         String sql = "INSERT INTO usuarios (nombre1, nombre2, apellido1, apellido2, nombreUsuario, contraseña, numeroTelefono, cedula, tipoUsuario) VALUES ('"
                 + nombre1 + "', '" + nombre2 + "', '" + apellido1 + "', '" + apellido2 + "', '" + nombreUsuario + "', '"
                 + contrasena + "', '" + telefono + "', '" + cedula + "','" + tipo + "')";
@@ -346,6 +345,42 @@ public class Controlador {
             JOptionPane.showMessageDialog(null, "Error al editar oficial: " + e.getMessage());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error inesperado al editar oficial: " + e.getMessage());
+        }
+    }
+
+    public void editarEstudiante(String nombre1, String nombre2, String apellido1, String apellido2, String id, LocalDate fechaNacimiento, String carnet, String nacionalidad, String direccion,String carnetModi){
+
+        java.sql.Date fechaNacimientoSQL = java.sql.Date.valueOf(fechaNacimiento);
+
+        String sql = "UPDATE estudiantes SET nombre1 = '" + nombre1 + "', nombre2 = '" + nombre2 + "', apellido1 = '" + apellido1 + "', apellido2 = '" + apellido2 + "', cedula = '"
+                + id + "', fechaNacimiento = '" + fechaNacimientoSQL + "', carnet = '" + carnet + "', nacionalidad = '" + nacionalidad + "', direccion = '" + direccion
+                + "' WHERE carnet = '" + carnetModi + "'";
+        try {
+            int i = statement.executeUpdate(sql);
+            if (i > 0) {
+                JOptionPane.showMessageDialog(null, "Estudiante editado correctamente.");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al editar estudiante: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado al editar estudiante: " + e.getMessage());
+        }
+
+    }
+
+    public void eliminarEstudiante(String carnet) {
+        String sql = "DELETE FROM estudiantes WHERE carnet = '" + carnet + "'";
+        try {
+            int i = statement.executeUpdate(sql);
+            if (i > 0) {
+                JOptionPane.showMessageDialog(null, "Estudiante eliminado correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró el estudiante con el carnet: " + carnet);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar estudiante: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado al eliminar estudiante: " + e.getMessage());
         }
     }
 
