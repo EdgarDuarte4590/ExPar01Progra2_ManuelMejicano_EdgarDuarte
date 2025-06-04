@@ -5,6 +5,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,6 +30,10 @@ public class PanelOficialesAdmin extends JPanel {
     /**
      * @return
      */
+
+     public void guardar_editar(){
+        
+     }
     public JPanel initComponents() {
         String[] nombreColumnas = { "Nombre", "ID", "Teléfono", "Nombre Usuario", "Contraseña" };
         vistaAdministrador.modeloTablaOficiales = new DefaultTableModel();
@@ -110,27 +116,56 @@ public class PanelOficialesAdmin extends JPanel {
         JLabel label6 = new JLabel("Contraseña:");
         label6.setBounds(40, 450, 500, 30);
         panelOficiales.add(label6);
+        
+        JButton btnEditar = new JButton("Editar Oficial");
+        JButton btnAgregar = new JButton("Guardar");
 
         JTextField textFieldContrasena = new JTextField();
         textFieldContrasena.setBounds(250, 450, 200, 30);
         textFieldContrasena.setToolTipText("Ejemplo: Pass@123");
         panelOficiales.add(textFieldContrasena);
         textFieldContrasena.addActionListener(e -> {
-            if (textFieldID.getText().isEmpty() || textFieldNombre1.getText().isEmpty()
-                    || textFieldNombre2.getText().isEmpty() || textFieldApellido1.getText().isEmpty()
+                 if (textFieldID.getText().isEmpty() || textFieldNombre1.getText().isEmpty() ||
+                    textFieldNombre2.getText().isEmpty() || textFieldApellido1.getText().isEmpty()
                     || textFieldApellido2.getText().isEmpty() || textFieldTelefono.getText().isEmpty()
                     || textFieldNombreUsuario.getText().isEmpty() || textFieldContrasena.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
                 return;
             }
-            try {
-                vistaAdministrador.agregarOficial(
-                        textFieldNombre1.getText(), textFieldNombre2.getText(),
-                        textFieldApellido1.getText(), textFieldApellido2.getText(),
-                        textFieldNombreUsuario.getText(), textFieldContrasena.getText(),
-                        textFieldTelefono.getText(), textFieldID.getText());
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Error al agregar oficial: " + ex.getMessage());
+
+            if (editando) {
+                int filaSeleccionada = vistaAdministrador.tablaOficiales.getSelectedRow();
+
+                if (filaSeleccionada != -1) {
+                    String userName = vistaAdministrador.tablaOficiales.getValueAt(filaSeleccionada, 3).toString();
+                    vistaAdministrador.controlador.editarOficial(
+                            textFieldNombre1.getText(), textFieldNombre2.getText(),
+                            textFieldApellido1.getText(), textFieldApellido2.getText(), textFieldTelefono.getText(),
+                            textFieldNombreUsuario.getText(), textFieldContrasena.getText(),
+                            textFieldID.getText(), userName);
+
+                    try {
+
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Error al editar oficial: " + ex.getMessage());
+                    }
+                    editando = false;
+                    btnAgregar.setText("Guardar");
+                    btnAgregar.setIcon(new ImageIcon("src/resources/icon_guardar.png"));
+                    btnEditar.setText("Editar Oficial");
+                    btnEditar.setEnabled(true);
+                    vistaAdministrador.tablaOficiales.setEnabled(true);
+                }
+            } else {
+                try {
+                    vistaAdministrador.agregarOficial(
+                            textFieldNombre1.getText(), textFieldNombre2.getText(),
+                            textFieldApellido1.getText(), textFieldApellido2.getText(),
+                            textFieldNombreUsuario.getText(), textFieldContrasena.getText(),
+                            textFieldTelefono.getText(), textFieldID.getText());
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Error al agregar oficial: " + ex.getMessage());
+                }
             }
             textFieldNombre1.setText("");
             textFieldNombre2.setText("");
@@ -140,10 +175,19 @@ public class PanelOficialesAdmin extends JPanel {
             textFieldTelefono.setText("");
             textFieldNombreUsuario.setText("");
             textFieldContrasena.setText("");
+            try {
+                vistaAdministrador.generarTablaOficiales();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        
         });
 
-        JButton btnAgregar = new JButton("Agregar Oficial");
-        btnAgregar.setBounds(300, 500, 150, 30); // Establecer la posición y el tamaño del botón
+      
+        btnAgregar.setBounds(300, 500, 150, 40);
+        btnAgregar.setToolTipText("Haga clic para agregar o editar un oficial");
+        btnAgregar.setIcon(new ImageIcon("src/resources/icon_guardar.png")); 
         btnAgregar.setBackground(new Color(0xFF054FBE));
         btnAgregar.setForeground(Color.WHITE); // Establecer el color del texto del botón
         btnAgregar.setBorderPainted(false); // Quitar el borde del botón
@@ -175,7 +219,10 @@ public class PanelOficialesAdmin extends JPanel {
                         JOptionPane.showMessageDialog(null, "Error al editar oficial: " + ex.getMessage());
                     }
                     editando = false;
-                    btnAgregar.setText("Agregar Oficial");
+                    btnAgregar.setText("Guardar");
+                    btnAgregar.setIcon(new ImageIcon("src/resources/icon_guardar.png"));
+                    btnEditar.setText("Editar Oficial");
+                    btnEditar.setEnabled(true);
                     vistaAdministrador.tablaOficiales.setEnabled(true);
                 }
             } else {
@@ -210,8 +257,9 @@ public class PanelOficialesAdmin extends JPanel {
         vistaAdministrador.tablaOficiales.setBounds(0, 0, 800, 400);
         panelOficiales.add(scrollPane);
 
-        JButton btnEditar = new JButton("Editar Oficial");
-        btnEditar.setBounds(900, 550, 150, 30);
+        btnEditar.setToolTipText("Haga clic para editar un oficial seleccionado");
+        btnEditar.setIcon(new ImageIcon("src/resources/icon_editar.png")); 
+        btnEditar.setBounds(900, 550, 150, 40);
         btnEditar.setBackground(new Color(0xFF054FBE));
         btnEditar.setForeground(Color.WHITE);
         btnEditar.setBorderPainted(false);
@@ -221,6 +269,7 @@ public class PanelOficialesAdmin extends JPanel {
             int filaSeleccionada = vistaAdministrador.tablaOficiales.getSelectedRow();
             if (filaSeleccionada != -1) {
                 editando = true;
+
                 String userName = vistaAdministrador.tablaOficiales.getValueAt(filaSeleccionada, 3).toString();
                 String SQL = "SELECT * FROM usuarios WHERE nombreUsuario = '" + userName + "'";
                 try {
@@ -234,8 +283,12 @@ public class PanelOficialesAdmin extends JPanel {
                         textFieldTelefono.setText(rs.getString("numeroTelefono"));
                         textFieldNombreUsuario.setText(rs.getString("nombreUsuario"));
                         textFieldContrasena.setText(rs.getString("contraseña"));
-                        btnAgregar.setText("Actualizar Oficial");
+                        btnAgregar.setText("Actualizar");
+                        btnEditar.setText("Editando...");
+                        btnEditar.setEnabled(false);
+                        btnAgregar.setIcon(new ImageIcon("src/resources/icon_editar.png"));
                         vistaAdministrador.tablaOficiales.setEnabled(false);
+
                     } else {
                         JOptionPane.showMessageDialog(null, "No se encontró el usuario.");
                     }
@@ -273,8 +326,11 @@ public class PanelOficialesAdmin extends JPanel {
             }
         });
 
-        JButton btnEliminar = new JButton("Eliminar Oficial");
-        btnEliminar.setBounds(1150, 550, 150, 30);
+        
+        JButton btnEliminar = new JButton("Eliminar ");
+        btnEliminar.setToolTipText("Haga clic para eliminar un oficial seleccionado");
+        btnEliminar.setIcon(new ImageIcon("src/resources/icon_eliminar.png"));
+        btnEliminar.setBounds(1100, 550,125, 40);
         btnEliminar.setBackground(new Color(0xFFE0133C));
         btnEliminar.setForeground(Color.WHITE);
         btnEliminar.setBorderPainted(false);
