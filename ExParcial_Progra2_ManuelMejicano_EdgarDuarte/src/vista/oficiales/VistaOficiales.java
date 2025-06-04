@@ -129,6 +129,7 @@ public class VistaOficiales extends javax.swing.JFrame {
 
         String sql= "SELECT * FROM estudiantes";
         try {
+            
             ResultSet rs=controlador.statement.executeQuery(sql);
             while (rs.next()){
                 String nombre1=rs.getString("nombre1");
