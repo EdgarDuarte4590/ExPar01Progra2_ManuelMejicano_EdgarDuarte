@@ -1,6 +1,9 @@
 package vista.oficiales;
 
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -42,9 +45,21 @@ public class PanelSalidaEstudiante extends JPanel {
         label7.setBounds(50, 100, 200, 30);
         panelEstSalidas.add(label7);
 
-        JTextField txtCarnet = new JTextField();
-        txtCarnet.setBounds(50, 130, 200, 30);
-        panelEstSalidas.add(txtCarnet);
+        JTextField txtBusqueda = new JTextField();
+        txtBusqueda.setBounds(50, 130, 200, 30);
+        panelEstSalidas.add(txtBusqueda);
+        txtBusqueda.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String busqueda = txtBusqueda.getText();
+                if (!busqueda.isEmpty()) {
+                    vistaOficiales.consultarEstudiantes(busqueda);
+                } else {
+                    vistaOficiales.generarJComboEstudiantes2();
+                    
+                }
+            }
+        });
 
 
         JButton btnBuscar = new JButton("Buscar");
@@ -58,7 +73,7 @@ public class PanelSalidaEstudiante extends JPanel {
         btnBuscar.setForeground(Color.WHITE);
         btnBuscar.addActionListener(e -> {
             
-            String carnet = txtCarnet.getText();
+            String carnet = txtBusqueda.getText();
             for (int i = 0; i < vistaOficiales.controlador.getEstudiantes().size(); i++) {
                 if (carnet.equals(vistaOficiales.controlador.getEstudiantes().get(i).getCarnet())) {
                     vistaOficiales.comboEstudiantes.setSelectedIndex(i);
@@ -76,16 +91,12 @@ public class PanelSalidaEstudiante extends JPanel {
         label2.setBounds(400, 100, 500, 30);
         panelEstSalidas.add(label2);
 
-        vistaOficiales.comboEstudiantes = new JComboBox<>();
+       
         vistaOficiales.comboEstudiantes.setBounds(400, 130, 280, 30);
         panelEstSalidas.add(vistaOficiales.comboEstudiantes);
 
         vistaOficiales.comboEstudiantes.addActionListener(e->{     
-            if (vistaOficiales.comboEstudiantes.getSelectedIndex() != -1) {
-                txtCarnet.setText(vistaOficiales.controlador.getEstudiantes().get(vistaOficiales.comboEstudiantes.getSelectedIndex()).getCarnet());
-            } else {
-                txtCarnet.setText("");
-            }
+         
         });
 
         JLabel label3 = new JLabel("Motivo de salida:");
@@ -120,7 +131,7 @@ public class PanelSalidaEstudiante extends JPanel {
             vistaOficiales.controlador.getSalidasEstudiantes().add(salida); */
             vistaOficiales.generarTablaSalidasEstudiantes();
             
-                vistaOficiales.generarJComboEstudiantes();
+                vistaOficiales.generarJComboEstudiantes2();
            
 
             // Limpiar los campos después de registrar
@@ -138,7 +149,7 @@ public class PanelSalidaEstudiante extends JPanel {
         vistaOficiales.tablaSalidasEstudiantes.setBounds(0, 0, 100, 500);
 
         
-             vistaOficiales.generarJComboEstudiantes();
+             vistaOficiales.generarJComboEstudiantes2();
     
 
         vistaOficiales.generarTablaSalidasEstudiantes();

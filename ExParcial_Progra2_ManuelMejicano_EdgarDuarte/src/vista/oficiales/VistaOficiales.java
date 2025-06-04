@@ -31,7 +31,6 @@ public class VistaOficiales extends javax.swing.JFrame {
     DefaultTableModel modeloTablaIngresoExterno;
     DefaultTableModel modeloTablaVehiculoExterno;
 
-
     PanelSalidaEstudiante panelSalidaEstudiante;
     PanelFuncionarios panelFuncionarios;
     PanelIngresoFuncionario panelIngresoFuncionario;
@@ -65,20 +64,14 @@ public class VistaOficiales extends javax.swing.JFrame {
         panelFuncionarios = new PanelFuncionarios(this);
         panelIngresoFuncionario = new PanelIngresoFuncionario(this);
         panelIngresoExterno = new PanelIngresoExterno(this);
-        
 
         tabbedPane.addTab("Salida de Estudiantes", panelSalidaEstudiante.initComponents());
         tabbedPane.addTab("Funcionarios", panelFuncionarios.initComponents());
         tabbedPane.addTab("Ingreso Funcionario", panelIngresoFuncionario.initComponents());
         tabbedPane.addTab("Ingreso Externo", panelIngresoExterno.initComponents());
 
-        
-
     }
 
-       
-    
-    
     private void mostrarDialogoCerrar() {
         // Opciones personalizadas
         String[] opciones = { "Cerrar sesión", "Salir", "Cancelar" };
@@ -90,13 +83,12 @@ public class VistaOficiales extends javax.swing.JFrame {
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 opciones,
-                opciones[0]
-        );
+                opciones[0]);
 
         switch (opcion) {
             case 0: // Cerrar sesión
                 controlador.setSesionInciadaOficial(false);
-                this.dispose(); 
+                this.dispose();
                 break;
             case 1: // Salir
                 this.dispose(); // Cerrar la aplicación
@@ -107,12 +99,11 @@ public class VistaOficiales extends javax.swing.JFrame {
         }
     }
 
-    JComboBox<String> comboEstudiantes;
+    public JComboBox<String> comboEstudiantes = new JComboBox<>();;
     JTable tablaSalidasEstudiantes = new JTable();
     DefaultTableModel modeloTablaSalidasEstudiantes = new DefaultTableModel(new String[] { "Nombre Estudiante", "ID",
             "Motivo de salida", "Fecha de salida", "Hora de salida", "Nombre de oficial" }, 0);
 
-   
     public void generarTablaSalidasEstudiantes() {
         modeloTablaSalidasEstudiantes.setRowCount(0);
         for (Salida salida : controlador.getSalidasEstudiantes()) {
@@ -127,14 +118,72 @@ public class VistaOficiales extends javax.swing.JFrame {
         }
     }
 
-public void generarJComboEstudiantes()  {
-    comboEstudiantes.removeAllItems();
-    for (int i = 0; i < controlador.getEstudiantes().size(); i++) {
-        comboEstudiantes.addItem(controlador.getEstudiantes().get(i).getNombre());
-    }
-}
+    public void generarJComboEstudiantes2() {
+        String SQL = "SELECT nombre1, nombre2, apellido1, apellido2 FROM estudiantes";
+        try {
+            ResultSet rs = controlador.statement.executeQuery(SQL);
+            comboEstudiantes.removeAllItems();
+            if (rs == null) {
+                JOptionPane.showMessageDialog(this, "No se encontraron estudiantes.",
+                        "Información", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            } else {
+                while (rs.next()) {
 
-    
+                    String nombre = rs.getString("nombre1") + " " + rs.getString("nombre2") + " " +
+                            rs.getString("apellido1") + " " + rs.getString("apellido2");
+
+                    comboEstudiantes.addItem(nombre);
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar estudiantes: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void generarJComboEstudiantes(ResultSet rs) {
+        comboEstudiantes.removeAllItems();
+        if (rs == null) {
+            JOptionPane.showMessageDialog(this, "No se encontraron estudiantes.",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        try {
+            while (rs.next()) {
+                String nombre = rs.getString("nombre1") + " " + rs.getString("nombre2") + " " +
+                        rs.getString("apellido1") + " " + rs.getString("apellido2");
+                comboEstudiantes.addItem(nombre);
+            }
+        } catch (SQLException e) {
+            System.out.println("HOLA");
+            e.printStackTrace();
+        }
+    }
+
+    public void consultarEstudiantes(String busqueda) {
+        if (busqueda == null || busqueda.isEmpty()) {
+            generarJComboEstudiantes2();
+            return;
+        }
+
+        try {
+            String query = "SELECT nombre1, nombre2, apellido1, apellido2 FROM estudiantes WHERE nombre1 LIKE '%"
+                    + busqueda + "%' OR nombre2 LIKE '%" + busqueda + "%' OR apellido1 LIKE '%" + busqueda
+                    + "%' OR apellido2 LIKE '%" + busqueda + "%' OR carnet LIKE '%" + busqueda + "%'";
+
+            ResultSet rs = controlador.statement.executeQuery(query);
+
+            generarJComboEstudiantes(rs);
+
+            rs.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al consultar estudiantes: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void generarTablaFuncionarios() {
         modeloTablaFuncionarios.setRowCount(0);
         for (Funcionario funcionario : controlador.getFuncionarios()) {
@@ -186,7 +235,6 @@ public void generarJComboEstudiantes()  {
 
     }
 
-   
     public void GenerarTablaIngresoExterno() {
 
         modeloTablaIngresoExterno.setRowCount(0);

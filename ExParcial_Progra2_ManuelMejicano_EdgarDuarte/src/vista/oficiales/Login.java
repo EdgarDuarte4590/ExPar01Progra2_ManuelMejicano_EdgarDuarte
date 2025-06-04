@@ -92,7 +92,7 @@ public class Login extends JFrame{
                     System.out.println("Sesión iniciada correctamente.");
                     this.dispose(); // Cerrar la ventana de inicio de sesión
                     
-                        controlador.menuPrincipal.vistaOficiales.generarJComboEstudiantes();
+                        controlador.menuPrincipal.vistaOficiales.generarJComboEstudiantes2();
                  
                     controlador.menuPrincipal.vistaOficiales.GenerarTablaIngresoFuncionarios();
                     controlador.menuPrincipal.vistaOficiales.setVisible(true);; // Abrir la vista de oficiales
