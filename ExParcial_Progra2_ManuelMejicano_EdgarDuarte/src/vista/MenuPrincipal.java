@@ -7,6 +7,7 @@ package vista;
 import controlador.Controlador;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -26,7 +27,6 @@ public class MenuPrincipal extends JFrame {
 
     public VistaAdmin vistaAdmin; // Composición
     public VistaOficiales vistaOficiales; // Composición
-
     public Controlador controlador; // Instancia del controlador
 
     public MenuPrincipal(Controlador controlador) {
@@ -51,17 +51,14 @@ public class MenuPrincipal extends JFrame {
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-
                 System.exit(0); // Cierra la aplicación
             }
         });
-
     }
 
     private void inicializarComponentes() {
         vistaAdmin = new VistaAdmin(this.controlador);
         vistaOficiales = new VistaOficiales(controlador);
-        // vistaEstudiante = new VistaEstudiante(controlador);
 
         JPanel panelFondo = new JPanel();
         panelFondo.setLayout(null);
@@ -69,68 +66,51 @@ public class MenuPrincipal extends JFrame {
         panelFondo.setBackground(new Color(0xFF054FBE));
         super.add(panelFondo);
 
-        JPanel panelPrincipal = new JPanel();
-        panelPrincipal.setLayout(null); // Establecer el diseño nulo para el panel principal
-        panelPrincipal.setBounds(383, 150, 600, 400); // Establecer el tamaño del panel principal
-        panelPrincipal.setBackground(Color.WHITE); // Color de fondo transparente
-        panelFondo.add(panelPrincipal); // Agregar el panel principal a la ventana
+        // Use the custom RoundedPanel instead of JPanel
+        RoundedPanel panelPrincipal = new RoundedPanel();
+        panelPrincipal.setLayout(null);
+        panelPrincipal.setBounds(383, 150, 600, 400);
+        panelPrincipal.setBackground(Color.WHITE);
+        panelFondo.add(panelPrincipal);
 
         JLabel label = new JLabel("Bienvenido al Sistema de Control de Ingresos y Salidas del CTP UPALA");
-        label.setBounds(25, 50, 550, 30); // Establecer la posición y el tamaño del JLabel
-        label.setFont(new Font("Arial", Font.BOLD, 15)); // Establecer la fuente del JLabel
-        panelPrincipal.add(label); // Agregar el JLabel al panel principal
+        label.setBounds(25, 50, 550, 30);
+        label.setFont(new Font("Arial", Font.BOLD, 15));
+        panelPrincipal.add(label);
 
-        // Cargar imagen como ícono
-        ImageIcon icono = new ImageIcon("src/resources/logoCTPU.png"); // Ruta de la imagen
+        ImageIcon icono = new ImageIcon("src/resources/logoCTPU.png");
         JLabel labelIcon = new JLabel(icono);
-
-        // Opcional: Escalar la imagen si es necesario
         Image imagenEscalada = icono.getImage().getScaledInstance(100, 130, Image.SCALE_SMOOTH);
         labelIcon.setIcon(new ImageIcon(imagenEscalada));
-        labelIcon.setBounds(205, 210, 200, 200); // Establecer la posición y el tamaño del JLabel
-        panelPrincipal.add(labelIcon); // Agregar el JLabel con la imagen al panel principal
+        labelIcon.setBounds(205, 210, 200, 200);
+        panelPrincipal.add(labelIcon);
 
         JLabel label2 = new JLabel("- Iniciar Sesión -");
-        label2.setBounds(260, 100, 500, 30); // Establecer la posición y el tamaño del JLabel
-        panelPrincipal.add(label2); // Agregar el JLabel al panel principal
-
-        JButton btnEstudiante = new JButton("Estudiante");
-        btnEstudiante.setBounds(230, 150, 150, 30); // Establecer la posición y el tamaño del botón
-        btnEstudiante.setFont(new Font("Arial", Font.BOLD, 12)); // Establecer la fuente del botón
-        // panelPrincipal.add(btnEstudiante);
-        btnEstudiante.addActionListener(e -> {
-
-            // vistaEstudiante.mostrar(); // Mostrar la vista del estudiante al hacer clic
-            // en el botón
-            // this.dispose(); // Cerrar la ventana actual
-        });
+        label2.setBounds(260, 100, 500, 30);
+        panelPrincipal.add(label2);
 
         JButton btnGuarda = new JButton("Oficial de Seguridad");
         btnGuarda.setIcon(new ImageIcon("src/resources/icon_oficial.png"));
-        btnGuarda.setBounds(205, 150, 200, 30); // Establecer la posición y el tamaño del botón
-        btnGuarda.setFont(new Font("Arial", Font.BOLD, 12)); // Establecer la fuente del botón
-        btnGuarda.setBackground(new Color(0xFF054FBE)); // Establecer el color de fondo del botón
+        btnGuarda.setBounds(205, 150, 200, 30);
+        btnGuarda.setFont(new Font("Arial", Font.BOLD, 12));
+        btnGuarda.setBackground(new Color(0xFF054FBE));
         btnGuarda.setForeground(Color.WHITE);
         panelPrincipal.add(btnGuarda);
         btnGuarda.addActionListener(e -> {
             if (!controlador.isSesionInciadaOficial()) {
-                Login login = new Login(controlador); // Crear una nueva instancia de Login
+                Login login = new Login(controlador);
                 login.setVisible(true);
                 login.setLocationRelativeTo(null);
-
             } else {
                 vistaOficiales.setVisible(true);
                 vistaOficiales.generarJComboEstudiantes();
             }
-            // vistaOficiales.mostrar(); // Mostrar la vista de los oficiales al hacer clic
-            // en el botón
-            // this.dispose(); // Cerrar la ventana actual
         });
 
         JButton btnAdmin = new JButton("Administrador");
         btnAdmin.setIcon(new ImageIcon("src/resources/icon_admin.png"));
-        btnAdmin.setBounds(205, 200, 200, 30); // Establecer la posición y el tamaño del botón
-        btnAdmin.setFont(new Font("Arial", Font.BOLD, 12)); // Establecer la fuente del botón
+        btnAdmin.setBounds(205, 200, 200, 30);
+        btnAdmin.setFont(new Font("Arial", Font.BOLD, 12));
         btnAdmin.setBackground(new Color(0xFF054FBE));
         btnAdmin.setForeground(Color.WHITE);
         panelPrincipal.add(btnAdmin);
@@ -145,12 +125,27 @@ public class MenuPrincipal extends JFrame {
                 try {
                     vistaAdmin.generarTablaOficiales();
                 } catch (SQLException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
         });
-
     }
 
+    
+    class RoundedPanel extends JPanel {
+        int cornerRadius = 25; 
+
+        public RoundedPanel() {
+            setOpaque(false); 
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.setColor(getBackground());
+            g.fillRoundRect(0, 0, getWidth(), getHeight(), cornerRadius, cornerRadius);
+        }
+
+    
+    }
 }
