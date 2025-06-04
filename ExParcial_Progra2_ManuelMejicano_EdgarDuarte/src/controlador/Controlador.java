@@ -50,11 +50,12 @@ public class Controlador {
     public MenuPrincipal menuPrincipal;// declaracion de la interface grafica del menu principal
     public DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss"); // formato en que se guardara y mostrara
                                                                                 // la hora
-    public Controlador() throws ClassNotFoundException, SQLException {
+    
+                                                                                public Controlador() throws ClassNotFoundException, SQLException {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://10.234.184.211:3306/proyecto1?verifyServerCertificate=false&useSSL=true", "edgar_manuel", "QWERTY12345@");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/proyecto1?verifyServerCertificate=false&useSSL=true", "edgar_manuel", "QWERTY12345@");
             connection.setAutoCommit(true);
             statement = connection.createStatement();
             JOptionPane.showMessageDialog(null, "Conexión exitosa a la base de datos.");
