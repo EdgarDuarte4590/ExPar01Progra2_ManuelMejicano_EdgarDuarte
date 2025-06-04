@@ -104,7 +104,7 @@ public class MenuPrincipal extends JFrame {
             } else {
                 vistaOficiales.setVisible(true);
                 
-                    vistaOficiales.generarJComboEstudiantes();
+                    vistaOficiales.generarJComboEstudiantes2();
              
             }
         });
