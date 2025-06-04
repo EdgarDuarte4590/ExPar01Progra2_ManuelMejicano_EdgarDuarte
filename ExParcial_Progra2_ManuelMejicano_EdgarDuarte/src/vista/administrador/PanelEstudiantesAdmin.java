@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -123,8 +124,10 @@ public class PanelEstudiantesAdmin extends JPanel {
         panelEstudiantes.add(jComboBoxDireccion);
         // boton para registrar al estudiante
 // Botón “Guardar estudiante” (antes “Agregar estudiante”)
-JButton btnAgregar = new JButton("Guardar estudiante");
-btnAgregar.setBounds(290, 550, 160, 30);
+JButton btnAgregar = new JButton("Guardar");
+btnAgregar.setToolTipText("Guardar o actualizar estudiante");
+btnAgregar.setIcon(new ImageIcon("src/resources/icon_guardar.png")); 
+btnAgregar.setBounds(290, 550, 160, 40);
 btnAgregar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
 btnAgregar.setBackground(new Color(0xFF054FBE));
 btnAgregar.setForeground(Color.WHITE);
@@ -168,7 +171,8 @@ btnAgregar.addActionListener(e -> {
 
             // Salimos de modo edición
             editando = false;
-            btnAgregar.setText("Guardar estudiante");
+            btnAgregar.setText("Guardar");
+            btnAgregar.setIcon(new ImageIcon("src/resources/icon_guardar.png")); 
             vistaAdministrador.tablaEstudiantes.setEnabled(true);
         }
     } else {
@@ -205,8 +209,10 @@ panelEstudiantes.add(btnAgregar);
 
 
 // Botón “Editar Estudiante”
-JButton btnEditar = new JButton("Editar Estudiante");
-btnEditar.setBounds(900, 550, 150, 30);
+JButton btnEditar = new JButton("Editar");
+btnEditar.setIcon(new ImageIcon("src/resources/icon_editar.png"));
+btnEditar.setToolTipText("Editar estudiante seleccionado");
+btnEditar.setBounds(900, 550, 125, 40);
 btnEditar.setBackground(new Color(0xFF054FBE));
 btnEditar.setForeground(Color.WHITE);
 btnEditar.setBorderPainted(false);
@@ -233,6 +239,7 @@ btnEditar.addActionListener(e -> {
                 String nacionalidad = rs.getString("nacionalidad");
                 String direccion = rs.getString("direccion");
 
+
                 // Rellenamos los campos de texto con los datos recuperados
                 textFieldNombre1.setText(nombre1);
                 textFieldNombre2.setText(nombre2);
@@ -243,9 +250,9 @@ btnEditar.addActionListener(e -> {
                 textFieldCarnet.setText(carnet);
                 jComboBoxEstudiante.setSelectedItem(nacionalidad);
                 jComboBoxDireccion.setSelectedItem(direccion);
-
                 // Cambiamos el texto del botón guardar y deshabilitamos la tabla
-                btnAgregar.setText("Actualizar Estudiante");
+                btnAgregar.setText("Actualizar");
+                btnAgregar.setIcon(new ImageIcon("src/resources/icon_editar.png")); 
                 vistaAdministrador.tablaEstudiantes.setEnabled(false);
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró el estudiante seleccionado.");
@@ -297,8 +304,10 @@ btnEditar.addActionListener(e -> {
                 "Dirección (Distrito)" });
         vistaAdministrador.tablaEstudiantes.setModel(vistaAdministrador.modeloTablaEstudiantes);
 
-        JButton btnEliminar = new JButton("Eliminar Estudiante");
-        btnEliminar.setBounds(1150, 550, 150, 30);
+        JButton btnEliminar = new JButton("Eliminar");
+        btnEliminar.setIcon(new ImageIcon("src/resources/icon_eliminar.png"));
+        btnEliminar.setToolTipText("Eliminar estudiante seleccionado");
+        btnEliminar.setBounds(1100, 550, 125, 40);
         btnEliminar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
         btnEliminar.setBackground(new Color(0xFFE0133C));
         btnEliminar.setForeground(Color.WHITE);

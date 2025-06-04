@@ -3,6 +3,8 @@ package vista.administrador;
 import controlador.Controlador;
 import java.awt.Color;
 import java.awt.Container;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -69,6 +71,7 @@ public class LoginAdmin extends JFrame {
         contrasena.setEchoChar('\u2022');
 
         JButton btnIniciar = new JButton("Iniciar Sesión");
+        btnIniciar.setIcon( new ImageIcon("src/resources/loginUser.png"));
         btnIniciar.setBounds(180, 275, 150, 30);
         btnIniciar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
         btnIniciar.setBackground(new Color(0xFF020123));
