@@ -256,6 +256,7 @@ public class PanelOficialesAdmin extends JPanel {
         JTextField textFieldBuscar = new JTextField();
         textFieldBuscar.setBounds(600, 50, 200, 30);
         panelOficiales.add(textFieldBuscar);
+        textFieldBuscar.setToolTipText("Ingrese el nombre, apellido o ID del oficial");
         textFieldBuscar.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
