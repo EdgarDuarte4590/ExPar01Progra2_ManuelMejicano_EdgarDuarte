@@ -129,19 +129,8 @@ public class VistaOficiales extends javax.swing.JFrame {
 
 public void generarJComboEstudiantes()  {
     comboEstudiantes.removeAllItems();
-    try {
-        
-        ResultSet rs = controlador.statement.executeQuery("SELECT nombre1, nombre2, apellido1, apellido2 FROM estudiantes");
-        while (rs.next()) {
-            String nombreCompleto = rs.getString("nombre1") + " " +
-                                   rs.getString("nombre2") + " " +
-                                   rs.getString("apellido1") + " " +
-                                   rs.getString("apellido2");
-            comboEstudiantes.addItem(nombreCompleto.trim());
-        }
-        rs.close();
-    } catch (SQLException e) {
-        e.printStackTrace();
+    for (int i = 0; i < controlador.getEstudiantes().size(); i++) {
+        comboEstudiantes.addItem(controlador.getEstudiantes().get(i).getNombre());
     }
 }
 
