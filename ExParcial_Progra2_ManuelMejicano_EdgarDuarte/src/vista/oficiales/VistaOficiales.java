@@ -1,16 +1,15 @@
 package vista.oficiales;
 
+import controlador.Controlador;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
+import java.sql.ResultSet;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
-import controlador.Controlador;
 import modelo.Funcionario;
 import modelo.IngresoExterno;
 import modelo.IngresoFuncionario;
@@ -127,9 +126,23 @@ public class VistaOficiales extends javax.swing.JFrame {
 
     public void generarJComboEstudiantes() {
         comboEstudiantes.removeAllItems();
-        for (int i = 0; i < controlador.getEstudiantes().size(); i++) {
-            comboEstudiantes.addItem(controlador.getEstudiantes().get(i).getNombre());
+
+        String sql= "SELECT * FROM estudiantes";
+        try {
+            ResultSet rs=controlador.statement.executeQuery(sql);
+            while (rs.next()){
+                String nombre1=rs.getString("nombre1");
+                String nombre2=rs.getString("nombre2");
+                String apellido1=rs.getString("apellido1");
+                String apellido2=rs.getString("apellido2");
+
+                comboEstudiantes.addItem(nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2);
+
+            }
+        } catch (Exception e) {
         }
+
+
     }
 
     
