@@ -48,17 +48,14 @@ public class Controlador {
     private String idOficialActual; // guarda el id del oficial que inicio sesion
     public MenuPrincipal menuPrincipal;// declaracion de la interface grafica del menu principal
     public DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss"); // formato en que se guardara y mostrara
-<<<<<<< HEAD
-=======
-    // la hora
->>>>>>> 92df955fa9ba782e5bc4c04cfe700a8b7891a9b2
+ 
 
     public Controlador() throws ClassNotFoundException, SQLException {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(
-                    "jdbc:mysql://10.153.157.16:3306/proyecto1?verifyServerCertificate=false&useSSL=true",
+                    "jdbc:mysql://10.153.156.243:3306/proyecto1?verifyServerCertificate=false&useSSL=true",
                     "edgar_manuel", "QWERTY12345@");
             connection.setAutoCommit(true);
             statement = connection.createStatement();
@@ -176,12 +173,7 @@ public class Controlador {
         this.menuPrincipal = menuPrincipal;
     }
 
-<<<<<<< HEAD
-    public void agregarOficial(String nombre1, String nombre2, String apellido1, String apellido2, String nombreUsuario,
-            String contrasena, String telefono,
-=======
     public void agregarOficial(String nombre1, String nombre2, String apellido1, String apellido2, String nombreUsuario, String contrasena, String telefono,
->>>>>>> 92df955fa9ba782e5bc4c04cfe700a8b7891a9b2
             String cedula) {
         String tipo = "Guarda";
         String sql = "INSERT INTO usuarios (nombre1, nombre2, apellido1, apellido2, nombreUsuario, contraseña, numeroTelefono, cedula, tipoUsuario) VALUES ('"

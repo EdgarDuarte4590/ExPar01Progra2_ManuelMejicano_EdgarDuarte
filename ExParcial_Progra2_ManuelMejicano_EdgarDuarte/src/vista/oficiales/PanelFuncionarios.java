@@ -135,7 +135,7 @@ public class PanelFuncionarios extends JPanel {
         btnRegistrar.setForeground(Color.WHITE);
         panelFuncionarios.add(btnRegistrar);
 
-        JButton btnEditar = new JButton("Editar Oficial");
+        JButton btnEditar = new JButton("Editar funcionario");
         btnEditar.setIcon(new ImageIcon("src/resources/icon_editar.png"));
         btnEditar.setToolTipText("Editar un funcionario existente, seleccione el funcionario a editar");
         btnEditar.setHorizontalTextPosition(JButton.LEFT);
