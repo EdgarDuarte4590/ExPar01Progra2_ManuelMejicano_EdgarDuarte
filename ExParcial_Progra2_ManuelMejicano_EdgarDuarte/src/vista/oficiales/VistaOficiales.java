@@ -130,6 +130,7 @@ public class VistaOficiales extends javax.swing.JFrame {
 public void generarJComboEstudiantes()  {
     comboEstudiantes.removeAllItems();
     try {
+        
         ResultSet rs = controlador.statement.executeQuery("SELECT nombre1, nombre2, apellido1, apellido2 FROM estudiantes");
         while (rs.next()) {
             String nombreCompleto = rs.getString("nombre1") + " " +
