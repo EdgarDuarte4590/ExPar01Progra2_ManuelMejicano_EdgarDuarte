@@ -40,7 +40,7 @@ public class Controlador {
     private ArrayList<VehiculoExterno> ingresosVehiculoExterno;
     private ArrayList<Salida> salidasEstudiantes;
     private boolean sesionInciadaOficial = false;
-    private boolean sesionIniciadaAdmin = true;
+    private boolean sesionIniciadaAdmin = false;
     // private String idAcceso = "1234", contraAdmin = "Douglas2025";
     public Connection connection = null;
     public Statement statement = null;
@@ -54,15 +54,12 @@ public class Controlador {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-
-            connection = DriverManager.getConnection("jdbc:mysql://10.153.157.91:3306/proyecto1?verifyServerCertificate=false&useSSL=true", "edgar_manuel", "QWERTY12345@");
+            connection = DriverManager.getConnection("jdbc:mysql://10.234.184.211:3306/proyecto1?verifyServerCertificate=false&useSSL=true", "edgar_manuel", "QWERTY12345@");
             connection.setAutoCommit(true);
             statement = connection.createStatement();
             JOptionPane.showMessageDialog(null, "Conexión exitosa a la base de datos.");
         } catch (SQLException e) {
         }
-        // inicializacion de los arraylist de cada clase
-        // administradores = new ArrayList<>();
 
         oficiales = new ArrayList<>();
         estudiantes = new ArrayList<>();
