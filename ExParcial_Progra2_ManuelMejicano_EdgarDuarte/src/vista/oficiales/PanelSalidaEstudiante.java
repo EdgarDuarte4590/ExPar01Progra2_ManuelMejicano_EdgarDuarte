@@ -3,6 +3,7 @@ package vista.oficiales;
 import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -10,6 +11,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import modelo.Estudiante;
 
 public class PanelSalidaEstudiante extends JPanel {
@@ -40,8 +43,13 @@ public class PanelSalidaEstudiante extends JPanel {
         txtCarnet.setBounds(50, 130, 200, 30);
         panelEstSalidas.add(txtCarnet);
 
+
         JButton btnBuscar = new JButton("Buscar");
-        btnBuscar.setBounds(260, 130, 100, 30);
+        btnBuscar.setIcon(new ImageIcon("src/resources/icon_busqueda_24.png"));
+        btnBuscar.setHorizontalTextPosition(SwingConstants.LEFT);
+        btnBuscar.setIconTextGap(15);
+        btnBuscar.setToolTipText("Buscar estudiante por número de carnet");
+        btnBuscar.setBounds(260, 130, 130, 30);
         btnBuscar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
         btnBuscar.setBackground(new java.awt.Color(0xFF054FBE));
         btnBuscar.setForeground(Color.WHITE);
@@ -90,6 +98,9 @@ public class PanelSalidaEstudiante extends JPanel {
         panelEstSalidas.add(comboBoxMotivo);
 
         JButton btnRegistrar = new JButton("Aprobar salida");
+        btnRegistrar.setIcon(new ImageIcon("src/resources/icon_check.png"));
+        
+       
         btnRegistrar.setBounds(1020, 130, 200, 30);
         btnRegistrar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
         btnRegistrar.setBackground(new java.awt.Color(0xFF2BA76B));
