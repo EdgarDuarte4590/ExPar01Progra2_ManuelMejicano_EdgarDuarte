@@ -22,11 +22,10 @@ import vista.administrador.VistaAdmin;
 import vista.oficiales.Login;
 import vista.oficiales.VistaOficiales;
 
-public class MenuPrincipal extends JFrame{
+public class MenuPrincipal extends JFrame {
 
-    public VistaAdmin vistaAdmin; //Composición 
-    public VistaOficiales vistaOficiales; //Composición
-    
+    public VistaAdmin vistaAdmin; // Composición
+    public VistaOficiales vistaOficiales; // Composición
 
     public Controlador controlador; // Instancia del controlador
 
@@ -35,8 +34,8 @@ public class MenuPrincipal extends JFrame{
         setTitle("Menu Principal");
         setSize(1366, 720);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); 
-        setLayout(null); 
+        setLocationRelativeTo(null);
+        setLayout(null);
 
         inicializarComponentes();
 
@@ -45,33 +44,34 @@ public class MenuPrincipal extends JFrame{
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-               try {
-                controlador.connection.isClosed();
-                System.exit(0);
-               } catch (SQLException e1) {
-                e1.printStackTrace();
-               }
+                try {
+                    if (controlador.connection != null && !controlador.connection.isClosed()) {
+                        controlador.connection.close(); // Cierra la conexión si está abierta
+                    }
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+
+                System.exit(0); // Cierra la aplicación
             }
         });
 
-       
     }
 
-    
     private void inicializarComponentes() {
         vistaAdmin = new VistaAdmin(this.controlador);
-        vistaOficiales = new VistaOficiales(controlador);  
-        //vistaEstudiante = new VistaEstudiante(controlador);
+        vistaOficiales = new VistaOficiales(controlador);
+        // vistaEstudiante = new VistaEstudiante(controlador);
 
         JPanel panelFondo = new JPanel();
-        panelFondo.setLayout(null); 
+        panelFondo.setLayout(null);
         panelFondo.setBounds(0, 0, 1366, 720);
-        panelFondo.setBackground(new Color(0xFF054FBE)); 
-        super.add(panelFondo); 
+        panelFondo.setBackground(new Color(0xFF054FBE));
+        super.add(panelFondo);
 
         JPanel panelPrincipal = new JPanel();
         panelPrincipal.setLayout(null); // Establecer el diseño nulo para el panel principal
-        panelPrincipal.setBounds(383,150 ,600, 400); // Establecer el tamaño del panel principal
+        panelPrincipal.setBounds(383, 150, 600, 400); // Establecer el tamaño del panel principal
         panelPrincipal.setBackground(Color.WHITE); // Color de fondo transparente
         panelFondo.add(panelPrincipal); // Agregar el panel principal a la ventana
 
@@ -97,11 +97,12 @@ public class MenuPrincipal extends JFrame{
         JButton btnEstudiante = new JButton("Estudiante");
         btnEstudiante.setBounds(230, 150, 150, 30); // Establecer la posición y el tamaño del botón
         btnEstudiante.setFont(new Font("Arial", Font.BOLD, 12)); // Establecer la fuente del botón
-        //panelPrincipal.add(btnEstudiante); 
+        // panelPrincipal.add(btnEstudiante);
         btnEstudiante.addActionListener(e -> {
 
-            //vistaEstudiante.mostrar(); // Mostrar la vista del estudiante al hacer clic en el botón
-            //this.dispose(); // Cerrar la ventana actual
+            // vistaEstudiante.mostrar(); // Mostrar la vista del estudiante al hacer clic
+            // en el botón
+            // this.dispose(); // Cerrar la ventana actual
         });
 
         JButton btnGuarda = new JButton("Oficial de Seguridad");
@@ -115,15 +116,15 @@ public class MenuPrincipal extends JFrame{
             if (!controlador.isSesionInciadaOficial()) {
                 Login login = new Login(controlador); // Crear una nueva instancia de Login
                 login.setVisible(true);
-                login.setLocationRelativeTo(null); 
-        
-               
-            } else{
+                login.setLocationRelativeTo(null);
+
+            } else {
                 vistaOficiales.setVisible(true);
                 vistaOficiales.generarJComboEstudiantes();
             }
-           // vistaOficiales.mostrar(); // Mostrar la vista de los oficiales al hacer clic en el botón
-            //this.dispose(); // Cerrar la ventana actual
+            // vistaOficiales.mostrar(); // Mostrar la vista de los oficiales al hacer clic
+            // en el botón
+            // this.dispose(); // Cerrar la ventana actual
         });
 
         JButton btnAdmin = new JButton("Administrador");
@@ -133,11 +134,11 @@ public class MenuPrincipal extends JFrame{
         btnAdmin.setBackground(new Color(0xFF054FBE));
         btnAdmin.setForeground(Color.WHITE);
         panelPrincipal.add(btnAdmin);
-        btnAdmin.addActionListener(e -> { 
+        btnAdmin.addActionListener(e -> {
             if (!controlador.isSesionIniciadaAdmin()) {
                 LoginAdmin login = new LoginAdmin(controlador);
                 login.setVisible(true);
-                login.setLocationRelativeTo(null);  
+                login.setLocationRelativeTo(null);
             } else {
                 vistaAdmin.setVisible(true);
                 vistaAdmin.generarTablaEstudiantes();
@@ -150,12 +151,6 @@ public class MenuPrincipal extends JFrame{
             }
         });
 
-
-
-        
     }
 
-    
-    
 }
-

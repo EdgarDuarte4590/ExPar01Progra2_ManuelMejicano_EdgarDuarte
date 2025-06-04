@@ -1,6 +1,8 @@
 package vista.administrador;
 
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JButton;
@@ -42,7 +44,6 @@ public class PanelOficialesAdmin extends JPanel {
         label.setBounds(40, 50, 500, 30); // Establecer la posición y el tamaño del JLabel
         label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14)); // Establecer la fuente del JLabel
         panelOficiales.add(label);
-
 
         JLabel label2 = new JLabel("Primer nombre:");
         label2.setBounds(40, 100, 500, 30);
@@ -116,8 +117,8 @@ public class PanelOficialesAdmin extends JPanel {
             }
             try {
                 vistaAdministrador.agregarOficial(
-                        textFieldNombre1.getText(),textFieldNombre2.getText() ,
-                                 textFieldApellido1.getText() , textFieldApellido2.getText(),
+                        textFieldNombre1.getText(), textFieldNombre2.getText(),
+                        textFieldApellido1.getText(), textFieldApellido2.getText(),
                         textFieldNombreUsuario.getText(), textFieldContrasena.getText(),
                         textFieldTelefono.getText(), textFieldID.getText());
             } catch (Exception ex) {
@@ -151,18 +152,17 @@ public class PanelOficialesAdmin extends JPanel {
 
             if (editando) {
                 int filaSeleccionada = vistaAdministrador.tablaOficiales.getSelectedRow();
-                
 
                 if (filaSeleccionada != -1) {
                     String userName = vistaAdministrador.tablaOficiales.getValueAt(filaSeleccionada, 3).toString();
                     vistaAdministrador.controlador.editarOficial(
                             textFieldNombre1.getText(), textFieldNombre2.getText(),
-                            textFieldApellido1.getText(), textFieldApellido2.getText(),textFieldTelefono.getText(),
+                            textFieldApellido1.getText(), textFieldApellido2.getText(), textFieldTelefono.getText(),
                             textFieldNombreUsuario.getText(), textFieldContrasena.getText(),
-                             textFieldID.getText(), userName);
+                            textFieldID.getText(), userName);
 
                     try {
-                 
+
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, "Error al editar oficial: " + ex.getMessage());
                     }
@@ -240,6 +240,30 @@ public class PanelOficialesAdmin extends JPanel {
             }
         });
 
+        JLabel labelBuscar = new JLabel("Buscar Oficial:");
+        labelBuscar.setBounds(500, 50, 500, 30);
+        labelBuscar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+        panelOficiales.add(labelBuscar);
+
+        JTextField textFieldBuscar = new JTextField();
+        textFieldBuscar.setBounds(600, 50, 200, 30);
+        panelOficiales.add(textFieldBuscar);
+        textFieldBuscar.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String busqueda = textFieldBuscar.getText();
+                if (!busqueda.isEmpty()) {
+                    consultarOficial(busqueda);
+                } else {
+                    try {
+                        vistaAdministrador.generarTablaOficiales();
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
+
         JButton btnEliminar = new JButton("Eliminar Oficial");
         btnEliminar.setBounds(1150, 550, 150, 30);
         btnEliminar.setBackground(new Color(0xFFE0133C));
@@ -264,5 +288,46 @@ public class PanelOficialesAdmin extends JPanel {
             }
         });
         return panelOficiales;
+    }
+
+    public void consultarOficial(String busqueda) {
+        String SQL = "SELECT * FROM usuarios WHERE tipoUsuario='Guarda' AND (nombre1 LIKE '%" + busqueda
+                + "%' OR nombre2 LIKE '%" + busqueda + "%' OR apellido1 LIKE '%" + busqueda + "%' OR apellido2 LIKE '%"
+                + busqueda + "%' OR cedula LIKE '%" + busqueda + "%')";
+        try {
+            ResultSet rs = vistaAdministrador.controlador.statement.executeQuery(SQL);
+            actualizarTablaOficiales(rs);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al consultar oficiales: " + e.getMessage());
+        }
+    }
+
+    public void actualizarTablaOficiales(ResultSet rs) {
+        vistaAdministrador.modeloTablaOficiales.setRowCount(0);
+        try {
+            while (rs.next()) {
+                String nc = null;
+                String nombre1 = rs.getString("nombre1");
+                String nombre2 = rs.getString("nombre2");
+                String apellido1 = rs.getString("apellido1");
+                String apellido2 = rs.getString("apellido2");
+                String telefono = rs.getString("numeroTelefono");
+                String nombreUsuario = rs.getString("nombreUsuario");
+                String contrasena = rs.getString("contraseña");
+                String id = rs.getString("cedula");
+
+                if (nombre2 != null && !nombre2.isEmpty()) {
+                    nc = nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2;
+                } else {
+                    nc = nombre1 + " " + apellido1 + " " + apellido2;
+                }
+                vistaAdministrador.modeloTablaOficiales.addRow(new Object[] {
+                        nc, id, telefono, nombreUsuario, contrasena
+                });
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }
