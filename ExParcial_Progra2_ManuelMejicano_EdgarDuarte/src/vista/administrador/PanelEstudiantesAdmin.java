@@ -21,6 +21,7 @@ import modelo.Estudiante;
 // panel que se le muestra al administrador para registrar estudiantes
 public class PanelEstudiantesAdmin extends JPanel {
     VistaAdmin vistaAdministrador;
+    boolean editando=false;
 
     public PanelEstudiantesAdmin(VistaAdmin vistaAdministrador) {
         this.vistaAdministrador = vistaAdministrador;
@@ -119,100 +120,142 @@ public class PanelEstudiantesAdmin extends JPanel {
         jComboBoxDireccion.setBounds(250, 500, 200, 30);
         panelEstudiantes.add(jComboBoxDireccion);
         // boton para registrar al estudiante
-        JButton btnAgregar = new JButton("Guardar estudiante");
-        btnAgregar.setBounds(300, 550, 150, 30);
-        btnAgregar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
-        btnAgregar.setBackground(new Color(0xFF054FBE));
-        btnAgregar.setForeground(Color.WHITE);
-        btnAgregar.setBorderPainted(false);
-        btnAgregar.addActionListener(e -> {
-            // Lógica para agregar el estudiante
-            if (textFieldID == null || textFieldID.getText().isEmpty() ||
-                    jDateChooser.getDate() == null || textFieldCarnet.getText().isEmpty() ||
-                    textFieldNombre1.getText().isEmpty() || textFieldApellido1.getText().isEmpty() ||
-                    textFieldApellido2.getText().isEmpty()) {
+// Botón “Guardar estudiante” (antes “Agregar estudiante”)
+JButton btnAgregar = new JButton("Guardar estudiante");
+btnAgregar.setBounds(290, 550, 160, 30);
+btnAgregar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+btnAgregar.setBackground(new Color(0xFF054FBE));
+btnAgregar.setForeground(Color.WHITE);
+btnAgregar.setBorderPainted(false);
+btnAgregar.addActionListener(e -> {
+    // Validación de campos obligatorios
+    if (textFieldID == null || textFieldID.getText().isEmpty() ||
+        jDateChooser.getDate() == null || textFieldCarnet.getText().isEmpty() ||
+        textFieldNombre1.getText().isEmpty() || textFieldApellido1.getText().isEmpty() ||
+        textFieldApellido2.getText().isEmpty()) {
 
-                JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
-                return;
+        JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
+        return;
+    }
+
+    // Convertir la fecha seleccionada a LocalDate
+    LocalDate fechaN = jDateChooser.getDate()
+        .toInstant()
+        .atZone(java.time.ZoneId.systemDefault())
+        .toLocalDate();
+
+    if (editando) {
+        // Si estamos en modo edición, obtenemos la fila seleccionada
+        int filaSeleccionada = vistaAdministrador.tablaEstudiantes.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            // Tomamos el carnet antiguo de esa fila para identificar el registro en la BD
+            String carnetViejo = (String) vistaAdministrador.tablaEstudiantes.getValueAt(filaSeleccionada, 5);
+
+            // Llamada al método de edición en el controlador
+            vistaAdministrador.controlador.editarEstudiante(textFieldNombre1.getText(),
+                textFieldNombre2.getText(),
+                textFieldApellido1.getText(),
+                textFieldApellido2.getText(),
+                textFieldID.getText(),
+                fechaN,
+                textFieldCarnet.getText(),
+                jComboBoxEstudiante.getSelectedItem().toString(),
+                jComboBoxDireccion.getSelectedItem().toString(),
+                carnetViejo
+            );
+
+            // Salimos de modo edición
+            editando = false;
+            btnAgregar.setText("Guardar estudiante");
+            vistaAdministrador.tablaEstudiantes.setEnabled(true);
+        }
+    } else {
+        // Modo “agregar nuevo estudiante”
+        vistaAdministrador.agregarEstudiante(
+            textFieldNombre1.getText(),
+            textFieldNombre2.getText(),
+            textFieldApellido1.getText(),
+            textFieldApellido2.getText(),
+            textFieldID.getText(),
+            fechaN,
+            textFieldCarnet.getText(),
+            jComboBoxEstudiante.getSelectedItem().toString(),
+            jComboBoxDireccion.getSelectedItem().toString()
+        );
+    }
+
+    // Limpiar todos los campos
+    textFieldNombre1.setText("");
+    textFieldNombre2.setText("");
+    textFieldApellido1.setText("");
+    textFieldApellido2.setText("");
+    textFieldCarnet.setText("");
+    textFieldID.setText("");
+    jDateChooser.setDate(null);
+    jComboBoxEstudiante.setSelectedIndex(-1);
+    jComboBoxDireccion.setSelectedIndex(-1);
+
+    // Refrescar la tabla
+    vistaAdministrador.generarTablaEstudiantes();
+});
+
+panelEstudiantes.add(btnAgregar);
+
+
+// Botón “Editar Estudiante”
+JButton btnEditar = new JButton("Editar Estudiante");
+btnEditar.setBounds(900, 550, 150, 30);
+btnEditar.setBackground(new Color(0xFF054FBE));
+btnEditar.setForeground(Color.WHITE);
+btnEditar.setBorderPainted(false);
+btnEditar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+panelEstudiantes.add(btnEditar);
+
+btnEditar.addActionListener(e -> {
+    int filaSeleccionada = vistaAdministrador.tablaEstudiantes.getSelectedRow();
+    if (filaSeleccionada != -1) {
+        editando = true;
+
+        // Obtenemos el carnet del estudiante seleccionado en la tabla
+        String carnet = (String) vistaAdministrador.tablaEstudiantes.getValueAt(filaSeleccionada, 5);
+
+        try (ResultSet rs = vistaAdministrador.controlador.statement.executeQuery(
+                "SELECT * FROM estudiantes WHERE carnet = '" + carnet + "'")) {
+            if (rs.next()) {
+                String nombre1 = rs.getString("nombre1");
+                String nombre2 = rs.getString("nombre2");
+                String apellido1 = rs.getString("apellido1");
+                String apellido2 = rs.getString("apellido2");
+                String cedula = rs.getString("cedula");
+                LocalDate fechaNacimiento = rs.getDate("fechaNacimiento").toLocalDate();
+                String nacionalidad = rs.getString("nacionalidad");
+                String direccion = rs.getString("direccion");
+
+                // Rellenamos los campos de texto con los datos recuperados
+                textFieldNombre1.setText(nombre1);
+                textFieldNombre2.setText(nombre2);
+                textFieldApellido1.setText(apellido1);
+                textFieldApellido2.setText(apellido2);
+                textFieldID.setText(cedula);
+                jDateChooser.setDate(java.sql.Date.valueOf(fechaNacimiento));
+                textFieldCarnet.setText(carnet);
+                jComboBoxEstudiante.setSelectedItem(nacionalidad);
+                jComboBoxDireccion.setSelectedItem(direccion);
+
+                // Cambiamos el texto del botón guardar y deshabilitamos la tabla
+                btnAgregar.setText("Actualizar Estudiante");
+                vistaAdministrador.tablaEstudiantes.setEnabled(false);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró el estudiante seleccionado.");
             }
-            LocalDate fechaN = jDateChooser.getDate().toInstant().atZone(java.time.ZoneId.systemDefault())
-                    .toLocalDate();
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+    } else {
+        JOptionPane.showMessageDialog(null, "Seleccione una fila para editar.");
+    }
+});
 
-            // agregar al arraylist de estudiantes de la clase controlador
-
-            vistaAdministrador.agregarEstudiante(textFieldNombre1.getText(),
-                    textFieldNombre2.getText(), textFieldApellido1.getText(), textFieldApellido2.getText(),
-                    textFieldID.getText(), fechaN, textFieldCarnet.getText(),
-                    jComboBoxEstudiante.getSelectedItem().toString(),
-                    jComboBoxDireccion.getSelectedItem().toString());
-
-            vistaAdministrador.controlador.getEstudiantes().add(new Estudiante(
-                    textFieldNombre1.getText() + " " + textFieldNombre2.getText() + " " + textFieldApellido1.getText()
-                            + " " + textFieldApellido2.getText(),
-                    Integer.parseInt(textFieldID.getText()),
-                    textFieldCarnet.getText(),
-                    jComboBoxDireccion.getSelectedItem().toString(),
-                    fechaN,
-                    jComboBoxEstudiante.getSelectedItem().toString()));
-
-            vistaAdministrador.generarTablaEstudiantes();
-            textFieldNombre1.setText(""); // Limpiar el campo de texto
-            textFieldNombre2.setText("");
-            textFieldApellido1.setText("");
-            textFieldApellido2.setText("");
-            textFieldCarnet.setText("");
-            textFieldID.setText("");
-            jDateChooser.setDate(null);
-            jComboBoxEstudiante.setSelectedIndex(-1);
-
-        });
-
-        panelEstudiantes.add(btnAgregar);
-
-        JButton btnEditar = new JButton("Editar Estudiante");
-        btnEditar.setBounds(900, 550, 150, 30);
-        btnEditar.setBackground(new Color(0xFF054FBE));
-        btnEditar.setForeground(Color.WHITE);
-        btnEditar.setBorderPainted(false);
-        btnEditar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
-        panelEstudiantes.add(btnEditar);
-        btnEditar.addActionListener(e -> {
-            int filaSeleccionada = vistaAdministrador.tablaEstudiantes.getSelectedRow();
-            if (filaSeleccionada != -1) {
-                String carnet = (String) vistaAdministrador.tablaEstudiantes.getValueAt(filaSeleccionada, 5);
-                try (ResultSet rs = vistaAdministrador.controlador.statement.executeQuery("SELECT * FROM estudiantes WHERE carnet = '" + carnet + "'")) {
-                    if (rs.next()) {
-                        String nombre1 = rs.getString("nombre1");
-                        String nombre2 = rs.getString("nombre2");
-                        String apellido1 = rs.getString("apellido1");
-                        String apellido2 = rs.getString("apellido2");
-                        String cedula = rs.getString("cedula");
-                        LocalDate fechaNacimiento = rs.getDate("fechaNacimiento").toLocalDate();
-                        String nacionalidad = rs.getString("nacionalidad");
-                        String direccion = rs.getString("direccion");
-
-                        // Actualizar los campos de texto con los datos del estudiante seleccionado
-                        textFieldNombre1.setText(nombre1);
-                        textFieldNombre2.setText(nombre2);
-                        textFieldApellido1.setText(apellido1);
-                        textFieldApellido2.setText(apellido2);
-                        textFieldID.setText(cedula);
-                        jDateChooser.setDate(java.sql.Date.valueOf(fechaNacimiento));
-                        textFieldCarnet.setText(carnet);
-                        jComboBoxEstudiante.setSelectedItem(nacionalidad);
-                        jComboBoxDireccion.setSelectedItem(direccion);
-
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No se encontró el estudiante seleccionado.");
-                    }
-                } catch (SQLException e1) {
-                    
-                    e1.printStackTrace();
-                }
-            }
-
-
-        });
 
         // Creacion de tabla de estudiantes
         vistaAdministrador.tablaEstudiantes = new JTable();
@@ -232,17 +275,26 @@ public class PanelEstudiantesAdmin extends JPanel {
         btnEliminar.setForeground(Color.WHITE);
         btnEliminar.setBorderPainted(false);
         panelEstudiantes.add(btnEliminar);
-        btnEliminar.addActionListener(e -> {
-            int filaSeleccionada = vistaAdministrador.tablaEstudiantes.getSelectedRow();
-            if (filaSeleccionada != -1) {
-                vistaAdministrador.controlador.getEstudiantes().remove(filaSeleccionada);
-                vistaAdministrador.modeloTablaEstudiantes.removeRow(filaSeleccionada);
-                JOptionPane.showMessageDialog(null, "Estudiante eliminado correctamente.");
-                vistaAdministrador.generarTablaEstudiantes();
-            } else {
-                JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna fila para eliminar");
-            }
-        });
+btnEliminar.addActionListener(e -> {
+    int filaSeleccionada = vistaAdministrador.tablaEstudiantes.getSelectedRow();
+    if (filaSeleccionada != -1) {
+        String carnet = (String) vistaAdministrador.tablaEstudiantes.getValueAt(filaSeleccionada, 5);
+        int confirmacion = JOptionPane.showConfirmDialog(
+            null,
+            "¿Estás seguro de que deseas eliminar al estudiante con carnet " + carnet + "?",
+            "Confirmar Eliminación",
+            JOptionPane.YES_NO_OPTION
+        );
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            vistaAdministrador.controlador.eliminarEstudiante(carnet);
+        }
+    } else {
+        JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna fila para eliminar");
+        System.out.println("fila seleccionada: " + filaSeleccionada);
+    }
+    vistaAdministrador.generarTablaEstudiantes();
+});
+
 
         return panelEstudiantes;
     }

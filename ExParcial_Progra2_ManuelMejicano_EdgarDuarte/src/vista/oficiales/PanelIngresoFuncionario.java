@@ -12,7 +12,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modelo.Funcionario;
-import modelo.Guarda;
 import modelo.IngresoFuncionario;
 
 public class PanelIngresoFuncionario extends JPanel{
@@ -102,8 +101,8 @@ public class PanelIngresoFuncionario extends JPanel{
             Funcionario funcionario =  vistaOficiales.controlador.getFuncionarios().get(vistaOficiales.comboBoxNombres.getSelectedIndex());
             String motivo = "Trabaja de: " + funcionario.getPuesto();
             LocalTime hora = LocalTime.now();
-            Guarda guarda =  vistaOficiales.controlador.buscarGuardaPorID( vistaOficiales.controlador.getIdOficialActual());
-            String nombreGuarda = guarda.getNombre();
+            
+            String nombreGuarda = vistaOficiales.controlador.buscarGuardaPorUsuario( vistaOficiales.controlador.getIdOficialActual());
 
             LocalDate fecha = LocalDate.now();
 

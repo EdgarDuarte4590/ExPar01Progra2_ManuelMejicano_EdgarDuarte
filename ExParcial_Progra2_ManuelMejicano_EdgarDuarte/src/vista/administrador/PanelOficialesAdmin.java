@@ -51,6 +51,7 @@ public class PanelOficialesAdmin extends JPanel {
 
         JTextField textFieldNombre1 = new JTextField();
         textFieldNombre1.setBounds(250, 100, 200, 30); // Establecer la posición y el tamaño del JTextField
+        textFieldNombre1.setToolTipText("Ejemplo: Juan");
         panelOficiales.add(textFieldNombre1); // Agregar el JTextField al panel de oficiales
 
         JLabel label7 = new JLabel("Segundo nombre:");
@@ -59,6 +60,7 @@ public class PanelOficialesAdmin extends JPanel {
 
         JTextField textFieldNombre2 = new JTextField();
         textFieldNombre2.setBounds(250, 150, 200, 30);
+        textFieldNombre2.setToolTipText("Ejemplo: Carlos");
         panelOficiales.add(textFieldNombre2);
 
         JLabel label8 = new JLabel("Primer apellido:");
@@ -67,6 +69,7 @@ public class PanelOficialesAdmin extends JPanel {
 
         JTextField textFieldApellido1 = new JTextField();
         textFieldApellido1.setBounds(250, 200, 200, 30);
+        textFieldApellido1.setToolTipText("Ejemplo: Pérez");
         panelOficiales.add(textFieldApellido1);
 
         JLabel label9 = new JLabel("Segundo apellido:");
@@ -75,6 +78,7 @@ public class PanelOficialesAdmin extends JPanel {
 
         JTextField textFieldApellido2 = new JTextField();
         textFieldApellido2.setBounds(250, 250, 200, 30);
+        textFieldApellido2.setToolTipText("Ejemplo: García");
         panelOficiales.add(textFieldApellido2);
 
         JLabel label3 = new JLabel("Número de identificación:");
@@ -83,10 +87,12 @@ public class PanelOficialesAdmin extends JPanel {
 
         JTextField textFieldID = new JTextField();
         textFieldID.setBounds(250, 300, 200, 30);
+        textFieldID.setToolTipText("Ejemplo: 12345678");
         panelOficiales.add(textFieldID);
 
         JTextField textFieldTelefono = new JTextField();
         textFieldTelefono.setBounds(250, 350, 200, 30);
+        textFieldTelefono.setToolTipText("Ejemplo: 87654321");
         panelOficiales.add(textFieldTelefono);
 
         JLabel label4 = new JLabel("Número de teléfono:");
@@ -98,6 +104,7 @@ public class PanelOficialesAdmin extends JPanel {
 
         JTextField textFieldNombreUsuario = new JTextField();
         textFieldNombreUsuario.setBounds(250, 400, 200, 30);
+        textFieldNombreUsuario.setToolTipText("Ejemplo: juan.perez");
         panelOficiales.add(textFieldNombreUsuario);
 
         JLabel label6 = new JLabel("Contraseña:");
@@ -106,6 +113,7 @@ public class PanelOficialesAdmin extends JPanel {
 
         JTextField textFieldContrasena = new JTextField();
         textFieldContrasena.setBounds(250, 450, 200, 30);
+        textFieldContrasena.setToolTipText("Ejemplo: Pass@123");
         panelOficiales.add(textFieldContrasena);
         textFieldContrasena.addActionListener(e -> {
             if (textFieldID.getText().isEmpty() || textFieldNombre1.getText().isEmpty()
@@ -274,8 +282,14 @@ public class PanelOficialesAdmin extends JPanel {
         btnEliminar.addActionListener(e -> {
             int filaSeleccionada = vistaAdministrador.tablaOficiales.getSelectedRow(); // Obtener la fila seleccionada
             if (filaSeleccionada != -1) { // Verificar si hay una fila seleccionada
-                vistaAdministrador.controlador.eliminarOficial(filaSeleccionada);
-                System.out.println("fila seleccionada: " + filaSeleccionada);
+                String userName = vistaAdministrador.tablaOficiales.getValueAt(filaSeleccionada, 3).toString();
+                int confirmacion = JOptionPane.showConfirmDialog(null,
+                        "¿Estás seguro de que deseas eliminar al oficial " + userName + "?",
+                        "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    vistaAdministrador.controlador.eliminarOficial(userName);
+                    
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna fila para eliminar");
                 System.out.println("fila seleccionada: " + filaSeleccionada);

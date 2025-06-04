@@ -3,22 +3,25 @@ package vista.oficiales;
 import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalTime;
+<<<<<<< HEAD
 
 import javax.swing.ImageIcon;
+=======
+>>>>>>> 92df955fa9ba782e5bc4c04cfe700a8b7891a9b2
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
+<<<<<<< HEAD
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+=======
+>>>>>>> 92df955fa9ba782e5bc4c04cfe700a8b7891a9b2
 import modelo.Estudiante;
-import modelo.Guarda;
-import modelo.Salida;
 
 public class PanelSalidaEstudiante extends JPanel {
     VistaOficiales vistaOficiales;
@@ -116,10 +119,10 @@ public class PanelSalidaEstudiante extends JPanel {
             String motivoSalida = (String) comboBoxMotivo.getSelectedItem();
             LocalTime horaSalida = LocalTime.now();
             LocalDate fechaSalida = LocalDate.now();
-            Guarda guarda = vistaOficiales.controlador.buscarGuardaPorID(vistaOficiales.controlador.getIdOficialActual());
+            String nombreGuarda = vistaOficiales.controlador.buscarGuardaPorUsuario(vistaOficiales.controlador.getIdOficialActual());
 
-            Salida salida = new Salida(fechaSalida, horaSalida, motivoSalida, estudiante, guarda);
-            vistaOficiales.controlador.getSalidasEstudiantes().add(salida);
+         /*    Salida salida = new Salida(fechaSalida, horaSalida, motivoSalida, estudiante, guarda);
+            vistaOficiales.controlador.getSalidasEstudiantes().add(salida); */
             vistaOficiales.generarTablaSalidasEstudiantes();
             vistaOficiales.generarJComboEstudiantes();
 
