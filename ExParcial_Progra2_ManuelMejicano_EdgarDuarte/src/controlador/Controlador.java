@@ -49,6 +49,7 @@ public class Controlador {
     private String idOficialActual; // guarda el id del oficial que inicio sesion
     public MenuPrincipal menuPrincipal;// declaracion de la interface grafica del menu principal
     public DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss"); // formato en que se guardara y mostrara
+<<<<<<< HEAD
 
     public Controlador() throws ClassNotFoundException, SQLException {
 
@@ -57,6 +58,15 @@ public class Controlador {
             connection = DriverManager.getConnection(
                     "jdbc:mysql://10.153.157.16:3306/proyecto1?verifyServerCertificate=false&useSSL=true",
                     "edgar_manuel", "QWERTY12345@");
+=======
+                                                                                // la hora
+    
+                                                                                public Controlador() throws ClassNotFoundException, SQLException {
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/proyecto1?verifyServerCertificate=false&useSSL=true", "edgar_manuel", "QWERTY12345@");
+>>>>>>> 570e9c0cf46ed7bc815f25afefeff1861db7946c
             connection.setAutoCommit(true);
             statement = connection.createStatement();
             JOptionPane.showMessageDialog(null, "Conexión exitosa a la base de datos.");
