@@ -14,7 +14,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import modelo.Guarda;
 import modelo.IngresoExterno;
 import modelo.Vehiculo;
 import modelo.VehiculoExterno;
@@ -106,8 +105,8 @@ public class PanelIngresoExterno extends JPanel {
 
                 LocalTime hora = LocalTime.now();
                 LocalDate fecha = LocalDate.now();
-                Guarda guarda = vistaOficiales.controlador.buscarGuardaPorID(vistaOficiales.controlador.getIdOficialActual());
-                String nombreGuarda = guarda.getNombre();
+               
+                String nombreGuarda = vistaOficiales.controlador.buscarGuardaPorUsuario(vistaOficiales.controlador.getIdOficialActual());
                 // se cre el ingreso externo, y luefo se pasa al arraylist
                 IngresoExterno ingreso = new IngresoExterno(fecha, motivo, hora, nombreGuarda, nombre, id);
                 vistaOficiales.controlador.getIngresosExternos().add(ingreso);
@@ -240,8 +239,8 @@ public class PanelIngresoExterno extends JPanel {
                 String motivo = (String) comboMotivo.getSelectedItem();
                 LocalTime hora = LocalTime.now();
                 LocalDate fecha = LocalDate.now();
-                Guarda guarda = vistaOficiales.controlador.buscarGuardaPorID(vistaOficiales.controlador.getIdOficialActual());
-                String nombreGuarda = guarda.getNombre();
+                 
+                String nombreGuarda = vistaOficiales.controlador.buscarGuardaPorUsuario(vistaOficiales.controlador.getIdOficialActual());
 
                 int cantidadP = Integer.parseInt(txtCantidad.getText());
                 String compani = txtCompania.getText();

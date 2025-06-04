@@ -274,8 +274,14 @@ public class PanelOficialesAdmin extends JPanel {
         btnEliminar.addActionListener(e -> {
             int filaSeleccionada = vistaAdministrador.tablaOficiales.getSelectedRow(); // Obtener la fila seleccionada
             if (filaSeleccionada != -1) { // Verificar si hay una fila seleccionada
-                vistaAdministrador.controlador.eliminarOficial(filaSeleccionada);
-                System.out.println("fila seleccionada: " + filaSeleccionada);
+                String userName = vistaAdministrador.tablaOficiales.getValueAt(filaSeleccionada, 3).toString();
+                int confirmacion = JOptionPane.showConfirmDialog(null,
+                        "¿Estás seguro de que deseas eliminar al oficial " + userName + "?",
+                        "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    vistaAdministrador.controlador.eliminarOficial(userName);
+                    
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna fila para eliminar");
                 System.out.println("fila seleccionada: " + filaSeleccionada);

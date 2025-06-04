@@ -113,12 +113,24 @@ public class Controlador {
         return null; // Si no se encuentra el funcionario
     }
 
-    public Guarda buscarGuardaPorID(String id) {
-        for (Guarda guarda : getOficiales()) {
-            if (guarda.getIDAcceso().equals(id)) {
-                return guarda;
+    public String buscarGuardaPorUsuario(String nombreUsuario) {
+        String sql = "SELECT * FROM usuarios WHERE nombreUsuario = '" + nombreUsuario + "' AND tipoUsuario = 'Guarda'";
+        String nombreGuarda=null;
+        try {
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs.next()) {
+                nombreGuarda = rs.getString("nombre1") + " " + rs.getString("nombre2") + " " + rs.getString("apellido1") + " " + rs.getString("apellido2");
+                JOptionPane.showMessageDialog(null, "Guarda encontrado: " + nombreGuarda);
+                return nombreGuarda;  // Retorna el ResultSet si se encuentra el guarda
+            } else {
+                JOptionPane.showMessageDialog(null, "Guarda no encontrado con el nombre de usuario: " + nombreUsuario);
             }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al buscar guarda: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado al buscar guarda: " + e.getMessage());
         }
+
         return null; // Si no se encuentra el guarda
     }
 
@@ -177,13 +189,22 @@ public class Controlador {
         }
     }
 
-    public void eliminarOficial(int indexGuarda) {
-        if (indexGuarda >= 0 && indexGuarda < oficiales.size()) {
-            oficiales.remove(indexGuarda);
-            JOptionPane.showMessageDialog(null, "Oficial eliminado correctamente.");
-        } else {
-            System.out.println("Índice no válido para eliminar el oficial.");
+    public void eliminarOficial(String nombreUsuario) {
+
+        String sql = "DELETE FROM usuarios WHERE nombreUsuario = '" + nombreUsuario + "' AND tipoUsuario = 'Guarda'";
+        try {
+            int i = statement.executeUpdate(sql);
+            if (i > 0) {
+                JOptionPane.showMessageDialog(null, "Oficial eliminado correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró el oficial con el nombre de usuario: " + nombreUsuario);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar oficial: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado al eliminar oficial: " + e.getMessage());
         }
+
     }
 
     // donde se comprueba el inicio e sesion del guarda
