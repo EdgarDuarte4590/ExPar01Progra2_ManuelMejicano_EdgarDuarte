@@ -3,6 +3,7 @@ package controlador;
 import java.io.InputStreamReader;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -38,8 +39,8 @@ public class Controlador {
     private ArrayList<IngresoExterno> ingresosExternos;
     private ArrayList<VehiculoExterno> ingresosVehiculoExterno;
     private ArrayList<Salida> salidasEstudiantes;
-    private boolean sesionInciadaOficial = true;
-    private boolean sesionIniciadaAdmin = true;
+    private boolean sesionInciadaOficial = false;
+    private boolean sesionIniciadaAdmin = false;
     // private String idAcceso = "1234", contraAdmin = "Douglas2025";
     public Connection connection = null;
     public Statement statement = null;
@@ -55,7 +56,7 @@ public class Controlador {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(
-                    "jdbc:mysql://10.153.156.243:3306/proyecto1?verifyServerCertificate=false&useSSL=true",
+                    "jdbc:mysql://localhost:3306/proyecto1?verifyServerCertificate=false&useSSL=true",
                     "edgar_manuel", "QWERTY12345@");
             connection.setAutoCommit(true);
             statement = connection.createStatement();
@@ -85,16 +86,24 @@ public class Controlador {
     // estudiantes
     // por medio de esta busca podemos obteber el index del estudiante en el
     // arraylist yposterior sus atributos
-    public int buscarEstudiante(String carnet) { // Ocupa el numero de carnet
-        for (int i = 0; i < estudiantes.size(); i++) {
-
-            if (estudiantes.get(i).getCarnet().equals(carnet)) {
-                return i;
+    public String buscarNombreEstudiante(String carnet) { // Ocupa el numero de carnet
+     String sql="SELECT * nombre1, nombre2, apellido1, apellido2 FROM estudiantes WHERE carnet = '" + carnet + "'";
+        try {
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs.next()) {
+                String nombreEstudiante = rs.getString("nombre1") + " " + rs.getString("nombre2") + " "
+                        + rs.getString("apellido1") + " " + rs.getString("apellido2");
+                JOptionPane.showMessageDialog(null, "Estudiante encontrado: " + nombreEstudiante);
+                return nombreEstudiante; // Retorna el nombre del estudiante si se encuentra
+            } else {
+                JOptionPane.showMessageDialog(null, "Estudiante no encontrado con el carnet: " + carnet);
             }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al buscar estudiante: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado al buscar estudiante: " + e.getMessage());
         }
-        System.out.println("No se encontró el estudiante con el carnet: " + carnet);
-
-        return -1;
+        return null; // Si no se encuentra el estudiante
     }
 
     // metodo que se encarga de buscar un funcionario por su placa, este metodo se
@@ -122,7 +131,7 @@ public class Controlador {
             ResultSet rs = statement.executeQuery(sql);
             if (rs.next()) {
                 nombreGuarda = rs.getString("nombre1") + " " + rs.getString("nombre2") + " " + rs.getString("apellido1") + " " + rs.getString("apellido2");
-                JOptionPane.showMessageDialog(null, "Guarda encontrado: " + nombreGuarda);
+                
                 return nombreGuarda;  // Retorna el ResultSet si se encuentra el guarda
             } else {
                 JOptionPane.showMessageDialog(null, "Guarda no encontrado con el nombre de usuario: " + nombreUsuario);
@@ -387,6 +396,37 @@ public class Controlador {
             JOptionPane.showMessageDialog(null, "Error al eliminar estudiante: " + e.getMessage());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error inesperado al eliminar estudiante: " + e.getMessage());
+        }
+    }
+
+public ResultSet consultarEstudiante(String nombreCompleto) {
+    String sql = "SELECT * FROM estudiantes WHERE CONCAT(nombre1, ' ', nombre2, ' ', apellido1, ' ', apellido2) LIKE '%" + nombreCompleto + "%'";
+
+    try {
+        Statement stet = connection.createStatement();
+        return stet.executeQuery(sql);
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error al ejecutar consulta: " + e.getMessage());
+        return null;
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error inesperado: " + e.getMessage());
+        return null;
+    }
+}
+
+
+    public void registrarSalidaEstudiante(String carnetEstudiante, LocalDate fechaSalida, LocalTime horaSalida, String motivoSalida, String nombreGuarda) {
+        String sql = "INSERT INTO salidas_estudiantes (carnet, fecha, hora, motivo, nombre_usuario_guarda) VALUES ('"
+                + carnetEstudiante + "', '" + fechaSalida + "', '" + horaSalida + "', '" + motivoSalida + "', '" + nombreGuarda + "')";
+        try {
+            int i = statement.executeUpdate(sql);
+            if (i > 0) {
+                JOptionPane.showMessageDialog(null, "Salida registrada correctamente.");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al registrar salida: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado al registrar salida: " + e.getMessage());
         }
     }
 

@@ -3,10 +3,9 @@ package vista.oficiales;
 import controlador.Controlador;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.security.interfaces.RSAKey;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.sql.Statement;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -16,7 +15,6 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Funcionario;
 import modelo.IngresoExterno;
 import modelo.IngresoFuncionario;
-import modelo.Salida;
 import modelo.VehiculoExterno;
 
 public class VistaOficiales extends javax.swing.JFrame {
@@ -74,7 +72,7 @@ public class VistaOficiales extends javax.swing.JFrame {
 
     private void mostrarDialogoCerrar() {
         // Opciones personalizadas
-        String[] opciones = { "Cerrar sesión", "Salir", "Cancelar" };
+        String[] opciones = {"Cerrar sesión", "Salir", "Cancelar"};
         int opcion = JOptionPane.showOptionDialog(
                 this,
                 "¿Desea cerrar sesión?",
@@ -99,22 +97,76 @@ public class VistaOficiales extends javax.swing.JFrame {
         }
     }
 
-    public JComboBox<String> comboEstudiantes = new JComboBox<>();;
+    public JComboBox<String> comboEstudiantes = new JComboBox<>();
+    ;
     JTable tablaSalidasEstudiantes = new JTable();
-    DefaultTableModel modeloTablaSalidasEstudiantes = new DefaultTableModel(new String[] { "Nombre Estudiante", "ID",
-            "Motivo de salida", "Fecha de salida", "Hora de salida", "Nombre de oficial" }, 0);
+    DefaultTableModel modeloTablaSalidasEstudiantes = new DefaultTableModel(new String[]{"Nombre Estudiante", "ID",
+        "Motivo de salida", "Fecha de salida", "Hora de salida", "Nombre de oficial"}, 0);
 
     public void generarTablaSalidasEstudiantes() {
+        // Limpia el modelo de la tabla
         modeloTablaSalidasEstudiantes.setRowCount(0);
-        for (Salida salida : controlador.getSalidasEstudiantes()) {
-            modeloTablaSalidasEstudiantes.addRow(new Object[] {
-                    salida.getPersona().getNombre(),
-                    salida.getPersona().getId(),
-                    salida.getMotivoSalida(),
-                    salida.getFechaSalida(),
-                    salida.getHoraSalida().format(controlador.formato),
-                    salida.getGuarda().getNombre()
-            });
+
+        // SQL principal para obtener todas las salidas
+        String sqlSalidas = "SELECT * FROM salidas_estudiantes";
+
+        try (
+                // Creamos un Statement nuevo para la consulta principal
+                Statement stmtSalidas = controlador.connection.createStatement(); ResultSet rsSalidas = stmtSalidas.executeQuery(sqlSalidas); // Creamos un segundo Statement para las consultas de estudiantes
+                 Statement stmtEstudiante = controlador.connection.createStatement();) {
+            while (rsSalidas.next()) {
+                String carnet = rsSalidas.getString("carnet");
+                String fecha = rsSalidas.getString("fecha");
+                String hora = rsSalidas.getString("hora");
+                String motivo = rsSalidas.getString("motivo");
+                String usuarioGuarda = rsSalidas.getString("nombre_usuario_guarda");
+                String nombreGuarda=controlador.buscarGuardaPorUsuario(usuarioGuarda);
+
+                // Definimos la consulta SQL para el estudiante usando el carnet obtenido
+                String sqlEstudiante = ""
+                        + "SELECT nombre1, nombre2, apellido1, apellido2, cedula "
+                        + "FROM estudiantes "
+                        + "WHERE carnet = '"
+                        + carnet
+                        + "'";
+
+                // Ejecutamos la consulta del estudiante correspondiente
+                try (ResultSet rsEst = stmtEstudiante.executeQuery(sqlEstudiante)) {
+                    String nombreCompleto = "—";
+                    String idCedula = "—";
+
+                    if (rsEst.next()) {
+                        String n1 = rsEst.getString("nombre1");
+                        String n2 = rsEst.getString("nombre2");
+                        String a1 = rsEst.getString("apellido1");
+                        String a2 = rsEst.getString("apellido2");
+
+                        nombreCompleto = (n1 != null ? n1 : "") + " "
+                                + (n2 != null ? n2 : "") + " "
+                                + (a1 != null ? a1 : "") + " "
+                                + (a2 != null ? a2 : "");
+                        idCedula = rsEst.getString("cedula");
+                    }
+
+                    // Añadimos la fila al modelo con: nombre completo, cédula, motivo, fecha, hora, usuario guardia
+                    modeloTablaSalidasEstudiantes.addRow(new Object[]{
+                        nombreCompleto.trim(),
+                        idCedula,
+                        motivo,
+                        fecha,
+                        hora,
+                        nombreGuarda
+                    });
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Error al cargar datos de salidas de estudiantes:\n" + ex.getMessage(),
+                    "Error SQL",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            ex.printStackTrace();
         }
     }
 
@@ -130,8 +182,8 @@ public class VistaOficiales extends javax.swing.JFrame {
             } else {
                 while (rs.next()) {
 
-                    String nombre = rs.getString("nombre1") + " " + rs.getString("nombre2") + " " +
-                            rs.getString("apellido1") + " " + rs.getString("apellido2");
+                    String nombre = rs.getString("nombre1") + " " + rs.getString("nombre2") + " "
+                            + rs.getString("apellido1") + " " + rs.getString("apellido2");
 
                     comboEstudiantes.addItem(nombre);
                 }
@@ -152,8 +204,8 @@ public class VistaOficiales extends javax.swing.JFrame {
 
         try {
             while (rs.next()) {
-                String nombre = rs.getString("nombre1") + " " + rs.getString("nombre2") + " " +
-                        rs.getString("apellido1") + " " + rs.getString("apellido2");
+                String nombre = rs.getString("nombre1") + " " + rs.getString("nombre2") + " "
+                        + rs.getString("apellido1") + " " + rs.getString("apellido2");
                 comboEstudiantes.addItem(nombre);
             }
         } catch (SQLException e) {
@@ -187,12 +239,12 @@ public class VistaOficiales extends javax.swing.JFrame {
     public void generarTablaFuncionarios() {
         modeloTablaFuncionarios.setRowCount(0);
         for (Funcionario funcionario : controlador.getFuncionarios()) {
-            modeloTablaFuncionarios.addRow(new Object[] {
-                    funcionario.getPuesto(),
-                    funcionario.getNombre(),
-                    funcionario.getId(),
-                    funcionario.getVehiculo().getTipoVehiculo(),
-                    funcionario.getVehiculo().getPlaca()
+            modeloTablaFuncionarios.addRow(new Object[]{
+                funcionario.getPuesto(),
+                funcionario.getNombre(),
+                funcionario.getId(),
+                funcionario.getVehiculo().getTipoVehiculo(),
+                funcionario.getVehiculo().getPlaca()
             });
         }
     }
@@ -220,15 +272,15 @@ public class VistaOficiales extends javax.swing.JFrame {
 
         for (IngresoFuncionario ingreso : controlador.getIngresosFuncionarios()) {
 
-            modeloTablaIngresoFuncionarios.addRow(new Object[] {
-                    ingreso.getFuncionario().getNombre(),
-                    ingreso.getFuncionario().getId(),
-                    ingreso.getFuncionario().getPuesto(),
-                    ingreso.getFuncionario().getVehiculo().getTipoVehiculo(),
-                    ingreso.getFuncionario().getVehiculo().getPlaca(),
-                    ingreso.getFechaIngreso(),
-                    ingreso.getHoraIngreso().format(controlador.formato),
-                    ingreso.getNombreGuarda()
+            modeloTablaIngresoFuncionarios.addRow(new Object[]{
+                ingreso.getFuncionario().getNombre(),
+                ingreso.getFuncionario().getId(),
+                ingreso.getFuncionario().getPuesto(),
+                ingreso.getFuncionario().getVehiculo().getTipoVehiculo(),
+                ingreso.getFuncionario().getVehiculo().getPlaca(),
+                ingreso.getFechaIngreso(),
+                ingreso.getHoraIngreso().format(controlador.formato),
+                ingreso.getNombreGuarda()
             });
 
         }
@@ -239,12 +291,10 @@ public class VistaOficiales extends javax.swing.JFrame {
 
         modeloTablaIngresoExterno.setRowCount(0);
         for (IngresoExterno ingreso : controlador.getIngresosExternos()) {
-            modeloTablaIngresoExterno.addRow(new Object[] {
-                    ingreso.getVisitante().getNombre(), ingreso.getVisitante().getId(), ingreso.getMotivo(),
-                    ingreso.getFechaIngreso(), ingreso.getHoraIngreso().format(controlador.formato),
-                    ingreso.getNombreGuarda(),
-
-            });
+            modeloTablaIngresoExterno.addRow(new Object[]{
+                ingreso.getVisitante().getNombre(), ingreso.getVisitante().getId(), ingreso.getMotivo(),
+                ingreso.getFechaIngreso(), ingreso.getHoraIngreso().format(controlador.formato),
+                ingreso.getNombreGuarda(),});
         }
     }
 
@@ -252,13 +302,12 @@ public class VistaOficiales extends javax.swing.JFrame {
         modeloTablaVehiculoExterno.setRowCount(0);
         for (VehiculoExterno ingreso : controlador.getIngresosVehiculoExterno()) {
 
-            modeloTablaVehiculoExterno.addRow(new Object[] {
-                    ingreso.getVisitante().getNombre(), ingreso.getVisitante().getId(), ingreso.getMotivo(),
-                    ingreso.getFechaIngreso(), ingreso.getHoraIngreso().format(controlador.formato),
-                    ingreso.getNombreGuarda(),
-                    ingreso.getVehiculo().getPlaca(), ingreso.getVehiculo().getTipoVehiculo(),
-                    ingreso.getCantidadPasajeros(), ingreso.getCompania(),
-            });
+            modeloTablaVehiculoExterno.addRow(new Object[]{
+                ingreso.getVisitante().getNombre(), ingreso.getVisitante().getId(), ingreso.getMotivo(),
+                ingreso.getFechaIngreso(), ingreso.getHoraIngreso().format(controlador.formato),
+                ingreso.getNombreGuarda(),
+                ingreso.getVehiculo().getPlaca(), ingreso.getVehiculo().getTipoVehiculo(),
+                ingreso.getCantidadPasajeros(), ingreso.getCompania(),});
 
         }
     }

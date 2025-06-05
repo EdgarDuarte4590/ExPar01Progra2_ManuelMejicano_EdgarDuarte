@@ -3,7 +3,7 @@ package vista.oficiales;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -16,8 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
-import modelo.Estudiante;
 
 public class PanelSalidaEstudiante extends JPanel {
     VistaOficiales vistaOficiales;
@@ -121,24 +119,38 @@ public class PanelSalidaEstudiante extends JPanel {
         btnRegistrar.setForeground(Color.WHITE);
         btnRegistrar.addActionListener(e -> {
 
-            Estudiante estudiante = vistaOficiales.controlador.getEstudiantes().get(vistaOficiales.comboEstudiantes.getSelectedIndex());
+            ResultSet rs = vistaOficiales.controlador.consultarEstudiante(vistaOficiales.comboEstudiantes.getSelectedItem().toString());
+            if (rs == null) {
+                JOptionPane.showMessageDialog(null, "No se encontró el estudiante seleccionado.");
+                return;
+            }
+
             String motivoSalida = (String) comboBoxMotivo.getSelectedItem();
             LocalTime horaSalida = LocalTime.now();
             LocalDate fechaSalida = LocalDate.now();
-            String nombreGuarda = vistaOficiales.controlador.buscarGuardaPorUsuario(vistaOficiales.controlador.getIdOficialActual());
+            String nombreGuarda = vistaOficiales.controlador.getIdOficialActual();
+            try {
+                if (rs.next()) {
+                    String carnetEstudiante = rs.getString("carnet");
+                    vistaOficiales.controlador.registrarSalidaEstudiante(carnetEstudiante, fechaSalida, horaSalida, motivoSalida, nombreGuarda);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se encontró información del estudiante seleccionado.");
+                    return;
+                }
+            } catch (SQLException e1) {
+                JOptionPane.showMessageDialog(null, "Error al obtener el carnet del estudiante.");
+                e1.printStackTrace();
+                return;
+            }
 
-         /*    Salida salida = new Salida(fechaSalida, horaSalida, motivoSalida, estudiante, guarda);
-            vistaOficiales.controlador.getSalidasEstudiantes().add(salida); */
             vistaOficiales.generarTablaSalidasEstudiantes();
-            
-                vistaOficiales.generarJComboEstudiantes2();
-           
+            vistaOficiales.generarJComboEstudiantes2();
 
             // Limpiar los campos después de registrar
             vistaOficiales.comboEstudiantes.setSelectedIndex(0);
             comboBoxMotivo.setSelectedIndex(0);
 
-            JOptionPane.showMessageDialog(null, "Salida registrada exitosamente");
+           
         });
         panelEstSalidas.add(btnRegistrar);
 
