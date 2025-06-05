@@ -497,7 +497,53 @@ public class Controlador {
     }
 
 
+public void agregarIngresoFuncionario( String idFuncionario, LocalDate fechaIngreso, LocalTime horaIngreso, String nameUserGuarda) {
+        String sql = "INSERT INTO ingresos (cedula, fecha, hora, nombre_usuario_guarda) VALUES ('"  + idFuncionario + "', '"
+                + fechaIngreso +  "', '" + horaIngreso + "', '" + nameUserGuarda + "')";
+        try {
+            int i = statement.executeUpdate(sql);
+            if (i > 0) {
+                JOptionPane.showMessageDialog(null, "Ingreso de funcionario registrado correctamente.");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al registrar ingreso de funcionario: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado al registrar ingreso de funcionario: " + e.getMessage());
+        }
+    }
 
+    public ResultSet consultarFuncionario(String cedula) {
+        String sql = "SELECT * FROM personas WHERE tipoPersona = 'Funcionario' AND cedula ='"+ cedula + "'";
+
+         // Consulta SQL para buscar un funcionario por su cédula
+        try {
+            Statement stet = connection.createStatement();
+            return stet.executeQuery(sql);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al ejecutar consulta: " + e.getMessage());
+            return null;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public String getTipoVehiculo(String placa) {
+        String tipoVehiculo = "";
+        String query = "SELECT tipoVehiculo FROM vehiculos WHERE placa = '" + placa + "'";
+        try {
+            Statement stmt = connection.createStatement(); // ← nuevo Statement
+            ResultSet rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                tipoVehiculo = rs.getString("tipoVehiculo");
+            }
+            rs.close(); // Cierra el ResultSet explícitamente
+            stmt.close(); // Cierra el Statement explícitamente
+        } catch (SQLException e) {
+            System.out.println("Error al obtener tipo de vehículo: " + e.getMessage());
+        }
+        return tipoVehiculo;
+    }
  
 
 }
