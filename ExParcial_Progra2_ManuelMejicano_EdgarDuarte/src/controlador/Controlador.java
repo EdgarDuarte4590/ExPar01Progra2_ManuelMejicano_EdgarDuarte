@@ -352,6 +352,7 @@ public class Controlador {
                 + telefono + "', nombreUsuario = '" + nombreUsuario + "', contraseña = '" + contrasena
                 + "' WHERE nombreUsuario = '" + nombreUsuarioModi + "'";
         try {
+            
             int i = statement.executeUpdate(sql);
             if (i > 0) {
                 JOptionPane.showMessageDialog(null, "Oficial editado correctamente.");
