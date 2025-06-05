@@ -123,6 +123,7 @@ public class PanelSalidaEstudiante extends JPanel {
             if (rs == null) {
                 JOptionPane.showMessageDialog(null, "No se encontró el estudiante seleccionado.");
                 return;
+                
             }
 
             String motivoSalida = (String) comboBoxMotivo.getSelectedItem();
