@@ -56,7 +56,7 @@ public class Controlador {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/proyecto1?verifyServerCertificate=false&useSSL=true",
+                    "jdbc:mysql://10.153.156.142:3306/proyecto1?verifyServerCertificate=false&useSSL=true",
                     "edgar_manuel", "QWERTY12345@");
             connection.setAutoCommit(true);
             statement = connection.createStatement();
@@ -450,8 +450,8 @@ public class Controlador {
     }
 
 
-    public void registrarSalidaEstudiante(String carnetEstudiante, LocalDate fechaSalida, LocalTime horaSalida, String motivoSalida, String nombreGuarda) {
-        String sql = "INSERT INTO salidas_estudiantes (carnet, fecha, hora, motivo, nombre_usuario_guarda) VALUES ('"
+    public void registrarSalidaEstudiante(String idSalida,String carnetEstudiante, LocalDate fechaSalida, LocalTime horaSalida, String motivoSalida, String nombreGuarda) {
+        String sql = "INSERT INTO salidas_estudiantes (id,carnet, fecha, hora, motivo, nombre_usuario_guarda) VALUES ('"+ idSalida + "', '"
                 + carnetEstudiante + "', '" + fechaSalida + "', '" + horaSalida + "', '" + motivoSalida + "', '" + nombreGuarda + "')";
         try {
             int i = statement.executeUpdate(sql);
@@ -465,39 +465,40 @@ public class Controlador {
         }
     }
 
-    public void registrarPersonaExterna(String cedula,String nombre1,String nombre2,String apellido1,String apellido2){
-        String tipoPersona="Externa";
-        String sql = "INSERT INTO personas (cedula, nombre1, nombre2, apellido1, apellido2, tipoPersona) VALUES ('"
-                + cedula + "', '" + nombre1 + "', '" + nombre2 + "', '" + apellido1 + "', '" + apellido2 + "', '" + tipoPersona + "')";
-
-                try {
-                    int i = statement.executeUpdate(sql);
-                    if (i > 0) {
-                        JOptionPane.showMessageDialog(null, "Persona externa registrada correctamente.");
-                    }
-                    
-                } catch (SQLException e) {
-                }
+    public String getTipoVehiculo(String placa) {
+        String tipoVehiculo = "";
+        String query = "SELECT tipoVehiculo FROM vehiculos WHERE placa = '" + placa + "'";
+        try {
+            Statement stmt = connection.createStatement(); // ← nuevo Statement
+            ResultSet rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                tipoVehiculo = rs.getString("tipoVehiculo");
+            }
+            rs.close(); // Cierra el ResultSet explícitamente
+            stmt.close(); // Cierra el Statement explícitamente
+        } catch (SQLException e) {
+            System.out.println("Error al obtener tipo de vehículo: " + e.getMessage());
+        }
+        return tipoVehiculo;
     }
 
-
-    public void registarIngresoExterno(String cedula,LocalDate fecha, LocalTime hora, String motivo, String nombreGuarda) {
-        String sql = "INSERT INTO ingresos (cedula, fecha, hora, motivo, nombre_usuario_guarda) VALUES ('"
-                + cedula + "', '" + fecha + "', '" + hora + "', '" + motivo + "', '" + nombreGuarda + "')";
+    public String generarIdSalidaEstudiante() {
+        String sql = "SELECT COUNT(*) AS total FROM salidas_estudiantes";
         try {
-            int i = statement.executeUpdate(sql);
-            if (i > 0) {
-                JOptionPane.showMessageDialog(null, "Ingreso externo registrado correctamente.");
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs.next()) {
+                int total = rs.getInt("total");
+                return "SE" + (total + 1); // Genera un ID único basado en el total de salidas
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al registrar ingreso externo: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al generar ID de salida: " + e.getMessage());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error inesperado al registrar ingreso externo: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error inesperado al generar ID de salida: " + e.getMessage());
         }
+        return null; // Si ocurre un error, retorna null
     }
 
-
-public void agregarIngresoFuncionario( String idFuncionario, LocalDate fechaIngreso, LocalTime horaIngreso, String nameUserGuarda) {
+    public void agregarIngresoFuncionario( String idFuncionario, LocalDate fechaIngreso, LocalTime horaIngreso, String nameUserGuarda) {
         String sql = "INSERT INTO ingresos (cedula, fecha, hora, nombre_usuario_guarda) VALUES ('"  + idFuncionario + "', '"
                 + fechaIngreso +  "', '" + horaIngreso + "', '" + nameUserGuarda + "')";
         try {
@@ -527,23 +528,5 @@ public void agregarIngresoFuncionario( String idFuncionario, LocalDate fechaIngr
             return null;
         }
     }
-
-    public String getTipoVehiculo(String placa) {
-        String tipoVehiculo = "";
-        String query = "SELECT tipoVehiculo FROM vehiculos WHERE placa = '" + placa + "'";
-        try {
-            Statement stmt = connection.createStatement(); // ← nuevo Statement
-            ResultSet rs = stmt.executeQuery(query);
-            if (rs.next()) {
-                tipoVehiculo = rs.getString("tipoVehiculo");
-            }
-            rs.close(); // Cierra el ResultSet explícitamente
-            stmt.close(); // Cierra el Statement explícitamente
-        } catch (SQLException e) {
-            System.out.println("Error al obtener tipo de vehículo: " + e.getMessage());
-        }
-        return tipoVehiculo;
-    }
- 
 
 }
