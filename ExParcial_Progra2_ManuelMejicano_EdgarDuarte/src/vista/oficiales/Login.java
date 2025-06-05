@@ -94,7 +94,7 @@ public class Login extends JFrame{
                     
                         controlador.menuPrincipal.vistaOficiales.generarJComboEstudiantes2();
                  
-                    controlador.menuPrincipal.vistaOficiales.GenerarTablaIngresoFuncionarios();
+                    controlador.menuPrincipal.vistaOficiales.generarTablaIngresoFuncionarios();
                     controlador.menuPrincipal.vistaOficiales.setVisible(true);; // Abrir la vista de oficiales
                 } else {
                     System.out.println("Error al iniciar sesión. Verifique sus credenciales.");

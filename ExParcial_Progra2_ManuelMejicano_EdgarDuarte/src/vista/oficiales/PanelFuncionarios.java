@@ -199,7 +199,7 @@ public class PanelFuncionarios extends JPanel {
                     String id = rs.getString("cedula");
                     String puesto = rs.getString("ocupacion");
                     String placa = rs.getString("placaVehiculo");
-                    String tipoVehiculo = getTipoVehiculo(placa);
+                    String tipoVehiculo = vistaOficiales.controlador.getTipoVehiculo(placa);
                     placaActual = placa;
 
                     primerNombreField.setText(nombre1);
@@ -308,7 +308,7 @@ public class PanelFuncionarios extends JPanel {
 
     public void GenerarComboFuncionarios() {
         vistaOficiales.comboBoxFuncionarios.removeAllItems();
-        String query = "SELECT nombre1, nombre2, apellido1, apellido2 FROM personas WHERE tipoPersona = 'Funcionario'";
+        String query = "SELECT cedula FROM personas WHERE tipoPersona = 'Funcionario'";
         try {
             ResultSet rs = vistaOficiales.controlador.statement.executeQuery(query);
             if (rs == null) {
@@ -317,9 +317,8 @@ public class PanelFuncionarios extends JPanel {
                 return;
             } else {
                 while (rs.next()) {
-                    String nombre = rs.getString("nombre1") + " " + rs.getString("nombre2") + " "
-                            + rs.getString("apellido1") + " " + rs.getString("apellido2");
-                    vistaOficiales.comboBoxFuncionarios.addItem(nombre);
+                    String cedula = rs.getString("cedula");
+                    vistaOficiales.comboBoxFuncionarios.addItem(cedula);
                 }
             }
         } catch (SQLException e) {
@@ -357,11 +356,10 @@ public class PanelFuncionarios extends JPanel {
                 while (rs.next()) {
                     String nombre = rs.getString("nombre1") + " " + rs.getString("nombre2") + " "
                             + rs.getString("apellido1") + " " + rs.getString("apellido2");
-
                     String id = rs.getString("cedula");
                     String puesto = rs.getString("ocupacion");
                     String placa = rs.getString("placaVehiculo");
-                    String tipoVehiculo = getTipoVehiculo(placa);
+                    String tipoVehiculo = vistaOficiales.controlador.getTipoVehiculo(placa);
 
                     vistaOficiales.modeloTablaFuncionarios
                             .addRow(new Object[] { puesto, nombre, id, tipoVehiculo, placa });
@@ -376,22 +374,7 @@ public class PanelFuncionarios extends JPanel {
 
     }
 
-    public String getTipoVehiculo(String placa) {
-        String tipoVehiculo = "";
-        String query = "SELECT tipoVehiculo FROM vehiculos WHERE placa = '" + placa + "'";
-        try {
-            Statement stmt = vistaOficiales.controlador.connection.createStatement(); // ← nuevo Statement
-            ResultSet rs = stmt.executeQuery(query);
-            if (rs.next()) {
-                tipoVehiculo = rs.getString("tipoVehiculo");
-            }
-            rs.close(); // Cierra el ResultSet explícitamente
-            stmt.close(); // Cierra el Statement explícitamente
-        } catch (SQLException e) {
-            System.out.println("Error al obtener tipo de vehículo: " + e.getMessage());
-        }
-        return tipoVehiculo;
-    }
+    
 
     public void actualizarFuncionario(String nombre1, String nombre2, String apellido1, String apellido2,
             String id, String puesto, String tipoVehiculo, String placa, String placaActual) {

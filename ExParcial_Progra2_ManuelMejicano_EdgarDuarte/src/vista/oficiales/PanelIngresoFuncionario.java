@@ -14,11 +14,9 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Funcionario;
 import modelo.IngresoFuncionario;
 
-public class PanelIngresoFuncionario extends JPanel{
+public class PanelIngresoFuncionario extends JPanel {
     VistaOficiales vistaOficiales;
 
-
-    
     public PanelIngresoFuncionario(VistaOficiales vistaOficiales) {
         this.vistaOficiales = vistaOficiales;
         initComponents();
@@ -44,28 +42,28 @@ public class PanelIngresoFuncionario extends JPanel{
         panelIngreso.add(btnBuscar);
 
         JLabel labelNombre = new JLabel("Nombre del funcionario:");
-        labelNombre.setBounds(25, 100, 200, 30); 
+        labelNombre.setBounds(25, 100, 200, 30);
         panelIngreso.add(labelNombre);
 
-        vistaOficiales.comboBoxFuncionarios.setBounds(230, 100, 200, 30); 
+        vistaOficiales.comboBoxFuncionarios.setBounds(230, 100, 200, 30);
         panelIngreso.add(vistaOficiales.comboBoxFuncionarios);
 
         JButton btnAgregar = new JButton("Agregar");
-        btnAgregar.setBounds(450, 100, 100, 30); 
+        btnAgregar.setBounds(450, 100, 100, 30);
         btnAgregar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
         btnAgregar.setBackground(new Color(0xFF2BA76B));
         btnAgregar.setForeground(java.awt.Color.white);
         panelIngreso.add(btnAgregar);
 
         // Llenar el JComboBox con los nombres de los funcionarios registrados
-        if ( vistaOficiales.controlador.getFuncionarios() != null) {
+        if (vistaOficiales.controlador.getFuncionarios() != null) {
 
         } else {
             vistaOficiales.comboBoxFuncionarios.addItem("No hay funcionario registrados");
         }
 
         btnBuscar.addActionListener(e -> {
-         //busca el funcionario por medio de la placa 
+            // busca el funcionario por medio de la placa
             String placa = txtPlaca.getText();
             for (int i = 0; i < vistaOficiales.controlador.getFuncionarios().size(); i++) {
                 if (placa.equals(vistaOficiales.controlador.getFuncionarios().get(i).getVehiculo().getPlaca())) {
@@ -89,26 +87,27 @@ public class PanelIngresoFuncionario extends JPanel{
         panelIngreso.add(scrollPane);
 
         vistaOficiales.comboBoxFuncionarios.addActionListener(e -> {
-           
+
         });
 
         btnAgregar.addActionListener((actionEvent) -> {
-            Funcionario funcionario =  vistaOficiales.controlador.getFuncionarios().get(vistaOficiales.comboBoxFuncionarios.getSelectedIndex());
-            String motivo = "Trabaja de: " + funcionario.getPuesto();
-            LocalTime hora = LocalTime.now();
-            
-            String nombreGuarda = vistaOficiales.controlador.buscarGuardaPorUsuario( vistaOficiales.controlador.getIdOficialActual());
+            String idFuncionario = vistaOficiales.comboBoxFuncionarios.getSelectedItem().toString();
+            if (idFuncionario != null && !idFuncionario.isEmpty()) {
+                LocalDate fechaIngreso = LocalDate.now();
+                LocalTime horaIngreso = LocalTime.now();
+              
+                String userGuarda = vistaOficiales.controlador.getIdOficialActual();
+                  System.out.println("Nombre de usuario guarda: " + userGuarda);
 
-            LocalDate fecha = LocalDate.now();
-
-            IngresoFuncionario ingreso = new IngresoFuncionario(fecha, motivo, hora, nombreGuarda, funcionario);
-            vistaOficiales.controlador.getIngresosFuncionarios().add(ingreso);
-            vistaOficiales.GenerarTablaIngresoFuncionarios();
-
+                vistaOficiales.controlador.agregarIngresoFuncionario(idFuncionario, fechaIngreso, horaIngreso,
+                        userGuarda);
+                JOptionPane.showMessageDialog(null, "Ingreso registrado correctamente");
+            } else {
+                JOptionPane.showMessageDialog(null, "Funcionario no encontrado");
+            } 
         });
 
         return panelIngreso;
     }
 
-    
 }
