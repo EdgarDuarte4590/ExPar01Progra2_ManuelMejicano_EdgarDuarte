@@ -47,8 +47,8 @@ public class PanelIngresoFuncionario extends JPanel{
         labelNombre.setBounds(25, 100, 200, 30); 
         panelIngreso.add(labelNombre);
 
-        vistaOficiales.comboBoxNombres.setBounds(230, 100, 200, 30); 
-        panelIngreso.add(vistaOficiales.comboBoxNombres);
+        vistaOficiales.comboBoxFuncionarios.setBounds(230, 100, 200, 30); 
+        panelIngreso.add(vistaOficiales.comboBoxFuncionarios);
 
         JButton btnAgregar = new JButton("Agregar");
         btnAgregar.setBounds(450, 100, 100, 30); 
@@ -61,7 +61,7 @@ public class PanelIngresoFuncionario extends JPanel{
         if ( vistaOficiales.controlador.getFuncionarios() != null) {
 
         } else {
-            vistaOficiales.comboBoxNombres.addItem("No hay funcionario registrados");
+            vistaOficiales.comboBoxFuncionarios.addItem("No hay funcionario registrados");
         }
 
         btnBuscar.addActionListener(e -> {
@@ -69,12 +69,12 @@ public class PanelIngresoFuncionario extends JPanel{
             String placa = txtPlaca.getText();
             for (int i = 0; i < vistaOficiales.controlador.getFuncionarios().size(); i++) {
                 if (placa.equals(vistaOficiales.controlador.getFuncionarios().get(i).getVehiculo().getPlaca())) {
-                    vistaOficiales.comboBoxNombres.setSelectedIndex(i);
+                    vistaOficiales.comboBoxFuncionarios.setSelectedIndex(i);
                     return;
                 }
 
             }
-            vistaOficiales.comboBoxNombres.setSelectedIndex(-1);
+            vistaOficiales.comboBoxFuncionarios.setSelectedIndex(-1);
             JOptionPane.showMessageDialog(null, "No se encontro el funcionario con ese número de placa: " + placa);
         });
 
@@ -88,17 +88,12 @@ public class PanelIngresoFuncionario extends JPanel{
         scrollPane.setBounds(25, 150, 1300, 500);
         panelIngreso.add(scrollPane);
 
-        vistaOficiales.comboBoxNombres.addActionListener(e -> {
-            if (vistaOficiales.comboBoxNombres.getSelectedIndex() != -1) {
-                txtPlaca.setText(
-                        vistaOficiales.controlador.getFuncionarios().get(vistaOficiales.comboBoxNombres.getSelectedIndex()).getVehiculo().getPlaca());
-            } else {
-                txtPlaca.setText("");
-            }
+        vistaOficiales.comboBoxFuncionarios.addActionListener(e -> {
+           
         });
 
         btnAgregar.addActionListener((actionEvent) -> {
-            Funcionario funcionario =  vistaOficiales.controlador.getFuncionarios().get(vistaOficiales.comboBoxNombres.getSelectedIndex());
+            Funcionario funcionario =  vistaOficiales.controlador.getFuncionarios().get(vistaOficiales.comboBoxFuncionarios.getSelectedIndex());
             String motivo = "Trabaja de: " + funcionario.getPuesto();
             LocalTime hora = LocalTime.now();
             

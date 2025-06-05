@@ -70,6 +70,8 @@ public class VistaOficiales extends javax.swing.JFrame {
         tabbedPane.addTab("Ingreso Funcionario", panelIngresoFuncionario.initComponents());
         tabbedPane.addTab("Ingreso Externo", panelIngresoExterno.initComponents());
 
+        panelFuncionarios.generarTablaFuncionarios();
+
     }
 
     private void mostrarDialogoCerrar() {
@@ -205,14 +207,9 @@ public class VistaOficiales extends javax.swing.JFrame {
         setVisible(false);
     }
 
-    JComboBox<String> comboBoxNombres = new JComboBox<>();
+    JComboBox<String> comboBoxFuncionarios = new JComboBox<>();
 
-    public void GenerarComboFuncionarios() {
-        comboBoxNombres.removeAllItems();
-        for (int i = 0; i < controlador.getFuncionarios().size(); i++) {
-            comboBoxNombres.addItem(controlador.getFuncionarios().get(i).getNombre());
-        }
-    }
+    
 
     public void GenerarTablaIngresoFuncionarios() {
 
