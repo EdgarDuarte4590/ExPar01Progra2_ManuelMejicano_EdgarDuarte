@@ -482,8 +482,9 @@ public class Controlador {
 
 
     public void registarIngresoExterno(String cedula,LocalDate fecha, LocalTime hora, String motivo, String nombreGuarda) {
-        String sql = "INSERT INTO ingresos (cedula, fecha, hora, motivo, nombre_usuario_guarda) VALUES ('"
-                + cedula + "', '" + fecha + "', '" + hora + "', '" + motivo + "', '" + nombreGuarda + "')";
+        String tipoIngreso="Externo";
+        String sql = "INSERT INTO ingresos (cedula, fecha, hora, motivo, nombre_usuario_guarda,tipoIngreso) VALUES ('"
+                + cedula + "', '" + fecha + "', '" + hora + "', '" + motivo + "', '" + nombreGuarda + "', '" + tipoIngreso + "')";
         try {
             int i = statement.executeUpdate(sql);
             if (i > 0) {
