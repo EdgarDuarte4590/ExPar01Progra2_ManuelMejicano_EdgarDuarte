@@ -56,7 +56,7 @@ public class Controlador {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(
-                    "jdbc:mysql://10.153.157.139:3306/proyecto1?verifyServerCertificate=false&useSSL=true",
+                    "jdbc:mysql://localhost:3306/proyecto1?verifyServerCertificate=false&useSSL=true",
                     "edgar_manuel", "QWERTY12345@");
             connection.setAutoCommit(true);
             statement = connection.createStatement();
@@ -442,8 +442,8 @@ public ResultSet consultarEstudiante(String nombreCompleto) {
 }
 
 
-    public void registrarSalidaEstudiante(String idSalida,String carnetEstudiante, LocalDate fechaSalida, LocalTime horaSalida, String motivoSalida, String nombreGuarda) {
-        String sql = "INSERT INTO salidas_estudiantes (id,carnet, fecha, hora, motivo, nombre_usuario_guarda) VALUES ('"+ idSalida + "', '"
+    public void registrarSalidaEstudiante(String carnetEstudiante, LocalDate fechaSalida, LocalTime horaSalida, String motivoSalida, String nombreGuarda) {
+        String sql = "INSERT INTO salidas_estudiantes (carnet, fecha, hora, motivo, nombre_usuario_guarda) VALUES ('"
                 + carnetEstudiante + "', '" + fechaSalida + "', '" + horaSalida + "', '" + motivoSalida + "', '" + nombreGuarda + "')";
         try {
             int i = statement.executeUpdate(sql);
@@ -457,20 +457,39 @@ public ResultSet consultarEstudiante(String nombreCompleto) {
         }
     }
 
-    public String generarIdSalidaEstudiante() {
-        String sql = "SELECT COUNT(*) AS total FROM salidas_estudiantes";
+    public void registrarPersonaExterna(String cedula,String nombre1,String nombre2,String apellido1,String apellido2){
+        String tipoPersona="Externa";
+        String sql = "INSERT INTO personas (cedula, nombre1, nombre2, apellido1, apellido2, tipoPersona) VALUES ('"
+                + cedula + "', '" + nombre1 + "', '" + nombre2 + "', '" + apellido1 + "', '" + apellido2 + "', '" + tipoPersona + "')";
+
+                try {
+                    int i = statement.executeUpdate(sql);
+                    if (i > 0) {
+                        JOptionPane.showMessageDialog(null, "Persona externa registrada correctamente.");
+                    }
+                    
+                } catch (SQLException e) {
+                }
+    }
+
+
+    public void registarIngresoExterno(String cedula,LocalDate fecha, LocalTime hora, String motivo, String nombreGuarda) {
+        String sql = "INSERT INTO ingresos (cedula, fecha, hora, motivo, nombre_usuario_guarda) VALUES ('"
+                + cedula + "', '" + fecha + "', '" + hora + "', '" + motivo + "', '" + nombreGuarda + "')";
         try {
-            ResultSet rs = statement.executeQuery(sql);
-            if (rs.next()) {
-                int total = rs.getInt("total");
-                return "SE" + (total + 1); // Genera un ID único basado en el total de salidas
+            int i = statement.executeUpdate(sql);
+            if (i > 0) {
+                JOptionPane.showMessageDialog(null, "Ingreso externo registrado correctamente.");
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al generar ID de salida: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al registrar ingreso externo: " + e.getMessage());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error inesperado al generar ID de salida: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error inesperado al registrar ingreso externo: " + e.getMessage());
         }
-        return null; // Si ocurre un error, retorna null
     }
+
+
+
+ 
 
 }

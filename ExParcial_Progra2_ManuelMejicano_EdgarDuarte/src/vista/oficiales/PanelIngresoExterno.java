@@ -25,7 +25,7 @@ public class PanelIngresoExterno extends JPanel {
         initComponents();
     }
 
-    //inicializacion del panel de ingreso externo
+    //inicialización del panel de ingreso externo
     public JPanel initComponents() {
         JPanel panelIngreso = new JPanel();
         panelIngreso.setLayout(null);
@@ -36,11 +36,11 @@ public class PanelIngresoExterno extends JPanel {
         panelIngreso.add(opcion);
 
         ButtonGroup btnGroup = new ButtonGroup();
-        //boton que sirve para registrar el ingreso de perosna externa 
+        // Botón para registrar el ingreso de persona externa 
         JRadioButton btnIngresoPersona = new JRadioButton("Ingreso Persona Externa");
         btnIngresoPersona.setBounds(500, 50, 200, 30);
         btnGroup.add(btnIngresoPersona);
-        //boton que sirve para registrar el ingreso de vehiculo externo
+        // Botón para registrar el ingreso de vehículo externo
         JRadioButton btnIngreso = new JRadioButton("Ingreso Vehiculo Externo");
         btnIngreso.setBounds(700, 50, 250, 30);
         btnGroup.add(btnIngreso);
@@ -49,27 +49,50 @@ public class PanelIngresoExterno extends JPanel {
         panelIngreso.add(btnIngreso);
         
         btnIngresoPersona.addActionListener(e -> {
-            // sin el radio button de persona es seleccionado se eliminan los componentes iniciales del panel y se colo el formulario de ingreso de perosna externa
+            // Al seleccionar persona externa, se limpia y se crea el formulario con cuatro campos de nombre/apellidos
             panelIngreso.removeAll();
 
-            JLabel lblNombre = new JLabel("Nombre:");
-            lblNombre.setBounds(500, 20, 100, 30);
-            panelIngreso.add(lblNombre);
+            // --- Nombres (verticalmente) ---
+            JLabel lblNombre1 = new JLabel("Nombre 1:");
+            lblNombre1.setBounds(450, 20, 80, 30);
+            panelIngreso.add(lblNombre1);
+            JTextField txtNombre1 = new JTextField();
+            txtNombre1.setBounds(540, 20, 200, 30);
+            panelIngreso.add(txtNombre1);
 
-            JTextField txtNombre = new JTextField();
-            txtNombre.setBounds(600, 20, 200, 30);
-            panelIngreso.add(txtNombre);
+            JLabel lblNombre2 = new JLabel("Nombre 2:");
+            lblNombre2.setBounds(450, 60, 80, 30);
+            panelIngreso.add(lblNombre2);
+            JTextField txtNombre2 = new JTextField();
+            txtNombre2.setBounds(540, 60, 200, 30);
+            panelIngreso.add(txtNombre2);
 
+            // --- Apellidos (verticalmente, a la derecha de nombres) ---
+            JLabel lblApellido1 = new JLabel("Apellido 1:");
+            lblApellido1.setBounds(780, 20, 80, 30);
+            panelIngreso.add(lblApellido1);
+            JTextField txtApellido1 = new JTextField();
+            txtApellido1.setBounds(870, 20, 200, 30);
+            panelIngreso.add(txtApellido1);
+
+            JLabel lblApellido2 = new JLabel("Apellido 2:");
+            lblApellido2.setBounds(780, 60, 80, 30);
+            panelIngreso.add(lblApellido2);
+            JTextField txtApellido2 = new JTextField();
+            txtApellido2.setBounds(870, 60, 200, 30);
+            panelIngreso.add(txtApellido2);
+
+            // --- ID ---
             JLabel lblId = new JLabel("ID:");
-            lblId.setBounds(500, 60, 100, 30);
+            lblId.setBounds(450, 100, 100, 30);
             panelIngreso.add(lblId);
-
             JTextField txtId = new JTextField();
-            txtId.setBounds(600, 60, 200, 30);
+            txtId.setBounds(540, 100, 200, 30);
             panelIngreso.add(txtId);
 
+            // --- Motivo ---
             JLabel lblMotivo = new JLabel("Motivo:");
-            lblMotivo.setBounds(500, 100, 100, 30);
+            lblMotivo.setBounds(780, 100, 100, 30);
             panelIngreso.add(lblMotivo);
             String[] items = {
                     "Reunión con el director",
@@ -83,12 +106,12 @@ public class PanelIngresoExterno extends JPanel {
                     "Inspección o auditoría",
                     "Otro"
             };
-            JComboBox comboMotivo = new JComboBox(items);
-            comboMotivo.setBounds(600, 100, 200, 30);
+            JComboBox<String> comboMotivo = new JComboBox<>(items);
+            comboMotivo.setBounds(870, 100, 200, 30);
             panelIngreso.add(comboMotivo);
 
             JButton btnGuardar = new JButton("Guardar");
-            btnGuardar.setBounds(700, 150, 100, 30);
+            btnGuardar.setBounds(930, 150, 100, 30);
             btnGuardar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
             btnGuardar.setBackground(new Color(0xFF2BA76B));
             btnGuardar.setForeground(Color.WHITE);
@@ -96,31 +119,37 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.add(btnGuardar);
 
             btnGuardar.addActionListener(ev -> {
-                       // sin el radio button de persona es seleccionado se eliminan los componentes iniciales del panel y se colo el formulario de ingreso de vehiculo externo
-                String nombre = txtNombre.getText();
-                int id = Integer.parseInt(txtId.getText());
+                // lectura de los cuatro campos de nombre y apellidos
+                String nombre1 = txtNombre1.getText().trim();
+                String nombre2 = txtNombre2.getText().trim();
+                String apellido1 = txtApellido1.getText().trim();
+                String apellido2 = txtApellido2.getText().trim();
+                String id = txtId.getText().trim();
+                vistaOficiales.controlador.registrarPersonaExterna(id, nombre1, nombre2, apellido1, apellido2);
 
                 String motivo = (String) comboMotivo.getSelectedItem();
-
                 LocalTime hora = LocalTime.now();
                 LocalDate fecha = LocalDate.now();
+                String nombreUsuarioGuarda =vistaOficiales.controlador.getIdOficialActual();
+                vistaOficiales.controlador.registarIngresoExterno(id, fecha, hora, motivo, nombreUsuarioGuarda);
                
-                String nombreUsuarioGuarda = vistaOficiales.controlador.buscarGuardaPorUsuario(vistaOficiales.controlador.getIdOficialActual());
-                // se cre el ingreso externo, y luefo se pasa al arraylist
-
 
                 JOptionPane.showMessageDialog(null, "Ingreso registrado exitosamente");
-                txtNombre.setText("");
+                // limpiar campos
+                txtNombre1.setText("");
+                txtNombre2.setText("");
+                txtApellido1.setText("");
+                txtApellido2.setText("");
                 txtId.setText("");
                 comboMotivo.setSelectedIndex(0);
 
                 vistaOficiales.GenerarTablaIngresoExterno();
-
             });
 
+            // == TABLA DE PERSONA EXTERNA (sólo “Nombre” como estaba originalmente) ==
             vistaOficiales.modeloTablaIngresoExterno = new DefaultTableModel(
-                    new String[] { "Nombre", "ID", "Motivo", "Fecha", "Hora", "Nombre de ofical" }, 0);
-                    vistaOficiales.tablaIngresosExterno = new JTable(vistaOficiales.modeloTablaIngresoExterno);
+                    new String[] { "Nombre", "ID", "Motivo", "Fecha", "Hora", "Nombre de oficial" }, 0);
+            vistaOficiales.tablaIngresosExterno = new JTable(vistaOficiales.modeloTablaIngresoExterno);
             JScrollPane scrollPane = new JScrollPane(vistaOficiales.tablaIngresosExterno);
             scrollPane.setBounds(25, 200, 1300, 400);
             panelIngreso.add(scrollPane);
@@ -128,8 +157,8 @@ public class PanelIngresoExterno extends JPanel {
             vistaOficiales.GenerarTablaIngresoExterno();
 
             JButton Regresar = new JButton("Regresar");
-            //permite al guarda regresar y poder seleccionar si quiere agergar un vehiculo externo, se le muestran los 2 radio button
-            Regresar.setBounds(500, 150, 100, 30);
+            // Permite volver a la selección inicial con los dos radio buttons
+            Regresar.setBounds(450, 150, 100, 30);
             Regresar.setBackground(new Color(0xFFE0133C));
             Regresar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
             Regresar.setBorderPainted(false);
@@ -142,7 +171,6 @@ public class PanelIngresoExterno extends JPanel {
                 panelIngreso.add(btnIngreso);
                 panelIngreso.revalidate();
                 panelIngreso.repaint();
-
             });
 
             panelIngreso.revalidate();
@@ -150,27 +178,50 @@ public class PanelIngresoExterno extends JPanel {
         });
 
         btnIngreso.addActionListener(e -> {
-
+            // Al seleccionar vehículo externo, se limpia y se crea el formulario con cuatro campos de nombre/apellidos
             panelIngreso.removeAll();
 
-            JLabel lblNombre = new JLabel("Nombre:");
-            lblNombre.setBounds(150, 20, 100, 30);
-            panelIngreso.add(lblNombre);
+            // --- Nombres (verticalmente) ---
+            JLabel lblNombre1 = new JLabel("Nombre 1:");
+            lblNombre1.setBounds(150, 20, 80, 30);
+            panelIngreso.add(lblNombre1);
+            JTextField txtNombre1 = new JTextField();
+            txtNombre1.setBounds(240, 20, 200, 30);
+            panelIngreso.add(txtNombre1);
 
-            JTextField txtNombre = new JTextField();
-            txtNombre.setBounds(250, 20, 200, 30);
-            panelIngreso.add(txtNombre);
+            JLabel lblNombre2 = new JLabel("Nombre 2:");
+            lblNombre2.setBounds(150, 60, 80, 30);
+            panelIngreso.add(lblNombre2);
+            JTextField txtNombre2 = new JTextField();
+            txtNombre2.setBounds(240, 60, 200, 30);
+            panelIngreso.add(txtNombre2);
 
+            // --- Apellidos (verticalmente, a la derecha de nombres) ---
+            JLabel lblApellido1 = new JLabel("Apellido 1:");
+            lblApellido1.setBounds(480, 20, 80, 30);
+            panelIngreso.add(lblApellido1);
+            JTextField txtApellido1 = new JTextField();
+            txtApellido1.setBounds(570, 20, 200, 30);
+            panelIngreso.add(txtApellido1);
+
+            JLabel lblApellido2 = new JLabel("Apellido 2:");
+            lblApellido2.setBounds(480, 60, 80, 30);
+            panelIngreso.add(lblApellido2);
+            JTextField txtApellido2 = new JTextField();
+            txtApellido2.setBounds(570, 60, 200, 30);
+            panelIngreso.add(txtApellido2);
+
+            // --- ID ---
             JLabel lblId = new JLabel("ID:");
-            lblId.setBounds(150, 60, 100, 30);
+            lblId.setBounds(150, 100, 100, 30);
             panelIngreso.add(lblId);
-
             JTextField txtId = new JTextField();
-            txtId.setBounds(250, 60, 200, 30);
+            txtId.setBounds(240, 100, 200, 30);
             panelIngreso.add(txtId);
 
+            // --- Motivo ---
             JLabel lblMotivo = new JLabel("Motivo:");
-            lblMotivo.setBounds(150, 100, 100, 30);
+            lblMotivo.setBounds(480, 100, 100, 30);
             panelIngreso.add(lblMotivo);
             String[] motivos = {
                     "Entrega de suministros",
@@ -184,45 +235,45 @@ public class PanelIngresoExterno extends JPanel {
                     "Entrega de equipo",
                     "Otro"
             };
-            JComboBox comboMotivo = new JComboBox(motivos);
-            comboMotivo.setBounds(250, 100, 200, 30);
+            JComboBox<String> comboMotivo = new JComboBox<>(motivos);
+            comboMotivo.setBounds(570, 100, 200, 30);
             panelIngreso.add(comboMotivo);
 
-            JLabel lblPlaca = new JLabel("Placa Vehiculo:");
-            lblPlaca.setBounds(470, 20, 100, 30);
+            // --- Placa Vehículo ---
+            JLabel lblPlaca = new JLabel("Placa Vehículo:");
+            lblPlaca.setBounds(800, 20, 100, 30);
             panelIngreso.add(lblPlaca);
-
             JTextField txtPlaca = new JTextField();
-            txtPlaca.setBounds(570, 20, 120, 30);
+            txtPlaca.setBounds(900, 20, 120, 30);
             panelIngreso.add(txtPlaca);
 
+            // --- Tipo de Vehículo ---
             JLabel lblTipoVehiculo = new JLabel("Tipo de Vehículo:");
-            lblTipoVehiculo.setBounds(470, 60, 100, 30);
+            lblTipoVehiculo.setBounds(800, 60, 100, 30);
             panelIngreso.add(lblTipoVehiculo);
-
             JComboBox<String> vehiculoComboBox = new JComboBox<>(
                     new String[] { "Automóvil", "Camioneta", "Motocicleta", "Bicicleta", "Bicimoto", "Otro" });
-            vehiculoComboBox.setBounds(570, 60, 120, 30);
+            vehiculoComboBox.setBounds(900, 60, 120, 30);
             panelIngreso.add(vehiculoComboBox);
 
+            // --- Cantidad de Pasajeros ---
             JLabel lblCantidadPasajeros = new JLabel("Cantidad de Pasajeros:");
-            lblCantidadPasajeros.setBounds(700, 20, 150, 30);
+            lblCantidadPasajeros.setBounds(1030, 20, 150, 30);
             panelIngreso.add(lblCantidadPasajeros);
-
             JTextField txtCantidad = new JTextField();
-            txtCantidad.setBounds(850, 20, 100, 30);
+            txtCantidad.setBounds(1180, 20, 100, 30);
             panelIngreso.add(txtCantidad);
 
-            JLabel lblCompania = new JLabel("Empresa Vehiculo:");
-            lblCompania.setBounds(700, 60, 150, 30);
+            // --- Empresa Vehículo ---
+            JLabel lblCompania = new JLabel("Empresa Vehículo:");
+            lblCompania.setBounds(1030, 60, 150, 30);
             panelIngreso.add(lblCompania);
-
             JTextField txtCompania = new JTextField();
-            txtCompania.setBounds(850, 60, 100, 30);
+            txtCompania.setBounds(1180, 60, 100, 30);
             panelIngreso.add(txtCompania);
 
             JButton btnGuardarVehiculo = new JButton("Guardar");
-            btnGuardarVehiculo.setBounds(850, 100, 100, 30);
+            btnGuardarVehiculo.setBounds(1180, 100, 100, 30);
             btnGuardarVehiculo.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
             btnGuardarVehiculo.setBackground(new Color(0xFF2BA76B));
             btnGuardarVehiculo.setForeground(Color.WHITE);
@@ -230,44 +281,52 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.add(btnGuardarVehiculo);
 
             btnGuardarVehiculo.addActionListener(ev -> {
-// se cre el ingreso externo, y luego se pasa al arraylist
-                String nombre = txtNombre.getText();
-                int id = Integer.parseInt(txtId.getText());
-
+                // lectura de los cuatro campos de nombre/apellidos
+                String nombre1 = txtNombre1.getText().trim();
+                String nombre2 = txtNombre2.getText().trim();
+                String apellido1 = txtApellido1.getText().trim();
+                String apellido2 = txtApellido2.getText().trim();
+                int id = Integer.parseInt(txtId.getText().trim());
                 String motivo = (String) comboMotivo.getSelectedItem();
                 LocalTime hora = LocalTime.now();
                 LocalDate fecha = LocalDate.now();
-                 
-                String nombreGuarda = vistaOficiales.controlador.buscarGuardaPorUsuario(vistaOficiales.controlador.getIdOficialActual());
+                String nombreGuarda = vistaOficiales.controlador
+                        .buscarGuardaPorUsuario(vistaOficiales.controlador.getIdOficialActual());
 
-                int cantidadP = Integer.parseInt(txtCantidad.getText());
-                String compani = txtCompania.getText();
-                String placa = txtPlaca.getText();
+                int cantidadP = Integer.parseInt(txtCantidad.getText().trim());
+                String compani = txtCompania.getText().trim();
+                String placa = txtPlaca.getText().trim();
                 String tipoV = (String) vehiculoComboBox.getSelectedItem();
 
                 Vehiculo vehiculo = new Vehiculo(placa, tipoV);
-
-                VehiculoExterno ingreso = new VehiculoExterno(fecha, motivo, hora, nombreGuarda, nombre, id,
-                        cantidadP, compani, vehiculo);
-                        vistaOficiales.controlador.getIngresosVehiculoExterno().add(ingreso);
+                // Concatenamos los cuatro componentes del nombre en un solo String para la tabla
+                String nombreCompleto = nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2;
+                VehiculoExterno ingreso = new VehiculoExterno(fecha, motivo, hora, nombreGuarda,
+                        nombreCompleto, id, cantidadP, compani, vehiculo);
+                vistaOficiales.controlador.getIngresosVehiculoExterno().add(ingreso);
 
                 JOptionPane.showMessageDialog(null, "Ingreso registrado exitosamente");
-                txtNombre.setText("");
+                // limpiar campos
+                txtNombre1.setText("");
+                txtNombre2.setText("");
+                txtApellido1.setText("");
+                txtApellido2.setText("");
                 txtId.setText("");
                 txtPlaca.setText("");
                 txtCantidad.setText("");
                 txtCompania.setText("");
                 comboMotivo.setSelectedIndex(0);
                 vehiculoComboBox.setSelectedIndex(0);
-                
 
                 vistaOficiales.GenerarTablaIngresoVehiculoExterno();
-
             });
 
-            vistaOficiales.modeloTablaVehiculoExterno = new DefaultTableModel(new String[] { "Nombre", "ID", "Motivo", "Fecha", "Hora",
-                    "Nombre de ofical", "Placa Vehiculo", "Tipo de Vehiculo", "Cantidad Pasajeros", "Compañia" }, 0);
-                    vistaOficiales.tablaIngresosExterno = new JTable(vistaOficiales.modeloTablaVehiculoExterno);
+            
+            vistaOficiales.modeloTablaVehiculoExterno = new DefaultTableModel(new String[] {
+                    "Nombre", "ID", "Motivo", "Fecha", "Hora", "Nombre de oficial", "Placa Vehículo",
+                    "Tipo de Vehículo", "Cantidad Pasajeros", "Compañía"
+            }, 0);
+            vistaOficiales.tablaIngresosExterno = new JTable(vistaOficiales.modeloTablaVehiculoExterno);
             JScrollPane scrollPane = new JScrollPane(vistaOficiales.tablaIngresosExterno);
             scrollPane.setBounds(25, 200, 1300, 400);
             panelIngreso.add(scrollPane);
@@ -275,22 +334,20 @@ public class PanelIngresoExterno extends JPanel {
             vistaOficiales.GenerarTablaIngresoVehiculoExterno();
 
             JButton Regresar = new JButton("Regresar");
-
-            Regresar.setBounds(590, 100, 100, 30);
+            Regresar.setBounds(900, 100, 100, 30);
             Regresar.setBackground(new Color(0xFFE0133C));
             Regresar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
             Regresar.setBorderPainted(false);
             Regresar.setForeground(Color.WHITE);
             panelIngreso.add(Regresar);
             Regresar.addActionListener(ev -> {
-                //permite al guarda regresar y poder seleccionar si quiere agergar una perona externa, se le muestran los 2 radio button
+                // Regresar a la pantalla inicial con los dos radio buttons
                 panelIngreso.removeAll();
                 panelIngreso.add(opcion);
                 panelIngreso.add(btnIngresoPersona);
                 panelIngreso.add(btnIngreso);
                 panelIngreso.revalidate();
                 panelIngreso.repaint();
-
             });
 
             panelIngreso.revalidate();
@@ -299,8 +356,4 @@ public class PanelIngresoExterno extends JPanel {
 
         return panelIngreso;
     }
-
-
 }
-
-

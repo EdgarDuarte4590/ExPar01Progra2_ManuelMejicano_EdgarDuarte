@@ -131,9 +131,9 @@ public class PanelSalidaEstudiante extends JPanel {
             String nombreGuarda = vistaOficiales.controlador.getIdOficialActual();
             try {
                 if (rs.next()) {
-                    String idSalida=vistaOficiales.controlador.generarIdSalidaEstudiante();
+                  
                     String carnetEstudiante = rs.getString("carnet");
-                    vistaOficiales.controlador.registrarSalidaEstudiante(idSalida,carnetEstudiante, fechaSalida, horaSalida, motivoSalida, nombreGuarda);
+                    vistaOficiales.controlador.registrarSalidaEstudiante(carnetEstudiante, fechaSalida, horaSalida, motivoSalida, nombreGuarda);
                 } else {
                     JOptionPane.showMessageDialog(null, "No se encontró información del estudiante seleccionado.");
                     return;

@@ -5,6 +5,7 @@ import javax.swing.UIManager;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import controlador.Controlador;
+import javax.swing.JOptionPane;
 import vista.MenuPrincipal;
 
 // Clase principal que inicializa la aplicación y configura el tema visual.
@@ -20,6 +21,7 @@ public class App {
 
         //instancia de la clase controlador quien es el que controla la apliacion
         Controlador controlador = new Controlador();
+      
          
     }
 
