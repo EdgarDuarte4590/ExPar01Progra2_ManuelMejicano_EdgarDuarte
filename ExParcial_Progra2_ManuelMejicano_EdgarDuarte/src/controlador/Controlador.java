@@ -56,7 +56,7 @@ public class Controlador {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(
-                    "jdbc:mysql://10.153.158.178:3306/proyecto1?verifyServerCertificate=false&useSSL=true",
+                    "jdbc:mysql://10.153.157.139:3306/proyecto1?verifyServerCertificate=false&useSSL=true",
                     "edgar_manuel", "QWERTY12345@");
             connection.setAutoCommit(true);
             statement = connection.createStatement();
@@ -106,6 +106,32 @@ public class Controlador {
         }
         return null; // Si no se encuentra el estudiante
     }
+
+    public String buscarNombrePersona(String cedula) { // Recibe la cédula de la persona
+    // Construye la consulta SQL para obtener los nombres y apellidos de la tabla personas
+    String sql = "SELECT nombre1, nombre2, apellido1, apellido2 FROM personas WHERE cedula = '" + cedula + "'";
+    try {
+        ResultSet rs = statement.executeQuery(sql);
+        if (rs.next()) {
+            // Si se encuentra un registro, arma el nombre completo
+            String nombreCompleto = rs.getString("nombre1") + " " 
+                                  + rs.getString("nombre2") + " " 
+                                  + rs.getString("apellido1") + " " 
+                                  + rs.getString("apellido2");
+            JOptionPane.showMessageDialog(null, "Persona encontrada: " + nombreCompleto);
+            return nombreCompleto; // Retorna el nombre completo de la persona
+        } else {
+            // Si no hay resultados, informa que no se encontró la persona
+            JOptionPane.showMessageDialog(null, "Persona no encontrada con la cédula: " + cedula);
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error al buscar persona: " + e.getMessage());
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error inesperado al buscar persona: " + e.getMessage());
+    }
+    return null; // Si no se encuentra la persona, devuelve null
+}
+
 
     // metodo que se encarga de buscar un funcionario por su placa, este metodo se
     // utiliza en la vista de oficiales para buscar un funcionario
@@ -356,6 +382,7 @@ public class Controlador {
                 + telefono + "', nombreUsuario = '" + nombreUsuario + "', contraseña = '" + contrasena
                 + "' WHERE nombreUsuario = '" + nombreUsuarioModi + "'";
         try {
+            
             int i = statement.executeUpdate(sql);
             if (i > 0) {
                 JOptionPane.showMessageDialog(null, "Oficial editado correctamente.");
@@ -422,11 +449,18 @@ public class Controlador {
         }
     }
 
+<<<<<<< HEAD
     public void registrarSalidaEstudiante(String carnetEstudiante, LocalDate fechaSalida, LocalTime horaSalida,
             String motivoSalida, String nombreGuarda) {
         String sql = "INSERT INTO salidas_estudiantes (carnet, fecha, hora, motivo, nombre_usuario_guarda) VALUES ('"
                 + carnetEstudiante + "', '" + fechaSalida + "', '" + horaSalida + "', '" + motivoSalida + "', '"
                 + nombreGuarda + "')";
+=======
+
+    public void registrarSalidaEstudiante(String idSalida,String carnetEstudiante, LocalDate fechaSalida, LocalTime horaSalida, String motivoSalida, String nombreGuarda) {
+        String sql = "INSERT INTO salidas_estudiantes (id,carnet, fecha, hora, motivo, nombre_usuario_guarda) VALUES ('"+ idSalida + "', '"
+                + carnetEstudiante + "', '" + fechaSalida + "', '" + horaSalida + "', '" + motivoSalida + "', '" + nombreGuarda + "')";
+>>>>>>> 669a8265f9fa23950cc330d55b2c10549e4ae84f
         try {
             int i = statement.executeUpdate(sql);
             if (i > 0) {
@@ -439,6 +473,7 @@ public class Controlador {
         }
     }
 
+<<<<<<< HEAD
     public String getTipoVehiculo(String placa) {
         String tipoVehiculo = "";
         String query = "SELECT tipoVehiculo FROM vehiculos WHERE placa = '" + placa + "'";
@@ -454,6 +489,22 @@ public class Controlador {
             System.out.println("Error al obtener tipo de vehículo: " + e.getMessage());
         }
         return tipoVehiculo;
+=======
+    public String generarIdSalidaEstudiante() {
+        String sql = "SELECT COUNT(*) AS total FROM salidas_estudiantes";
+        try {
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs.next()) {
+                int total = rs.getInt("total");
+                return "SE" + (total + 1); // Genera un ID único basado en el total de salidas
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al generar ID de salida: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado al generar ID de salida: " + e.getMessage());
+        }
+        return null; // Si ocurre un error, retorna null
+>>>>>>> 669a8265f9fa23950cc330d55b2c10549e4ae84f
     }
 
 }

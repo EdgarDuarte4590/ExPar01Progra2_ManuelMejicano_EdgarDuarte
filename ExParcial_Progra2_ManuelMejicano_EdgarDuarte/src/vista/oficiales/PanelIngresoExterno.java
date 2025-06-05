@@ -14,7 +14,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import modelo.IngresoExterno;
 import modelo.Vehiculo;
 import modelo.VehiculoExterno;
 
@@ -106,10 +105,9 @@ public class PanelIngresoExterno extends JPanel {
                 LocalTime hora = LocalTime.now();
                 LocalDate fecha = LocalDate.now();
                
-                String nombreGuarda = vistaOficiales.controlador.buscarGuardaPorUsuario(vistaOficiales.controlador.getIdOficialActual());
+                String nombreUsuarioGuarda = vistaOficiales.controlador.buscarGuardaPorUsuario(vistaOficiales.controlador.getIdOficialActual());
                 // se cre el ingreso externo, y luefo se pasa al arraylist
-                IngresoExterno ingreso = new IngresoExterno(fecha, motivo, hora, nombreGuarda, nombre, id);
-                vistaOficiales.controlador.getIngresosExternos().add(ingreso);
+
 
                 JOptionPane.showMessageDialog(null, "Ingreso registrado exitosamente");
                 txtNombre.setText("");
@@ -304,3 +302,5 @@ public class PanelIngresoExterno extends JPanel {
 
 
 }
+
+
