@@ -69,6 +69,7 @@ public class VistaOficiales extends javax.swing.JFrame {
         tabbedPane.addTab("Ingreso Externo", panelIngresoExterno.initComponents());
 
         panelFuncionarios.generarTablaFuncionarios();
+        panelFuncionarios.GenerarComboFuncionarios();
 
     }
 
@@ -215,7 +216,7 @@ public class VistaOficiales extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-
+    
     public void consultarEstudiantes(String busqueda) {
         if (busqueda == null || busqueda.isEmpty()) {
             generarJComboEstudiantes2();
@@ -230,6 +231,7 @@ public class VistaOficiales extends javax.swing.JFrame {
             ResultSet rs = controlador.statement.executeQuery(query);
 
             generarJComboEstudiantes(rs);
+            ;
 
             rs.close();
         } catch (SQLException e) {

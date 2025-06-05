@@ -56,11 +56,7 @@ public class Controlador {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(
-<<<<<<< HEAD
                     "jdbc:mysql://10.153.158.178:3306/proyecto1?verifyServerCertificate=false&useSSL=true",
-=======
-                    "jdbc:mysql://localhost:3306/proyecto1?verifyServerCertificate=false&useSSL=true",
->>>>>>> 12757fa8696f3557be74ca3300959ce54bada355
                     "edgar_manuel", "QWERTY12345@");
             connection.setAutoCommit(true);
             statement = connection.createStatement();

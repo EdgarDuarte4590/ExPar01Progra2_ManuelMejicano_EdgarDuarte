@@ -300,7 +300,7 @@ public class PanelFuncionarios extends JPanel {
 
             generarTablaFuncionarios();
             
-            // GenerarComboFuncionarios();
+            GenerarComboFuncionarios();
         });
     
         return panelFuncionarios;

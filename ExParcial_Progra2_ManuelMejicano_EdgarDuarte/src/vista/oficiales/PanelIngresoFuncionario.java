@@ -28,7 +28,7 @@ public class PanelIngresoFuncionario extends JPanel{
         JPanel panelIngreso = new JPanel();
         panelIngreso.setLayout(null);
 
-        JLabel labelPlaca = new JLabel("Número de placa del vehículo:");
+        JLabel labelPlaca = new JLabel("Número de cedula del funcionario:");
         labelPlaca.setBounds(25, 50, 200, 30);
         panelIngreso.add(labelPlaca);
 
