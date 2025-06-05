@@ -70,6 +70,8 @@ public class VistaOficiales extends javax.swing.JFrame {
 
         panelFuncionarios.generarTablaFuncionarios();
         panelFuncionarios.GenerarComboFuncionarios();
+        generarTablaIngresoFuncionarios();
+        
 
     }
 
@@ -78,28 +80,7 @@ public class VistaOficiales extends javax.swing.JFrame {
         return stmt.executeQuery(sql);
     }
 
-    public void consultarFuncionario(String placa) {
-        String sql = "SELECT * FROM personas WHERE placaVehiculo = '" + placa + "' AND tipoPersona = 'Funcionario'";
-        try {
-            ResultSet rs = controlador.statement.executeQuery(sql);
-            if (rs.next()) {
-                String nombreCompleto = rs.getString("nombre1") + " " + rs.getString("nombre2") + " "
-                        + rs.getString("apellido1") + " " + rs.getString("apellido2");
-                String id = rs.getString("cedula");
-                String puesto = rs.getString("ocupacion");
-                String placaVehiculo = rs.getString("placaVehiculo");
-                String tipoVehiculo = controlador.getTipoVehiculo(placaVehiculo);
-
-            } else {
-                JOptionPane.showMessageDialog(this, "No se encontró un funcionario con la placa: " + placa,
-                        "Funcionario no encontrado", JOptionPane.WARNING_MESSAGE);
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al consultar el funcionario: " + e.getMessage(),
-                    "Error de consulta", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
+  
     private void mostrarDialogoCerrar() {
         // Opciones personalizadas
         String[] opciones = {"Cerrar sesión", "Salir", "Cancelar"};
@@ -243,7 +224,7 @@ public class VistaOficiales extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
+
     public void consultarEstudiantes(String busqueda) {
         if (busqueda == null || busqueda.isEmpty()) {
             generarJComboEstudiantes2();
@@ -290,27 +271,58 @@ public class VistaOficiales extends javax.swing.JFrame {
 
     JComboBox<String> comboBoxFuncionarios = new JComboBox<>();
 
-    
 
-    public void GenerarTablaIngresoFuncionarios() {
+
+    public void generarTablaIngresoFuncionarios() {
 
         modeloTablaIngresoFuncionarios.setRowCount(0);
 
-        for (IngresoFuncionario ingreso : controlador.getIngresosFuncionarios()) {
+        String SQL = "SELECT * FROM ingresos";
+        try {
+            Statement stmt = controlador.connection.createStatement();
+            ResultSet rs = stmt.executeQuery(SQL);
+            while (rs.next()) {
+                String id = rs.getString("cedula");
 
-            modeloTablaIngresoFuncionarios.addRow(new Object[]{
-                ingreso.getFuncionario().getNombre(),
-                ingreso.getFuncionario().getId(),
-                ingreso.getFuncionario().getPuesto(),
-                ingreso.getFuncionario().getVehiculo().getTipoVehiculo(),
-                ingreso.getFuncionario().getVehiculo().getPlaca(),
-                ingreso.getFechaIngreso(),
-                ingreso.getHoraIngreso().format(controlador.formato),
-                ingreso.getNombreGuarda()
-            });
+               ResultSet rsFuncionario = controlador.consultarFuncionario(id);
+                if (rsFuncionario == null || !rsFuncionario.next()) {
+                    continue; // Si no se encuentra el funcionario, saltar a la siguiente iteración
+                }
 
+                String nombre1 = rsFuncionario.getString("nombre1");
+                String nombre2 = rsFuncionario.getString("nombre2");
+                String apellido1 = rsFuncionario.getString("apellido1");
+                String apellido2 = rsFuncionario.getString("apellido2");
+                String puesto = rsFuncionario.getString("ocupacion");
+
+                String nombreCompleto = nombre1  + " " + (nombre2 != null ? nombre2 + " " : "")
+                        + (apellido1 != null ? apellido1 + " " : "")
+                        + (apellido2 != null ? apellido2 : "");
+              
+                String fechaIngreso = rs.getString("fecha");
+                String horaIngreso = rs.getString("hora");
+                String nombreGuarda = rs.getString(6);
+                System.out.println("Nombre guarda: " + nombreGuarda);
+                String tipoVehiculo = "";
+                String placa = rsFuncionario.getString("placaVehiculo");
+                if (placa != null) {
+                   tipoVehiculo = controlador.getTipoVehiculo(placa);
+                    
+                }else{
+                    placa = "No aplica";
+                }
+                
+                String nombreGuardaCompleto = controlador.buscarGuardaPorUsuario(nombreGuarda);
+                System.out.println("Nombre guarda completo: " + nombreGuardaCompleto);
+
+                 modeloTablaIngresoFuncionarios.addRow(new Object[]{
+                      nombreCompleto, id, puesto,tipoVehiculo ,placa, fechaIngreso, horaIngreso, nombreGuardaCompleto
+                 });
+            }
+        }catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar ingresos de funcionarios: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
-
     }
 
     public void GenerarTablaIngresoExterno() {

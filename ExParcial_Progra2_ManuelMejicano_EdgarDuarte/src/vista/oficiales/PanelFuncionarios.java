@@ -308,7 +308,7 @@ public class PanelFuncionarios extends JPanel {
 
     public void GenerarComboFuncionarios() {
         vistaOficiales.comboBoxFuncionarios.removeAllItems();
-        String query = "SELECT nombre1, nombre2, apellido1, apellido2 FROM personas WHERE tipoPersona = 'Funcionario'";
+        String query = "SELECT cedula FROM personas WHERE tipoPersona = 'Funcionario'";
         try {
             ResultSet rs = vistaOficiales.controlador.statement.executeQuery(query);
             if (rs == null) {
@@ -317,9 +317,8 @@ public class PanelFuncionarios extends JPanel {
                 return;
             } else {
                 while (rs.next()) {
-                    String nombre = rs.getString("nombre1") + " " + rs.getString("nombre2") + " "
-                            + rs.getString("apellido1") + " " + rs.getString("apellido2");
-                    vistaOficiales.comboBoxFuncionarios.addItem(nombre);
+                    String cedula = rs.getString("cedula");
+                    vistaOficiales.comboBoxFuncionarios.addItem(cedula);
                 }
             }
         } catch (SQLException e) {
@@ -361,7 +360,7 @@ public class PanelFuncionarios extends JPanel {
                     String puesto = rs.getString("ocupacion");
                     String placa = rs.getString("placaVehiculo");
                     String tipoVehiculo = vistaOficiales.controlador.getTipoVehiculo(placa);
-                    
+
                     vistaOficiales.modeloTablaFuncionarios
                             .addRow(new Object[] { puesto, nombre, id, tipoVehiculo, placa });
                 }

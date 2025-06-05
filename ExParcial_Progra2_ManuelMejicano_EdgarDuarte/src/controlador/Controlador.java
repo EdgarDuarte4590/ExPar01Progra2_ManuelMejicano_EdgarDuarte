@@ -41,7 +41,7 @@ public class Controlador {
     private ArrayList<VehiculoExterno> ingresosVehiculoExterno;
     private ArrayList<Salida> salidasEstudiantes;
     private boolean sesionInciadaOficial = true;
-    private boolean sesionIniciadaAdmin = true;
+    private boolean sesionIniciadaAdmin = false;
 
     // private String idAcceso = "1234", contraAdmin = "Douglas2025";
     public Connection connection = null;
@@ -56,7 +56,7 @@ public class Controlador {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(
-                    "jdbc:mysql://10.153.157.139:3306/proyecto1?verifyServerCertificate=false&useSSL=true",
+                    "jdbc:mysql://10.153.156.142:3306/proyecto1?verifyServerCertificate=false&useSSL=true",
                     "edgar_manuel", "QWERTY12345@");
             connection.setAutoCommit(true);
             statement = connection.createStatement();
@@ -449,18 +449,10 @@ public class Controlador {
         }
     }
 
-<<<<<<< HEAD
-    public void registrarSalidaEstudiante(String carnetEstudiante, LocalDate fechaSalida, LocalTime horaSalida,
-            String motivoSalida, String nombreGuarda) {
-        String sql = "INSERT INTO salidas_estudiantes (carnet, fecha, hora, motivo, nombre_usuario_guarda) VALUES ('"
-                + carnetEstudiante + "', '" + fechaSalida + "', '" + horaSalida + "', '" + motivoSalida + "', '"
-                + nombreGuarda + "')";
-=======
 
     public void registrarSalidaEstudiante(String idSalida,String carnetEstudiante, LocalDate fechaSalida, LocalTime horaSalida, String motivoSalida, String nombreGuarda) {
         String sql = "INSERT INTO salidas_estudiantes (id,carnet, fecha, hora, motivo, nombre_usuario_guarda) VALUES ('"+ idSalida + "', '"
                 + carnetEstudiante + "', '" + fechaSalida + "', '" + horaSalida + "', '" + motivoSalida + "', '" + nombreGuarda + "')";
->>>>>>> 669a8265f9fa23950cc330d55b2c10549e4ae84f
         try {
             int i = statement.executeUpdate(sql);
             if (i > 0) {
@@ -473,7 +465,6 @@ public class Controlador {
         }
     }
 
-<<<<<<< HEAD
     public String getTipoVehiculo(String placa) {
         String tipoVehiculo = "";
         String query = "SELECT tipoVehiculo FROM vehiculos WHERE placa = '" + placa + "'";
@@ -489,7 +480,8 @@ public class Controlador {
             System.out.println("Error al obtener tipo de vehículo: " + e.getMessage());
         }
         return tipoVehiculo;
-=======
+    }
+
     public String generarIdSalidaEstudiante() {
         String sql = "SELECT COUNT(*) AS total FROM salidas_estudiantes";
         try {
@@ -504,7 +496,37 @@ public class Controlador {
             JOptionPane.showMessageDialog(null, "Error inesperado al generar ID de salida: " + e.getMessage());
         }
         return null; // Si ocurre un error, retorna null
->>>>>>> 669a8265f9fa23950cc330d55b2c10549e4ae84f
+    }
+
+    public void agregarIngresoFuncionario( String idFuncionario, LocalDate fechaIngreso, LocalTime horaIngreso, String nameUserGuarda) {
+        String sql = "INSERT INTO ingresos (cedula, fecha, hora, nombre_usuario_guarda) VALUES ('"  + idFuncionario + "', '"
+                + fechaIngreso +  "', '" + horaIngreso + "', '" + nameUserGuarda + "')";
+        try {
+            int i = statement.executeUpdate(sql);
+            if (i > 0) {
+                JOptionPane.showMessageDialog(null, "Ingreso de funcionario registrado correctamente.");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al registrar ingreso de funcionario: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado al registrar ingreso de funcionario: " + e.getMessage());
+        }
+    }
+
+    public ResultSet consultarFuncionario(String cedula) {
+        String sql = "SELECT * FROM personas WHERE tipoPersona = 'Funcionario' AND cedula ='"+ cedula + "'";
+
+         // Consulta SQL para buscar un funcionario por su cédula
+        try {
+            Statement stet = connection.createStatement();
+            return stet.executeQuery(sql);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al ejecutar consulta: " + e.getMessage());
+            return null;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado: " + e.getMessage());
+            return null;
+        }
     }
 
 }
