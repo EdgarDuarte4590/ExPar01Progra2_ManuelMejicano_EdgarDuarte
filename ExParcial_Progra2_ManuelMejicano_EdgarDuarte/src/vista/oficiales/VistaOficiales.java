@@ -73,6 +73,33 @@ public class VistaOficiales extends javax.swing.JFrame {
 
     }
 
+    public ResultSet ejecutarConsulta(String sql) throws SQLException {
+        Statement stmt = controlador.connection.createStatement();
+        return stmt.executeQuery(sql);
+    }
+
+    public void consultarFuncionario(String placa) {
+        String sql = "SELECT * FROM personas WHERE placaVehiculo = '" + placa + "' AND tipoPersona = 'Funcionario'";
+        try {
+            ResultSet rs = controlador.statement.executeQuery(sql);
+            if (rs.next()) {
+                String nombreCompleto = rs.getString("nombre1") + " " + rs.getString("nombre2") + " "
+                        + rs.getString("apellido1") + " " + rs.getString("apellido2");
+                String id = rs.getString("cedula");
+                String puesto = rs.getString("ocupacion");
+                String placaVehiculo = rs.getString("placaVehiculo");
+                String tipoVehiculo = controlador.getTipoVehiculo(placaVehiculo);
+
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró un funcionario con la placa: " + placa,
+                        "Funcionario no encontrado", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al consultar el funcionario: " + e.getMessage(),
+                    "Error de consulta", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     private void mostrarDialogoCerrar() {
         // Opciones personalizadas
         String[] opciones = {"Cerrar sesión", "Salir", "Cancelar"};

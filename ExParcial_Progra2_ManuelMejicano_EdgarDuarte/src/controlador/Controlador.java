@@ -32,6 +32,7 @@ public class Controlador {
     // de oficiales, cuando todo se conecte a la
     // base de datos, se eliminara este arraylist y se utilizara la base de datos
     // para obtener los oficiales
+
     private ArrayList<Guarda> oficiales;
     private ArrayList<Estudiante> estudiantes;
     private ArrayList<Funcionario> funcionarios;
@@ -39,8 +40,9 @@ public class Controlador {
     private ArrayList<IngresoExterno> ingresosExternos;
     private ArrayList<VehiculoExterno> ingresosVehiculoExterno;
     private ArrayList<Salida> salidasEstudiantes;
-    private boolean sesionInciadaOficial = false;
-    private boolean sesionIniciadaAdmin = false;
+    private boolean sesionInciadaOficial = true;
+    private boolean sesionIniciadaAdmin = true;
+
     // private String idAcceso = "1234", contraAdmin = "Douglas2025";
     public Connection connection = null;
     public Statement statement = null;
@@ -49,10 +51,8 @@ public class Controlador {
     private String idOficialActual; // guarda el id del oficial que inicio sesion
     public MenuPrincipal menuPrincipal;// declaracion de la interface grafica del menu principal
     public DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss"); // formato en que se guardara y mostrara
- 
 
     public Controlador() throws ClassNotFoundException, SQLException {
-
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(
@@ -64,7 +64,7 @@ public class Controlador {
         } catch (SQLException e) {
 
         }
-        
+
         oficiales = new ArrayList<>();
         estudiantes = new ArrayList<>();
         funcionarios = new ArrayList<>();
@@ -78,6 +78,7 @@ public class Controlador {
         menuPrincipal.setLocationRelativeTo(null);
     }
 
+
     // metodo que se encarga de buscar un estudainte por su carnet, este metodo se
     // utiliza en la vista de oficiales para buscar un estudiante
     // en la vista de salida de estudiantes, se le pasa el carnet y se busca en el
@@ -87,7 +88,7 @@ public class Controlador {
     // por medio de esta busca podemos obteber el index del estudiante en el
     // arraylist yposterior sus atributos
     public String buscarNombreEstudiante(String carnet) { // Ocupa el numero de carnet
-     String sql="SELECT * nombre1, nombre2, apellido1, apellido2 FROM estudiantes WHERE carnet = '" + carnet + "'";
+        String sql = "SELECT * nombre1, nombre2, apellido1, apellido2 FROM estudiantes WHERE carnet = '" + carnet + "'";
         try {
             ResultSet rs = statement.executeQuery(sql);
             if (rs.next()) {
@@ -130,9 +131,10 @@ public class Controlador {
         try {
             ResultSet rs = statement.executeQuery(sql);
             if (rs.next()) {
-                nombreGuarda = rs.getString("nombre1") + " " + rs.getString("nombre2") + " " + rs.getString("apellido1") + " " + rs.getString("apellido2");
-                
-                return nombreGuarda;  // Retorna el ResultSet si se encuentra el guarda
+                nombreGuarda = rs.getString("nombre1") + " " + rs.getString("nombre2") + " " + rs.getString("apellido1")
+                        + " " + rs.getString("apellido2");
+
+                return nombreGuarda; // Retorna el ResultSet si se encuentra el guarda
             } else {
                 JOptionPane.showMessageDialog(null, "Guarda no encontrado con el nombre de usuario: " + nombreUsuario);
             }
@@ -182,7 +184,8 @@ public class Controlador {
         this.menuPrincipal = menuPrincipal;
     }
 
-    public void agregarOficial(String nombre1, String nombre2, String apellido1, String apellido2, String nombreUsuario, String contrasena, String telefono,
+    public void agregarOficial(String nombre1, String nombre2, String apellido1, String apellido2, String nombreUsuario,
+            String contrasena, String telefono,
             String cedula) {
         String tipo = "Guarda";
         String sql = "INSERT INTO usuarios (nombre1, nombre2, apellido1, apellido2, nombreUsuario, contraseña, numeroTelefono, cedula, tipoUsuario) VALUES ('"
@@ -208,7 +211,8 @@ public class Controlador {
             if (i > 0) {
                 JOptionPane.showMessageDialog(null, "Oficial eliminado correctamente.");
             } else {
-                JOptionPane.showMessageDialog(null, "No se encontró el oficial con el nombre de usuario: " + nombreUsuario);
+                JOptionPane.showMessageDialog(null,
+                        "No se encontró el oficial con el nombre de usuario: " + nombreUsuario);
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al eliminar oficial: " + e.getMessage());
@@ -363,12 +367,15 @@ public class Controlador {
         }
     }
 
-    public void editarEstudiante(String nombre1, String nombre2, String apellido1, String apellido2, String id, LocalDate fechaNacimiento, String carnet, String nacionalidad, String direccion,String carnetModi){
+    public void editarEstudiante(String nombre1, String nombre2, String apellido1, String apellido2, String id,
+            LocalDate fechaNacimiento, String carnet, String nacionalidad, String direccion, String carnetModi) {
 
         java.sql.Date fechaNacimientoSQL = java.sql.Date.valueOf(fechaNacimiento);
 
-        String sql = "UPDATE estudiantes SET nombre1 = '" + nombre1 + "', nombre2 = '" + nombre2 + "', apellido1 = '" + apellido1 + "', apellido2 = '" + apellido2 + "', cedula = '"
-                + id + "', fechaNacimiento = '" + fechaNacimientoSQL + "', carnet = '" + carnet + "', nacionalidad = '" + nacionalidad + "', direccion = '" + direccion
+        String sql = "UPDATE estudiantes SET nombre1 = '" + nombre1 + "', nombre2 = '" + nombre2 + "', apellido1 = '"
+                + apellido1 + "', apellido2 = '" + apellido2 + "', cedula = '"
+                + id + "', fechaNacimiento = '" + fechaNacimientoSQL + "', carnet = '" + carnet + "', nacionalidad = '"
+                + nacionalidad + "', direccion = '" + direccion
                 + "' WHERE carnet = '" + carnetModi + "'";
         try {
             int i = statement.executeUpdate(sql);
@@ -399,25 +406,27 @@ public class Controlador {
         }
     }
 
-public ResultSet consultarEstudiante(String nombreCompleto) {
-    String sql = "SELECT * FROM estudiantes WHERE CONCAT(nombre1, ' ', nombre2, ' ', apellido1, ' ', apellido2) LIKE '%" + nombreCompleto + "%'";
+    public ResultSet consultarEstudiante(String nombreCompleto) {
+        String sql = "SELECT * FROM estudiantes WHERE CONCAT(nombre1, ' ', nombre2, ' ', apellido1, ' ', apellido2) LIKE '%"
+                + nombreCompleto + "%'";
 
-    try {
-        Statement stet = connection.createStatement();
-        return stet.executeQuery(sql);
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Error al ejecutar consulta: " + e.getMessage());
-        return null;
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error inesperado: " + e.getMessage());
-        return null;
+        try {
+            Statement stet = connection.createStatement();
+            return stet.executeQuery(sql);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al ejecutar consulta: " + e.getMessage());
+            return null;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado: " + e.getMessage());
+            return null;
+        }
     }
-}
 
-
-    public void registrarSalidaEstudiante(String carnetEstudiante, LocalDate fechaSalida, LocalTime horaSalida, String motivoSalida, String nombreGuarda) {
+    public void registrarSalidaEstudiante(String carnetEstudiante, LocalDate fechaSalida, LocalTime horaSalida,
+            String motivoSalida, String nombreGuarda) {
         String sql = "INSERT INTO salidas_estudiantes (carnet, fecha, hora, motivo, nombre_usuario_guarda) VALUES ('"
-                + carnetEstudiante + "', '" + fechaSalida + "', '" + horaSalida + "', '" + motivoSalida + "', '" + nombreGuarda + "')";
+                + carnetEstudiante + "', '" + fechaSalida + "', '" + horaSalida + "', '" + motivoSalida + "', '"
+                + nombreGuarda + "')";
         try {
             int i = statement.executeUpdate(sql);
             if (i > 0) {
@@ -428,6 +437,23 @@ public ResultSet consultarEstudiante(String nombreCompleto) {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error inesperado al registrar salida: " + e.getMessage());
         }
+    }
+
+    public String getTipoVehiculo(String placa) {
+        String tipoVehiculo = "";
+        String query = "SELECT tipoVehiculo FROM vehiculos WHERE placa = '" + placa + "'";
+        try {
+            Statement stmt = connection.createStatement(); // ← nuevo Statement
+            ResultSet rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                tipoVehiculo = rs.getString("tipoVehiculo");
+            }
+            rs.close(); // Cierra el ResultSet explícitamente
+            stmt.close(); // Cierra el Statement explícitamente
+        } catch (SQLException e) {
+            System.out.println("Error al obtener tipo de vehículo: " + e.getMessage());
+        }
+        return tipoVehiculo;
     }
 
 }
