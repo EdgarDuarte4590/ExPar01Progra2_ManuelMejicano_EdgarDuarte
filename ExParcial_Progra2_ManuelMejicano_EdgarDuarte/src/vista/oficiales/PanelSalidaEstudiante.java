@@ -39,7 +39,7 @@ public JPanel initComponents() throws SQLException  {
     label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 15));
     panelEstSalidas.add(label);
 
-    JLabel label7 = new JLabel("Búsqueda por carnet :");
+    JLabel label7 = new JLabel("Buscar estudiante:");
     label7.setBounds(50, 100, 200, 30);
     panelEstSalidas.add(label7);
 
@@ -155,7 +155,7 @@ public JPanel initComponents() throws SQLException  {
     JButton btnEliminar = new JButton("Eliminar Salida");
      btnEliminar.setToolTipText("Haga clic para eliminar un oficial seleccionado");
     btnEliminar.setIcon(new ImageIcon("src/resources/icon_eliminar.png"));
-    btnEliminar.setBounds(1020, 170, 200, 30); // Justo debajo de "Aprobar salida"
+    btnEliminar.setBounds(1020, 610, 200, 30); // Justo debajo de "Aprobar salida"
     btnEliminar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
     btnEliminar.setBackground(new Color(0xFFB00020));
     btnEliminar.setForeground(Color.WHITE);

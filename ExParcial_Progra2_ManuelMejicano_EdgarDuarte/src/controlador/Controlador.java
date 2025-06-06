@@ -40,7 +40,7 @@ public class Controlador {
     private ArrayList<IngresoExterno> ingresosExternos;
     private ArrayList<VehiculoExterno> ingresosVehiculoExterno;
     private ArrayList<Salida> salidasEstudiantes;
-    private boolean sesionInciadaOficial = false;
+    private boolean sesionInciadaOficial = true;
     private boolean sesionIniciadaAdmin = false;
 
     // private String idAcceso = "1234", contraAdmin = "Douglas2025";
@@ -121,6 +121,8 @@ public class Controlador {
         return null; // Si ocurre un error, retorna null:
 
     }
+
+    
 
     public String buscarNombrePersona(String cedula) { // Recibe la cédula de la persona
         // Construye la consulta SQL para obtener los nombres y apellidos de la tabla
