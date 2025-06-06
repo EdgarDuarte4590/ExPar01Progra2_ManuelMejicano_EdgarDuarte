@@ -68,7 +68,6 @@ public class PanelIngresoExterno extends JPanel {
             txtNombre2.setBounds(540, 60, 200, 30);
             panelIngreso.add(txtNombre2);
 
-            // --- Apellidos (verticalmente, a la derecha de nombres) ---
             JLabel lblApellido1 = new JLabel("Apellido 1:");
             lblApellido1.setBounds(780, 20, 80, 30);
             panelIngreso.add(lblApellido1);
@@ -83,7 +82,7 @@ public class PanelIngresoExterno extends JPanel {
             txtApellido2.setBounds(870, 60, 200, 30);
             panelIngreso.add(txtApellido2);
 
-            // --- ID ---
+        
             JLabel lblId = new JLabel("ID:");
             lblId.setBounds(450, 100, 100, 30);
             panelIngreso.add(lblId);
@@ -178,7 +177,8 @@ public class PanelIngresoExterno extends JPanel {
                         "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
                     
-                    vistaOficiales.controlador.eliminarIngresoExterno(idIngreso);
+                    vistaOficiales.controlador.eliminarIngresoExterno(idIngreso, "Externo");
+                    vistaOficiales.generarTablaIngresoExterno();
                 }
             });
             panelIngreso.add(btnEliminarPersona);
@@ -382,10 +382,8 @@ public class PanelIngresoExterno extends JPanel {
                         "¿Está seguro de que desea eliminar el ingreso con ID: " + idIngreso + "?",
                         "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
-                    // TODO: Reemplazar con la lógica real de eliminación en el controlador:
-                    // vistaOficiales.controlador.eliminarIngresoVehiculoExterno(idIngreso);
-                    JOptionPane.showMessageDialog(panelIngreso,
-                            "Función de eliminar aún no implementada para ID: " + idIngreso);
+                    vistaOficiales.controlador.eliminarIngresoExterno(idIngreso, "VehiculoExterno");
+                    vistaOficiales.GenerarTablaIngresoVehiculoExterno();
                 }
             });
             panelIngreso.add(btnEliminarVehiculo);
