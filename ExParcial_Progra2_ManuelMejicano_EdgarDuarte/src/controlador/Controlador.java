@@ -178,7 +178,7 @@ public class Controlador {
 
                 return nombreGuarda; // Retorna el ResultSet si se encuentra el guarda
             } else {
-                JOptionPane.showMessageDialog(null, "Guarda no encontrado con el nombre de usuario: " + nombreUsuario);
+                //OptionPane.showMessageDialog(null, "Guarda no encontrado con el nombre de usuario: " + nombreUsuario);
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al buscar guarda: " + e.getMessage());
