@@ -1,6 +1,8 @@
 package vista.oficiales;
 
 import controlador.Controlador;
+
+import java.awt.Taskbar.State;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
@@ -69,10 +71,23 @@ public class VistaOficiales extends javax.swing.JFrame {
         tabbedPane.addTab("Ingreso Externo", panelIngresoExterno.initComponents());
 
         panelFuncionarios.generarTablaFuncionarios();
-        panelFuncionarios.GenerarComboFuncionarios();
+        panelFuncionarios.generarComboFuncionarios();
         generarTablaIngresoFuncionarios();
         
 
+    }
+
+    public void eliminarIngresoFuncionario(String id) {
+        String sql = "DELETE FROM ingresos WHERE tipoIngreso = 'Funcionario' AND id = '" + id + "'";
+        try {
+            controlador.statement.executeUpdate(sql);
+            JOptionPane.showMessageDialog(this, "Ingreso eliminado correctamente.");
+            generarTablaIngresoFuncionarios();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al eliminar el ingreso: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }
 
     public ResultSet ejecutarConsulta(String sql) throws SQLException {
@@ -225,6 +240,27 @@ public class VistaOficiales extends javax.swing.JFrame {
         }
     }
 
+    public void generarComboBusquedaFuncionario(ResultSet rs) {
+        comboBoxFuncionarios.removeAllItems();
+        if (rs == null) {
+            JOptionPane.showMessageDialog(this, "No se encontraron estudiantes.",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        try {
+            while (rs.next()) {
+                System.out.println("Buscando funcionario...");
+                String cedula = rs.getString("cedula");
+                System.out.println("Cedula encontrada: " + cedula);
+                comboBoxFuncionarios.addItem(cedula);
+            }
+            System.out.println("Combo de funcionarios generado correctamente.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void consultarEstudiantes(String busqueda) {
         if (busqueda == null || busqueda.isEmpty()) {
             generarJComboEstudiantes2();
@@ -248,6 +284,32 @@ public class VistaOficiales extends javax.swing.JFrame {
         }
     }
 
+    public void buscarFuncionario(String busqueda) {
+        if (busqueda == null || busqueda.isEmpty()) {
+            panelFuncionarios.generarComboFuncionarios();
+            return;
+        }
+
+        System.out.println("Buscando funcionarios con: " + busqueda);
+        try {
+                String sql = "SELECT * FROM personas WHERE tipoPersona = 'Funcionario' AND (nombre1 LIKE '%" + busqueda
+           + "%' OR nombre2 LIKE '%" + busqueda + "%' OR apellido1 LIKE '%" + busqueda + "%' OR apellido2 LIKE '%"
+           + busqueda + "%' OR cedula LIKE '%" + busqueda + "%')";
+
+           Statement stmt = controlador.connection.createStatement();
+           System.out.println("hola");
+            ResultSet rs = stmt.executeQuery(sql);
+               
+            System.out.println("adios");
+
+            generarComboBusquedaFuncionario(rs);
+           
+            rs.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al consultar funcionarios: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     public void generarTablaFuncionarios() {
         modeloTablaFuncionarios.setRowCount(0);
         for (Funcionario funcionario : controlador.getFuncionarios()) {
@@ -277,7 +339,7 @@ public class VistaOficiales extends javax.swing.JFrame {
 
         modeloTablaIngresoFuncionarios.setRowCount(0);
 
-        String SQL = "SELECT * FROM ingresos";
+        String SQL = "SELECT * FROM ingresos where tipoIngreso = 'Funcionario'";
         try {
             Statement stmt = controlador.connection.createStatement();
             ResultSet rs = stmt.executeQuery(SQL);
@@ -289,11 +351,15 @@ public class VistaOficiales extends javax.swing.JFrame {
                     continue; // Si no se encuentra el funcionario, saltar a la siguiente iteración
                 }
 
+                String idIngreso = rs.getString("id");
+                System.out.println("ID Ingreso: " + idIngreso);
+
                 String nombre1 = rsFuncionario.getString("nombre1");
                 String nombre2 = rsFuncionario.getString("nombre2");
                 String apellido1 = rsFuncionario.getString("apellido1");
                 String apellido2 = rsFuncionario.getString("apellido2");
                 String puesto = rsFuncionario.getString("ocupacion");
+
 
                 String nombreCompleto = nombre1  + " " + (nombre2 != null ? nombre2 + " " : "")
                         + (apellido1 != null ? apellido1 + " " : "")
@@ -313,10 +379,10 @@ public class VistaOficiales extends javax.swing.JFrame {
                 }
                 
                 String nombreGuardaCompleto = controlador.buscarGuardaPorUsuario(nombreGuarda);
-                System.out.println("Nombre guarda completo: " + nombreGuardaCompleto);
+          
 
                  modeloTablaIngresoFuncionarios.addRow(new Object[]{
-                      nombreCompleto, id, puesto,tipoVehiculo ,placa, fechaIngreso, horaIngreso, nombreGuardaCompleto
+                    idIngreso, nombreCompleto, id, puesto,tipoVehiculo ,placa, fechaIngreso, horaIngreso, nombreGuardaCompleto
                  });
             }
         }catch (SQLException e) {
