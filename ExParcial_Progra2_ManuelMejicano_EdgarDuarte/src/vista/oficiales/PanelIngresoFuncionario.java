@@ -134,7 +134,6 @@ public class PanelIngresoFuncionario extends JPanel {
             if (selectedRow != -1) {
                 String idIngreso = vistaOficiales.modeloTablaIngresoFuncionarios.getValueAt(selectedRow, 0).toString();
                 vistaOficiales.eliminarIngresoFuncionario(idIngreso);
-                vistaOficiales.modeloTablaIngresoFuncionarios.removeRow(selectedRow);
             } else {
                 JOptionPane.showMessageDialog(null, "Seleccione un ingreso para eliminar");
             }

@@ -176,8 +176,7 @@ public class Controlador {
     }
 
     public void agregarOficial(String nombre1, String nombre2, String apellido1, String apellido2, String nombreUsuario,
-            String contrasena, String telefono,
-            String cedula) {
+            String contrasena, String telefono, String cedula) {
         String tipo = "Guarda";
         String sql = "INSERT INTO usuarios (nombre1, nombre2, apellido1, apellido2, nombreUsuario, contraseña, numeroTelefono, cedula, tipoUsuario) VALUES ('"
                 + nombre1 + "', '" + nombre2 + "', '" + apellido1 + "', '" + apellido2 + "', '" + nombreUsuario + "', '"

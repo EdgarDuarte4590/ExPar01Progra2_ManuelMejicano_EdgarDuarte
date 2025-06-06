@@ -157,7 +157,7 @@ public class PanelOficialesAdmin extends JPanel {
                 }
             } else {
                 try {
-                    vistaAdministrador.agregarOficial(
+                    vistaAdministrador.controlador.agregarOficial(
                             textFieldNombre1.getText(), textFieldNombre2.getText(),
                             textFieldApellido1.getText(), textFieldApellido2.getText(),
                             textFieldNombreUsuario.getText(), textFieldContrasena.getText(),
@@ -193,9 +193,9 @@ public class PanelOficialesAdmin extends JPanel {
         btnAgregar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12)); // Establecer la fuente del botón
         panelOficiales.add(btnAgregar); // Agregar el botón al panel de oficiales
         btnAgregar.addActionListener(e -> {
-            if (textFieldID.getText().isEmpty() || textFieldNombre1.getText().isEmpty() ||
-                    textFieldNombre2.getText().isEmpty() || textFieldApellido1.getText().isEmpty()
-                    || textFieldApellido2.getText().isEmpty() || textFieldTelefono.getText().isEmpty()
+            if (textFieldID.getText().isEmpty() || textFieldNombre1.getText().isEmpty()
+             || textFieldApellido1.getText().isEmpty()
+                    || textFieldApellido2.getText().isEmpty() 
                     || textFieldNombreUsuario.getText().isEmpty() || textFieldContrasena.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
                 return;
@@ -226,7 +226,7 @@ public class PanelOficialesAdmin extends JPanel {
                 }
             } else {
                 try {
-                    vistaAdministrador.agregarOficial(
+                    vistaAdministrador.controlador.agregarOficial(
                             textFieldNombre1.getText(), textFieldNombre2.getText(),
                             textFieldApellido1.getText(), textFieldApellido2.getText(),
                             textFieldNombreUsuario.getText(), textFieldContrasena.getText(),
