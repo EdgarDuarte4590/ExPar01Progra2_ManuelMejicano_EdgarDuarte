@@ -86,7 +86,7 @@ public class VistaAdmin extends JFrame {
 
         return panelAdministradores;
 
-        
+
     }
 
     private void mostrarDialogoCerrar() {
@@ -165,21 +165,7 @@ public class VistaAdmin extends JFrame {
         generarTablaEstudiantes();
     }
 
-    public void agregarOficial(String nombre1,String nombre2,String apellido1,String apellido2, String nombreUsuario, String contrasena, String telefono, String id)
-            throws SQLException {
-        // Lógica para agregar el oficial
-        if (nombre1.isEmpty() || apellido1.isEmpty() || apellido2.isEmpty() || nombreUsuario.isEmpty()
-                || contrasena.isEmpty() || telefono.isEmpty() || id.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
-            return;
-        }
-        
-        controlador.editarOficial(nombre1, nombre2, apellido1, apellido2, telefono, nombreUsuario, contrasena,telefono, id);
-
-
-        generarTablaOficiales();
-    }
-
+ 
     // carga la tabla de estudiantes cada que se agrega o elimina
     public void generarTablaEstudiantes() {
 

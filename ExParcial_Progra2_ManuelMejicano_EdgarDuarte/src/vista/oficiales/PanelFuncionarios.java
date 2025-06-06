@@ -20,6 +20,19 @@ public class PanelFuncionarios extends JPanel {
     VistaOficiales vistaOficiales;
     boolean editando  =false;
 
+
+    public void eliminarFuncionario(String cedula) {
+        String sql = "DELETE FROM personas WHERE cedula = '" + cedula + "' AND tipoPersona = 'Funcionario'";
+        try {
+            vistaOficiales.controlador.statement.executeUpdate(sql);
+            JOptionPane.showMessageDialog(this, "Funcionario eliminado correctamente.");
+            generarTablaFuncionarios();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al eliminar el funcionario: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public PanelFuncionarios(VistaOficiales vistaOficiales) {
         this.vistaOficiales = vistaOficiales;
         initComponents();
@@ -156,12 +169,13 @@ public class PanelFuncionarios extends JPanel {
                     "Funcionario no seleccionado", JOptionPane.WARNING_MESSAGE);
             return;
         }
+
         String cedulaSeleccionada = vistaOficiales.tablaFuncionarios.getValueAt(filaSeleccionada, 2).toString();
         int confirm = JOptionPane.showConfirmDialog(panelFuncionarios,
                 "¿Está seguro de que desea eliminar al funcionario con cédula: " + cedulaSeleccionada + "?",
                 "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
- 
+            eliminarFuncionario(cedulaSeleccionada);
         }
     });
     panelFuncionarios.add(btnEliminar);

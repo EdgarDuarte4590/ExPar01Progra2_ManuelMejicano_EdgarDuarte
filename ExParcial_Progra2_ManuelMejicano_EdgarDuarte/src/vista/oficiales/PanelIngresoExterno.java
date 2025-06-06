@@ -296,7 +296,7 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.add(txtCantidad);
 
             // --- Empresa Vehículo ---
-            JLabel lblCompania = new JLabel("Empresa Vehículo: *");
+            JLabel lblCompania = new JLabel("Empresa Vehículo:");
             lblCompania.setBounds(1030, 60, 150, 30);
             panelIngreso.add(lblCompania);
             JTextField txtCompania = new JTextField();

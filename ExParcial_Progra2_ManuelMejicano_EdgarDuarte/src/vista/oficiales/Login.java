@@ -41,10 +41,10 @@ public class Login extends JFrame{
             label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14)); 
             container.add(label);  
 
-            JLabel label2 = new JLabel("Escriba el ID de Acceso:");
+            JLabel label2 = new JLabel("Escriba su Nombre de Usuario:");
 
             
-            label2.setBounds(180, 100, 200, 30);
+            label2.setBounds(170, 100, 200, 30);
             container.add(label2); 
 
             JTextField idAcceso = new JTextField();
