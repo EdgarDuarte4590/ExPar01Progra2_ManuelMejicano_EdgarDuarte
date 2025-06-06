@@ -1,5 +1,6 @@
 package controlador;
 
+import java.awt.Taskbar.State;
 import java.io.InputStreamReader;
 import java.sql.*;
 import java.time.LocalDate;
@@ -78,7 +79,6 @@ public class Controlador {
         menuPrincipal.setLocationRelativeTo(null);
     }
 
-
     // metodo que se encarga de buscar un estudainte por su carnet, este metodo se
     // utiliza en la vista de oficiales para buscar un estudiante
     // en la vista de salida de estudiantes, se le pasa el carnet y se busca en el
@@ -107,31 +107,47 @@ public class Controlador {
         return null; // Si no se encuentra el estudiante
     }
 
-    public String buscarNombrePersona(String cedula) { // Recibe la cédula de la persona
-    // Construye la consulta SQL para obtener los nombres y apellidos de la tabla personas
-    String sql = "SELECT nombre1, nombre2, apellido1, apellido2 FROM personas WHERE cedula = '" + cedula + "'";
-    try {
-        ResultSet rs = statement.executeQuery(sql);
-        if (rs.next()) {
-            // Si se encuentra un registro, arma el nombre completo
-            String nombreCompleto = rs.getString("nombre1") + " " 
-                                  + rs.getString("nombre2") + " " 
-                                  + rs.getString("apellido1") + " " 
-                                  + rs.getString("apellido2");
-            JOptionPane.showMessageDialog(null, "Persona encontrada: " + nombreCompleto);
-            return nombreCompleto; // Retorna el nombre completo de la persona
-        } else {
-            // Si no hay resultados, informa que no se encontró la persona
-            JOptionPane.showMessageDialog(null, "Persona no encontrada con la cédula: " + cedula);
-        }
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Error al buscar persona: " + e.getMessage());
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error inesperado al buscar persona: " + e.getMessage());
-    }
-    return null; // Si no se encuentra la persona, devuelve null
-}
+    public ResultSet busquedaDinamicaFuncionarios(String criterio) {
+        String sql = "SELECT * FROM usuarios WHERE tipoUsuario = 'Funcionario' AND (nombre1 LIKE '%" + criterio
+                + "%' OR nombre2 LIKE '%" + criterio + "%' OR apellido1 LIKE '%" + criterio + "%' OR apellido2 LIKE '%"
+                + criterio + "%' OR cedula LIKE '%" + criterio + "%')";
 
+        try {
+            Statement stmnt = connection.createStatement();
+            return stmnt.executeQuery(sql);
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+        return null; // Si ocurre un error, retorna null:
+
+    }
+
+    public String buscarNombrePersona(String cedula) { // Recibe la cédula de la persona
+        // Construye la consulta SQL para obtener los nombres y apellidos de la tabla
+        // personas
+        String sql = "SELECT nombre1, nombre2, apellido1, apellido2 FROM personas WHERE cedula = '" + cedula + "'";
+        try {
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs.next()) {
+                // Si se encuentra un registro, arma el nombre completo
+                String nombreCompleto = rs.getString("nombre1") + " "
+                        + rs.getString("nombre2") + " "
+                        + rs.getString("apellido1") + " "
+                        + rs.getString("apellido2");
+                JOptionPane.showMessageDialog(null, "Persona encontrada: " + nombreCompleto);
+                return nombreCompleto; // Retorna el nombre completo de la persona
+            } else {
+                // Si no hay resultados, informa que no se encontró la persona
+                JOptionPane.showMessageDialog(null, "Persona no encontrada con la cédula: " + cedula);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al buscar persona: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado al buscar persona: " + e.getMessage());
+        }
+        return null; // Si no se encuentra la persona, devuelve null
+    }
 
     // metodo que se encarga de buscar un funcionario por su placa, este metodo se
     // utiliza en la vista de oficiales para buscar un funcionario
@@ -382,7 +398,7 @@ public class Controlador {
                 + telefono + "', nombreUsuario = '" + nombreUsuario + "', contraseña = '" + contrasena
                 + "' WHERE nombreUsuario = '" + nombreUsuarioModi + "'";
         try {
-            
+
             int i = statement.executeUpdate(sql);
             if (i > 0) {
                 JOptionPane.showMessageDialog(null, "Oficial editado correctamente.");
@@ -449,10 +465,13 @@ public class Controlador {
         }
     }
 
+  
 
-    public void registrarSalidaEstudiante(String carnetEstudiante, LocalDate fechaSalida, LocalTime horaSalida, String motivoSalida, String nombreGuarda) {
+    public void registrarSalidaEstudiante(String carnetEstudiante, LocalDate fechaSalida, LocalTime horaSalida,
+            String motivoSalida, String nombreGuarda) {
         String sql = "INSERT INTO salidas_estudiantes (carnet, fecha, hora, motivo, nombre_usuario_guarda) VALUES ('"
-                + carnetEstudiante + "', '" + fechaSalida + "', '" + horaSalida + "', '" + motivoSalida + "', '" + nombreGuarda + "')";
+                + carnetEstudiante + "', '" + fechaSalida + "', '" + horaSalida + "', '" + motivoSalida + "', '"
+                + nombreGuarda + "')";
         try {
             int i = statement.executeUpdate(sql);
             if (i > 0) {
@@ -465,19 +484,21 @@ public class Controlador {
         }
     }
 
-    public void registrarPersonaExterna(String cedula,String nombre1,String nombre2,String apellido1,String apellido2){
-        String tipoPersona="Externa";
+    public void registrarPersonaExterna(String cedula, String nombre1, String nombre2, String apellido1,
+            String apellido2) {
+        String tipoPersona = "Externa";
         String sql = "INSERT INTO personas (cedula, nombre1, nombre2, apellido1, apellido2, tipoPersona) VALUES ('"
-                + cedula + "', '" + nombre1 + "', '" + nombre2 + "', '" + apellido1 + "', '" + apellido2 + "', '" + tipoPersona + "')";
+                + cedula + "', '" + nombre1 + "', '" + nombre2 + "', '" + apellido1 + "', '" + apellido2 + "', '"
+                + tipoPersona + "')";
 
-                try {
-                    int i = statement.executeUpdate(sql);
-                    if (i > 0) {
-                        JOptionPane.showMessageDialog(null, "Persona externa registrada correctamente.");
-                    }
-                    
-                } catch (SQLException e) {
-                }
+        try {
+            int i = statement.executeUpdate(sql);
+            if (i > 0) {
+                JOptionPane.showMessageDialog(null, "Persona externa registrada correctamente.");
+            }
+
+        } catch (SQLException e) {
+        }
     }
 
 
@@ -497,10 +518,11 @@ public class Controlador {
         }
     }
 
-
-public void agregarIngresoFuncionario( String idFuncionario, LocalDate fechaIngreso, LocalTime horaIngreso, String nameUserGuarda) {
-        String sql = "INSERT INTO ingresos (cedula, fecha, hora, nombre_usuario_guarda) VALUES ('"  + idFuncionario + "', '"
-                + fechaIngreso +  "', '" + horaIngreso + "', '" + nameUserGuarda + "')";
+    public void agregarIngresoFuncionario(String idFuncionario, LocalDate fechaIngreso, LocalTime horaIngreso,
+            String nameUserGuarda) {
+        String sql = "INSERT INTO ingresos (cedula, fecha, hora, nombre_usuario_guarda, tipoIngreso) VALUES ('"
+                + idFuncionario + "', '"
+                + fechaIngreso + "', '" + horaIngreso + "', '" + nameUserGuarda + "', '" + "Funcionario" + "')";
         try {
             int i = statement.executeUpdate(sql);
             if (i > 0) {
@@ -509,14 +531,15 @@ public void agregarIngresoFuncionario( String idFuncionario, LocalDate fechaIngr
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al registrar ingreso de funcionario: " + e.getMessage());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error inesperado al registrar ingreso de funcionario: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,
+                    "Error inesperado al registrar ingreso de funcionario: " + e.getMessage());
         }
     }
 
     public ResultSet consultarFuncionario(String cedula) {
-        String sql = "SELECT * FROM personas WHERE tipoPersona = 'Funcionario' AND cedula ='"+ cedula + "'";
+        String sql = "SELECT * FROM personas WHERE tipoPersona = 'Funcionario' AND cedula ='" + cedula + "'";
 
-         // Consulta SQL para buscar un funcionario por su cédula
+        // Consulta SQL para buscar un funcionario por su cédula
         try {
             Statement stet = connection.createStatement();
             return stet.executeQuery(sql);

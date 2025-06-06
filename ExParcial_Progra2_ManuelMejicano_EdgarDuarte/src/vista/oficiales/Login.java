@@ -101,6 +101,26 @@ public class Login extends JFrame{
                 }
             });
             container.add(btnIniciar);
+
+            contrasena.addActionListener(e -> {
+                if (!contrasena.getText().isEmpty()) {
+                   String id = idAcceso.getText();
+                //posible error, en efecto estaba mal, corregido*
+                String contra =new String(contrasena.getPassword());
+                controlador.loginOficial(id, contra); // Método para iniciar sesión
+                if (controlador.isSesionInciadaOficial()) {
+                    System.out.println("Sesión iniciada correctamente.");
+                    this.dispose(); // Cerrar la ventana de inicio de sesión
+                    
+                        controlador.menuPrincipal.vistaOficiales.generarJComboEstudiantes2();
+                 
+                    controlador.menuPrincipal.vistaOficiales.generarTablaIngresoFuncionarios();
+                    controlador.menuPrincipal.vistaOficiales.setVisible(true);; // Abrir la vista de oficiales
+                } else {
+                    System.out.println("Error al iniciar sesión. Verifique sus credenciales.");
+                }
+                }
+            });
         }
     
         

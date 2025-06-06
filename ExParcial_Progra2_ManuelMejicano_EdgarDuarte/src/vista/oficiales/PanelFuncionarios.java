@@ -300,13 +300,13 @@ public class PanelFuncionarios extends JPanel {
 
             generarTablaFuncionarios();
             
-            GenerarComboFuncionarios();
+            generarComboFuncionarios();
         });
     
         return panelFuncionarios;
     }
 
-    public void GenerarComboFuncionarios() {
+    public void generarComboFuncionarios() {
         vistaOficiales.comboBoxFuncionarios.removeAllItems();
         String query = "SELECT cedula FROM personas WHERE tipoPersona = 'Funcionario'";
         try {
@@ -391,7 +391,7 @@ public class PanelFuncionarios extends JPanel {
             JOptionPane.showMessageDialog(vistaOficiales, "Funcionario actualizado correctamente.",
                     "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
             generarTablaFuncionarios();
-            GenerarComboFuncionarios();
+            generarComboFuncionarios();
         } catch (Exception e) {
 
         }
