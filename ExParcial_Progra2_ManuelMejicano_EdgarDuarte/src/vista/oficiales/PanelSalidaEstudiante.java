@@ -112,7 +112,7 @@ public JPanel initComponents() throws SQLException  {
     btnRegistrar.addActionListener(e -> {
 
         
-       //preguntar si esta seguro de registrar la salida
+       
         int confirm = JOptionPane.showConfirmDialog(null, "¿Está seguro de que desea registrar la salida del estudiante?", "Confirmar registro", JOptionPane.YES_NO_OPTION);
         if (confirm != JOptionPane.YES_OPTION) {
             return; 
