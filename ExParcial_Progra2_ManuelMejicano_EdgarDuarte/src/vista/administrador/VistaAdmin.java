@@ -23,8 +23,7 @@ import com.toedter.calendar.JDateChooser;
 import controlador.Controlador;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import modelo.Estudiante;
-import modelo.Guarda;
+
 
 public class VistaAdmin extends JFrame {
     Controlador controlador; // Instancia del controlador

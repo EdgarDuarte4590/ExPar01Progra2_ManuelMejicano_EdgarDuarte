@@ -36,7 +36,7 @@ public class PanelFuncionarios extends JPanel {
     label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 15));
     panelFuncionarios.add(label);
 
-    JLabel label2 = new JLabel("Seleccione el rol del funcionario:");
+    JLabel label2 = new JLabel("Seleccione el rol del funcionario: *");
     label2.setBounds(50, 100, 500, 30);
     panelFuncionarios.add(label2);
 
@@ -82,7 +82,7 @@ public class PanelFuncionarios extends JPanel {
     segundoApellidoField.setToolTipText("Digite el segundo apellido del funcionario (ej. Gómez)");
     panelFuncionarios.add(segundoApellidoField);
 
-    JLabel label4 = new JLabel("Número de identificación:");
+    JLabel label4 = new JLabel("Número de identificación: *");
     label4.setBounds(50, 410, 200, 30);
     panelFuncionarios.add(label4);
 

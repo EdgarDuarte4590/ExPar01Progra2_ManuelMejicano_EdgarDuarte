@@ -3,10 +3,8 @@ package vista.oficiales;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.LocalTime;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,8 +14,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import modelo.Funcionario;
-import modelo.IngresoFuncionario;
 
 public class PanelIngresoFuncionario extends JPanel {
     VistaOficiales vistaOficiales;
@@ -76,26 +72,10 @@ public class PanelIngresoFuncionario extends JPanel {
         btnAgregar.setForeground(java.awt.Color.white);
         panelIngreso.add(btnAgregar);
 
-        // Llenar el JComboBox con los nombres de los funcionarios registrados
-        if (vistaOficiales.controlador.getFuncionarios() != null) {
+       
+ 
 
-        } else {
-            vistaOficiales.comboBoxFuncionarios.addItem("No hay funcionario registrados");
-        }
 
-        btnBuscar.addActionListener(e -> {
-            // busca el funcionario por medio de la placa
-            String placa = txtBusqueda.getText();
-            for (int i = 0; i < vistaOficiales.controlador.getFuncionarios().size(); i++) {
-                if (placa.equals(vistaOficiales.controlador.getFuncionarios().get(i).getVehiculo().getPlaca())) {
-                    vistaOficiales.comboBoxFuncionarios.setSelectedIndex(i);
-                    return;
-                }
-
-            }
-            vistaOficiales.comboBoxFuncionarios.setSelectedIndex(-1);
-            JOptionPane.showMessageDialog(null, "No se encontro el funcionario con ese número de placa: " + placa);
-        });
 
         vistaOficiales.modeloTablaIngresoFuncionarios = new DefaultTableModel(new String[] {
                 "ID Ingreso", "Nombre Funcionario", "Cédula", "Puesto",
