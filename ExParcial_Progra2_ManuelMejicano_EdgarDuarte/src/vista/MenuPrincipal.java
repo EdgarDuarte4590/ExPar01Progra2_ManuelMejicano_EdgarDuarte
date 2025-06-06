@@ -69,12 +69,12 @@ public class MenuPrincipal extends JFrame {
         // Use the custom RoundedPanel instead of JPanel
         RoundedPanel panelPrincipal = new RoundedPanel();
         panelPrincipal.setLayout(null);
-        panelPrincipal.setBounds(383, 150, 600, 400);
+        panelPrincipal.setBounds(283, 150, 800, 500);
         panelPrincipal.setBackground(Color.WHITE);
         panelFondo.add(panelPrincipal);
 
         JLabel label = new JLabel("Bienvenido al Sistema de Control de Ingresos y Salidas del CTP UPALA");
-        label.setBounds(25, 50, 550, 30);
+        label.setBounds(130, 50, 550, 30);
         label.setFont(new Font("Arial", Font.BOLD, 15));
         panelPrincipal.add(label);
 
@@ -82,16 +82,18 @@ public class MenuPrincipal extends JFrame {
         JLabel labelIcon = new JLabel(icono);
         Image imagenEscalada = icono.getImage().getScaledInstance(100, 130, Image.SCALE_SMOOTH);
         labelIcon.setIcon(new ImageIcon(imagenEscalada));
-        labelIcon.setBounds(205, 210, 200, 200);
+        labelIcon.setBounds(300, 310, 200, 200);
         panelPrincipal.add(labelIcon);
 
-        JLabel label2 = new JLabel("- Iniciar Sesión -");
-        label2.setBounds(260, 100, 500, 30);
+        JLabel label2 = new JLabel("MENU PRINCIPAL");
+        label2.setFont(new Font("Arial", Font.BOLD, 20));
+        label2.setForeground(new Color(0xFF054FBE));
+        label2.setBounds(325, 100, 200, 30);
         panelPrincipal.add(label2);
 
         JButton btnGuarda = new JButton("Oficial de Seguridad");
         btnGuarda.setIcon(new ImageIcon("src/resources/icon_oficial.png"));
-        btnGuarda.setBounds(205, 150, 200, 30);
+        btnGuarda.setBounds(300, 150, 200, 30);
         btnGuarda.setFont(new Font("Arial", Font.BOLD, 12));
         btnGuarda.setBackground(new Color(0xFF054FBE));
         btnGuarda.setForeground(Color.WHITE);
@@ -111,7 +113,7 @@ public class MenuPrincipal extends JFrame {
 
         JButton btnAdmin = new JButton("Administrador");
         btnAdmin.setIcon(new ImageIcon("src/resources/icon_admin.png"));
-        btnAdmin.setBounds(205, 200, 200, 30);
+        btnAdmin.setBounds(300, 200, 200, 30);
         btnAdmin.setFont(new Font("Arial", Font.BOLD, 12));
         btnAdmin.setBackground(new Color(0xFF054FBE));
         btnAdmin.setForeground(Color.WHITE);
@@ -130,6 +132,40 @@ public class MenuPrincipal extends JFrame {
                     e1.printStackTrace();
                 }
             }
+        });
+
+        JButton btnSalir = new JButton("Salir");
+        btnSalir.setIcon(new ImageIcon("src/resources/icon_salir.png"));
+        btnSalir.setBounds(300, 250, 200, 30);
+        btnSalir.setFont(new Font("Arial", Font.BOLD, 12));
+        btnSalir.setBackground(new Color(0xFF054FBE));
+        btnSalir.setForeground(Color.WHITE);
+        panelPrincipal.add(btnSalir);
+        btnSalir.addActionListener(e -> {
+            int respuesta = javax.swing.JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea salir?", "Confirmar Salida", javax.swing.JOptionPane.YES_NO_OPTION);
+            if (respuesta == javax.swing.JOptionPane.YES_OPTION) {
+                try {
+                    if (controlador.connection != null && !controlador.connection.isClosed()) {
+                        controlador.connection.close(); // Cierra la conexión si está abierta
+                    }
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+                System.exit(0); // Cierra la aplicación
+            }
+        });
+
+        JButton btnSporte = new JButton("Soporte Técnico");
+        btnSporte.setIcon(new ImageIcon("src/resources/icon_soporte.png"));
+        btnSporte.setBounds(300, 300, 200, 30);
+        btnSporte.setFont(new Font("Arial", Font.BOLD, 12));
+        btnSporte.setBackground(new Color(0xFF054FBE));
+        btnSporte.setForeground(Color.WHITE);
+        panelPrincipal.add(btnSporte);
+        btnSporte.addActionListener(e -> {
+           SoporteFrame soporteFrame = new SoporteFrame();
+            soporteFrame.setVisible(true);
+            soporteFrame.setLocationRelativeTo(null);
         });
     }
 

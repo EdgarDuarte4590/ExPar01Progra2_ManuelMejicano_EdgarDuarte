@@ -40,7 +40,7 @@ public class Controlador {
     private ArrayList<IngresoExterno> ingresosExternos;
     private ArrayList<VehiculoExterno> ingresosVehiculoExterno;
     private ArrayList<Salida> salidasEstudiantes;
-    private boolean sesionInciadaOficial = true;
+    private boolean sesionInciadaOficial = false;
     private boolean sesionIniciadaAdmin = false;
 
     // private String idAcceso = "1234", contraAdmin = "Douglas2025";
@@ -616,8 +616,8 @@ public class Controlador {
         }
     }
 
-    public void eliminarIngresoExterno(String id) {
-        String sql = "DELETE FROM ingresos WHERE id = '" + id + "' AND tipoIngreso = 'Externo'";
+    public void eliminarIngresoExterno(String id, String tipoIngreso) {
+        String sql = "DELETE FROM ingresos WHERE id = '" + id + "' AND tipoIngreso = '" + tipoIngreso + "'";
         try {
             int i = statement.executeUpdate(sql);
             if (i > 0) {
