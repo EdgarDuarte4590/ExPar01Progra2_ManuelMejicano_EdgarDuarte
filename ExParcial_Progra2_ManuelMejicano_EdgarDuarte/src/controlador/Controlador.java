@@ -41,7 +41,7 @@ public class Controlador {
     private ArrayList<IngresoExterno> ingresosExternos;
     private ArrayList<VehiculoExterno> ingresosVehiculoExterno;
     private ArrayList<Salida> salidasEstudiantes;
-    private boolean sesionInciadaOficial = true;
+    private boolean sesionInciadaOficial = false;
     private boolean sesionIniciadaAdmin = false;
 
     // private String idAcceso = "1234", contraAdmin = "Douglas2025";
@@ -567,6 +567,51 @@ public class Controlador {
             System.out.println("Error al obtener tipo de vehículo: " + e.getMessage());
         }
         return tipoVehiculo;
+    }
+
+    public void registrarPersonaVehiculoExterno(String cedula, String nombre1, String nombre2, String apellido1, String apellido2, String placa) {
+        String tipoPersona = "ExternaVehiculo";
+        String sql = "INSERT INTO personas (cedula, nombre1, nombre2, apellido1, apellido2, tipoPersona, placaVehiculo) VALUES ('"
+                + cedula + "', '" + nombre1 + "', '" + nombre2 + "', '" + apellido1 + "', '" + apellido2 + "', '" + tipoPersona + "', '" + placa + "')";
+        try {
+            int i = statement.executeUpdate(sql);
+            if (i > 0) {
+                JOptionPane.showMessageDialog(null, "Persona externa con vehículo registrada correctamente.");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al registrar persona externa con vehículo: " + e.getMessage());
+        }
+    }
+
+    public void registarIngresoVehiculoExterno(String cedula, LocalDate fecha, LocalTime hora, String motivo, String nombreGuarda, String placa) {
+        String tipoIngreso = "VehiculoExterno";
+        String sql = "INSERT INTO ingresos (cedula, fecha, hora, motivo, nombre_usuario_guarda, tipoIngreso, placa_vehiculo) VALUES ('"
+                + cedula + "', '" + fecha + "', '" + hora + "', '" + motivo + "', '" + nombreGuarda + "', '" + tipoIngreso + "', '" + placa + "')";
+        try {
+            int i = statement.executeUpdate(sql);
+            if (i > 0) {
+                JOptionPane.showMessageDialog(null, "Ingreso de vehículo externo registrado correctamente.");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al registrar ingreso de vehículo externo: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado al registrar ingreso de vehículo externo: " + e.getMessage());
+        }
+    }
+ 
+    public void registrarVehiculoExterno(String placa,int cantidadPasajeros, String nombreEmpresa,String tipoVehiculo ){
+        String sql = "INSERT INTO vehiculos (placa, cantidadPasajeros, nombreEmpresa, tipoVehiculo) VALUES ('"
+                + placa + "', '" + cantidadPasajeros + "', '" + nombreEmpresa + "', '" + tipoVehiculo + "')";
+        try {
+            int i = statement.executeUpdate(sql);
+            if (i > 0) {
+                JOptionPane.showMessageDialog(null, "Vehículo externo registrado correctamente.");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al registrar vehículo externo: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado al registrar vehículo externo: " + e.getMessage());
+        }
     }
 
 }

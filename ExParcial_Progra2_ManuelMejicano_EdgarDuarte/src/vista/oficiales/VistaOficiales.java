@@ -437,17 +437,67 @@ public class VistaOficiales extends javax.swing.JFrame {
     }
 
     public void GenerarTablaIngresoVehiculoExterno() {
+
+        JOptionPane.showMessageDialog(this, "Cargando ingresos de vehículos externos...");
         modeloTablaVehiculoExterno.setRowCount(0);
-        for (VehiculoExterno ingreso : controlador.getIngresosVehiculoExterno()) {
+            String SQL="SELECT * FROM ingresos WHERE tipoIngreso='VehiculoExterno'";
+        
+        try {
+            Statement stmt = controlador.connection.createStatement();
+            ResultSet rs = stmt.executeQuery(SQL);
+            while (rs.next()) {
+                String id = rs.getString("cedula");
+                Statement stmte=controlador.connection.createStatement();
+                String SQLPersona = "SELECT nombre1, nombre2, apellido1, apellido2 FROM personas WHERE cedula = '" + id + "'";
+                ResultSet rsPersona=stmte.executeQuery(SQLPersona);
+                String nombreCompleto="";
+                if (rsPersona.next()) {
+                    String nombre1 = rsPersona.getString("nombre1");
+                    String nombre2 = rsPersona.getString("nombre2");
+                    String apellido1 = rsPersona.getString("apellido1");
+                    String apellido2 = rsPersona.getString("apellido2");
 
-            modeloTablaVehiculoExterno.addRow(new Object[]{
-                ingreso.getVisitante().getNombre(), ingreso.getVisitante().getId(), ingreso.getMotivo(),
-                ingreso.getFechaIngreso(), ingreso.getHoraIngreso().format(controlador.formato),
-                ingreso.getNombreGuarda(),
-                ingreso.getVehiculo().getPlaca(), ingreso.getVehiculo().getTipoVehiculo(),
-                ingreso.getCantidadPasajeros(), ingreso.getCompania(),});
-
+                    nombreCompleto = (nombre1 != null ? nombre1 : "") + " "
+                            + (nombre2 != null ? nombre2 : "") + " "
+                            + (apellido1 != null ? apellido1 : "") + " "
+                            + (apellido2 != null ? apellido2 : "");
+                }
+                String fechaIngreso = rs.getString("fecha");
+                String horaIngreso = rs.getString("hora");
+                String motivo = rs.getString("motivo");
+                String nombreUsuarioGuarda = rs.getString("nombre_usuario_guarda");
+                String nombreGuarda = controlador.buscarGuardaPorUsuario(nombreUsuarioGuarda);
+                Statement stmtVehiculo = controlador.connection.createStatement();
+                String SQLVehiculo="SELECT * FROM vehiculos WHERE placa = '" + rs.getString("placa_vehiculo") + "'";
+                ResultSet rsVehiculo = stmtVehiculo.executeQuery(SQLVehiculo);
+                String tipoVehiculo = "";
+                String placa = "";
+                int cantidadPasajeros = 0;
+                String compania = "";
+                if (rsVehiculo.next()) {
+                    tipoVehiculo = rsVehiculo.getString("tipoVehiculo");
+                    placa = rsVehiculo.getString("placa");
+                    cantidadPasajeros = rsVehiculo.getInt("cantidadPasajeros");
+                    compania = rsVehiculo.getString("nombreEmpresa");
+                    
+                } else {
+                    tipoVehiculo = "No aplica";
+                    placa = "No aplica";
+                    cantidadPasajeros = 0;
+                }
+                modeloTablaVehiculoExterno.addRow(new Object[]{
+                    nombreCompleto.trim(), id, motivo, fechaIngreso, horaIngreso, nombreGuarda,
+                     placa,tipoVehiculo, cantidadPasajeros, compania
+                });
+           
+            }
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar ingresos de vehículos externos: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
+
+
     }
 
     public JPanel panelSalidaEstudiantes() {

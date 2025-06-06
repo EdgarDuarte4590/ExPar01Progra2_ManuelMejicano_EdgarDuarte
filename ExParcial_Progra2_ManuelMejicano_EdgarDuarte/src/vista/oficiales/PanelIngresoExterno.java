@@ -286,26 +286,26 @@ public class PanelIngresoExterno extends JPanel {
                 String nombre2 = txtNombre2.getText().trim();
                 String apellido1 = txtApellido1.getText().trim();
                 String apellido2 = txtApellido2.getText().trim();
-                int id = Integer.parseInt(txtId.getText().trim());
+                String id = txtId.getText().trim();
+                String placa = txtPlaca.getText().trim();
+                vistaOficiales.controlador.registrarPersonaVehiculoExterno(id, nombre1, nombre2, apellido1, apellido2, placa);
                 String motivo = (String) comboMotivo.getSelectedItem();
                 LocalTime hora = LocalTime.now();
                 LocalDate fecha = LocalDate.now();
-                String nombreGuarda = vistaOficiales.controlador
-                        .buscarGuardaPorUsuario(vistaOficiales.controlador.getIdOficialActual());
+                String nombreUsuarioGuarda = vistaOficiales.controlador.getIdOficialActual();
+
+                vistaOficiales.controlador.registarIngresoVehiculoExterno(id, fecha, hora, motivo, nombreUsuarioGuarda, placa);
 
                 int cantidadP = Integer.parseInt(txtCantidad.getText().trim());
                 String compani = txtCompania.getText().trim();
-                String placa = txtPlaca.getText().trim();
-                String tipoV = (String) vehiculoComboBox.getSelectedItem();
 
-                Vehiculo vehiculo = new Vehiculo(placa, tipoV);
+                vistaOficiales.controlador.registrarVehiculoExterno(placa, cantidadP, compani,(String) vehiculoComboBox.getSelectedItem());
+                
+           
                 // Concatenamos los cuatro componentes del nombre en un solo String para la tabla
-                String nombreCompleto = nombre1 + " " + nombre2 + " " + apellido1 + " " + apellido2;
-                VehiculoExterno ingreso = new VehiculoExterno(fecha, motivo, hora, nombreGuarda,
-                        nombreCompleto, id, cantidadP, compani, vehiculo);
-                vistaOficiales.controlador.getIngresosVehiculoExterno().add(ingreso);
 
-                JOptionPane.showMessageDialog(null, "Ingreso registrado exitosamente");
+
+               
                 // limpiar campos
                 txtNombre1.setText("");
                 txtNombre2.setText("");
