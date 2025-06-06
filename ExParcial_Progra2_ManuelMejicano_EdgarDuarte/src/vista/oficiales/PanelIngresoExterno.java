@@ -146,7 +146,7 @@ public class PanelIngresoExterno extends JPanel {
                 vistaOficiales.GenerarTablaIngresoExterno();
             });
 
-            // == TABLA DE PERSONA EXTERNA (sólo “Nombre” como estaba originalmente) ==
+           
             vistaOficiales.modeloTablaIngresoExterno = new DefaultTableModel(
                     new String[] { "Nombre", "ID", "Motivo", "Fecha", "Hora", "Nombre de oficial" }, 0);
             vistaOficiales.tablaIngresosExterno = new JTable(vistaOficiales.modeloTablaIngresoExterno);

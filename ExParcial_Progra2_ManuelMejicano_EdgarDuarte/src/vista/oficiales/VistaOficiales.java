@@ -15,8 +15,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Funcionario;
-import modelo.IngresoExterno;
-import modelo.IngresoFuncionario;
 import modelo.VehiculoExterno;
 
 public class VistaOficiales extends javax.swing.JFrame {
@@ -317,6 +315,7 @@ public class VistaOficiales extends javax.swing.JFrame {
                 funcionario.getPuesto(),
                 funcionario.getNombre(),
                 funcionario.getId(),
+                
                 funcionario.getVehiculo().getTipoVehiculo(),
                 funcionario.getVehiculo().getPlaca()
             });
@@ -384,6 +383,7 @@ public class VistaOficiales extends javax.swing.JFrame {
                  modeloTablaIngresoFuncionarios.addRow(new Object[]{
                     idIngreso, nombreCompleto, id, puesto,tipoVehiculo ,placa, fechaIngreso, horaIngreso, nombreGuardaCompleto
                  });
+
             }
         }catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error al cargar ingresos de funcionarios: " + e.getMessage(),
@@ -394,12 +394,46 @@ public class VistaOficiales extends javax.swing.JFrame {
     public void GenerarTablaIngresoExterno() {
 
         modeloTablaIngresoExterno.setRowCount(0);
-        for (IngresoExterno ingreso : controlador.getIngresosExternos()) {
-            modeloTablaIngresoExterno.addRow(new Object[]{
-                ingreso.getVisitante().getNombre(), ingreso.getVisitante().getId(), ingreso.getMotivo(),
-                ingreso.getFechaIngreso(), ingreso.getHoraIngreso().format(controlador.formato),
-                ingreso.getNombreGuarda(),});
+        String SQL ="SELECT * FROM ingresos  WHERE tipoIngreso='Externo'";
+        try {
+            Statement stmt = controlador.connection.createStatement();
+            ResultSet rs = stmt.executeQuery(SQL);
+            while (rs.next()) {
+                String id = rs.getString("cedula");
+                Statement stmte= controlador.connection.createStatement();
+                String SQLPersona = "SELECT nombre1, nombre2, apellido1, apellido2 FROM personas WHERE cedula = '" + id + "'";
+                ResultSet rsPersona=stmte.executeQuery(SQLPersona);
+                String nombreCompleto="";
+                if (rsPersona.next()) {
+                    String nombre1 = rsPersona.getString("nombre1");
+                    String nombre2 = rsPersona.getString("nombre2");
+                    String apellido1 = rsPersona.getString("apellido1");
+                    String apellido2 = rsPersona.getString("apellido2");
+
+                    nombreCompleto = (nombre1 != null ? nombre1 : "") + " "
+                            + (nombre2 != null ? nombre2 : "") + " "
+                            + (apellido1 != null ? apellido1 : "") + " "
+                            + (apellido2 != null ? apellido2 : "");
+                }
+                String nombreUsuarioGuarda = rs.getString("nombre_usuario_guarda");
+                String nombreGuarda = controlador.buscarGuardaPorUsuario(nombreUsuarioGuarda);
+                String fechaIngreso = rs.getString("fecha");
+                String horaIngreso = rs.getString("hora");
+                String motivo = rs.getString("motivo");
+
+                modeloTablaIngresoExterno.addRow(new Object[]{
+                    nombreCompleto.trim(), id, motivo, fechaIngreso, horaIngreso, nombreGuarda
+                });
+                
+
+              
+              
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar ingresos externos: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
+
     }
 
     public void GenerarTablaIngresoVehiculoExterno() {
