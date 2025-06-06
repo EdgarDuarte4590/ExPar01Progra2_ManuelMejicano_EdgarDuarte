@@ -19,7 +19,7 @@ import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.KeyEvent;
 
-import modelo.Estudiante;
+
 
 // panel que se le muestra al administrador para registrar estudiantes
 public class PanelEstudiantesAdmin extends JPanel {

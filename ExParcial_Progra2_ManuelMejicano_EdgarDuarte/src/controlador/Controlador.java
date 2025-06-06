@@ -5,15 +5,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import modelo.Estudiante;
-import modelo.Funcionario;
-import modelo.Guarda;
-import modelo.IngresoExterno;
-import modelo.IngresoFuncionario;
-import modelo.Salida;
-import modelo.VehiculoExterno;
 import vista.MenuPrincipal;
 
 // Clase Controlador: Maneja la lógica del programa y la interacción entre vistas y modelos.
@@ -33,13 +25,7 @@ public class Controlador {
     // base de datos, se eliminara este arraylist y se utilizara la base de datos
     // para obtener los oficiales
 
-    private ArrayList<Guarda> oficiales;
-    private ArrayList<Estudiante> estudiantes;
-    private ArrayList<Funcionario> funcionarios;
-    private ArrayList<IngresoFuncionario> ingresosFuncionarios;
-    private ArrayList<IngresoExterno> ingresosExternos;
-    private ArrayList<VehiculoExterno> ingresosVehiculoExterno;
-    private ArrayList<Salida> salidasEstudiantes;
+   
     private boolean sesionInciadaOficial = false;
     private boolean sesionIniciadaAdmin = false;
 
@@ -65,13 +51,6 @@ public class Controlador {
 
         }
 
-        oficiales = new ArrayList<>();
-        estudiantes = new ArrayList<>();
-        funcionarios = new ArrayList<>();
-        salidasEstudiantes = new ArrayList<>();
-        ingresosFuncionarios = new ArrayList<>();
-        ingresosExternos = new ArrayList<>();
-        ingresosVehiculoExterno = new ArrayList<>();
 
         menuPrincipal = new MenuPrincipal(this);
         menuPrincipal.setVisible(true);
@@ -150,23 +129,8 @@ public class Controlador {
         return null; // Si no se encuentra la persona, devuelve null
     }
 
-    // metodo que se encarga de buscar un funcionario por su placa, este metodo se
-    // utiliza en la vista de oficiales para buscar un funcionario
-    // en la vista de ingreso de funcionarios, se le pasa la placa y se busca en el
-    // arraylist de funcionarios
-    // y asi se selecciona el funcionario en el combo box de la vista de ingreso de
-    // funcionarios
-    // por medio de esta busca podemos obteber el index del funcionario en el
-    // arraylist y posterior obterner sus atributos
-    public Funcionario buscarFuncionarioPorPlaca(String placa) {
-        for (Funcionario funcionario : getFuncionarios()) {
-            if (funcionario.getVehiculo() != null && funcionario.getVehiculo().getPlaca().equals(placa)) {
-                return funcionario;
-            }
-        }
-        JOptionPane.showMessageDialog(null, "Funcionario no encontrado con la placa: " + placa);
-        return null; // Si no se encuentra el funcionario
-    }
+   
+
 
     public String buscarGuardaPorUsuario(String nombreUsuario) {
         String sql = "SELECT * FROM usuarios WHERE nombreUsuario = '" + nombreUsuario + "' AND tipoUsuario = 'Guarda'";
@@ -191,9 +155,6 @@ public class Controlador {
         return null; // Si no se encuentra el guarda
     }
 
-    public void setIngresosFuncionarios(ArrayList<IngresoFuncionario> ingresosFuncionarios) {
-        this.ingresosFuncionarios = ingresosFuncionarios;
-    }
 
     public void guardar() {
         InputStreamReader reader = new InputStreamReader(
@@ -204,21 +165,7 @@ public class Controlador {
         this.sesionIniciadaAdmin = sesionIniciadaAdmin;
     }
 
-    public ArrayList<IngresoExterno> getIngresosExternos() {
-        return ingresosExternos;
-    }
 
-    public void setIngresosExternos(ArrayList<IngresoExterno> ingresosExternos) {
-        this.ingresosExternos = ingresosExternos;
-    }
-
-    public ArrayList<Funcionario> getFuncionarios() {
-        return funcionarios;
-    }
-
-    public void setFuncionarios(ArrayList<Funcionario> funcionarios) {
-        this.funcionarios = funcionarios;
-    }
 
     public MenuPrincipal getMenuPrincipal() {
         return menuPrincipal;
@@ -303,7 +250,8 @@ public class Controlador {
 
     public void loginAdmin(String nombreUsuario, String contrasena) {
         try {
-            String sql = "SELECT * FROM usuarios WHERE nombreUsuario = '" + nombreUsuario + "'";
+            String sql = "SELECT * FROM usuarios WHERE nombreUsuario = '" + nombreUsuario + "'" 
+                    + " AND tipoUsuario = 'Administrador'";
             ResultSet rs = statement.executeQuery(sql);
             if (rs.next()) {
                 String contrasenaDB = rs.getString("contraseña");
@@ -333,21 +281,7 @@ public class Controlador {
         return sesionIniciadaAdmin;
     }
 
-    public ArrayList<Guarda> getOficiales() {
-        return oficiales;
-    }
 
-    public void setOficiales(ArrayList<Guarda> oficiales) {
-        this.oficiales = oficiales;
-    }
-
-    public ArrayList<Estudiante> getEstudiantes() {
-        return estudiantes;
-    }
-
-    public void setEstudiantes(ArrayList<Estudiante> estudiantes) {
-        this.estudiantes = estudiantes;
-    }
 
     public boolean isSesionInciadaOficial() {
         return sesionInciadaOficial;
@@ -365,17 +299,7 @@ public class Controlador {
         this.idOficialActual = idOficialActual;
     }
 
-    public ArrayList<IngresoFuncionario> getIngresosFuncionarios() {
-        return ingresosFuncionarios;
-    }
 
-    public ArrayList<VehiculoExterno> getIngresosVehiculoExterno() {
-        return ingresosVehiculoExterno;
-    }
-
-    public void setIngresosVehiculoExterno(ArrayList<VehiculoExterno> ingresosVehiculoExterno) {
-        this.ingresosVehiculoExterno = ingresosVehiculoExterno;
-    }
 
     public DateTimeFormatter getFormato() {
         return formato;
@@ -385,13 +309,6 @@ public class Controlador {
         this.formato = formato;
     }
 
-    public ArrayList<Salida> getSalidasEstudiantes() {
-        return salidasEstudiantes;
-    }
-
-    public void setSalidasEstudiantes(ArrayList<Salida> salidasEstudiantes) {
-        this.salidasEstudiantes = salidasEstudiantes;
-    }
 
     public void editarOficial(String nombre1, String nombre2, String apellido1, String apellido2, String telefono,
             String nombreUsuario, String contrasena, String id, String nombreUsuarioModi) {

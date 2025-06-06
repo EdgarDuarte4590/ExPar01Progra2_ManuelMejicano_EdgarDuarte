@@ -54,7 +54,7 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.removeAll();
 
             // --- Nombres (verticalmente) ---
-            JLabel lblNombre1 = new JLabel("Nombre 1:");
+            JLabel lblNombre1 = new JLabel("Nombre 1: *");
             lblNombre1.setBounds(450, 20, 80, 30);
             panelIngreso.add(lblNombre1);
             JTextField txtNombre1 = new JTextField();
@@ -68,14 +68,14 @@ public class PanelIngresoExterno extends JPanel {
             txtNombre2.setBounds(540, 60, 200, 30);
             panelIngreso.add(txtNombre2);
 
-            JLabel lblApellido1 = new JLabel("Apellido 1:");
+            JLabel lblApellido1 = new JLabel("Apellido 1: *");
             lblApellido1.setBounds(780, 20, 80, 30);
             panelIngreso.add(lblApellido1);
             JTextField txtApellido1 = new JTextField();
             txtApellido1.setBounds(870, 20, 200, 30);
             panelIngreso.add(txtApellido1);
 
-            JLabel lblApellido2 = new JLabel("Apellido 2:");
+            JLabel lblApellido2 = new JLabel("Apellido 2: *");
             lblApellido2.setBounds(780, 60, 80, 30);
             panelIngreso.add(lblApellido2);
             JTextField txtApellido2 = new JTextField();
@@ -83,7 +83,7 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.add(txtApellido2);
 
         
-            JLabel lblId = new JLabel("ID:");
+            JLabel lblId = new JLabel("ID: *");
             lblId.setBounds(450, 100, 100, 30);
             panelIngreso.add(lblId);
             JTextField txtId = new JTextField();
@@ -91,7 +91,7 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.add(txtId);
 
             // --- Motivo ---
-            JLabel lblMotivo = new JLabel("Motivo:");
+            JLabel lblMotivo = new JLabel("Motivo: *");
             lblMotivo.setBounds(780, 100, 100, 30);
             panelIngreso.add(lblMotivo);
             String[] items = {
@@ -135,7 +135,7 @@ public class PanelIngresoExterno extends JPanel {
                 String nombreUsuarioGuarda = vistaOficiales.controlador.getIdOficialActual();
                 vistaOficiales.controlador.registarIngresoExterno(id, fecha, hora, motivo, nombreUsuarioGuarda);
 
-                JOptionPane.showMessageDialog(null, "Ingreso registrado exitosamente");
+                
                 // limpiar campos
                 txtNombre1.setText("");
                 txtNombre2.setText("");
@@ -154,7 +154,7 @@ public class PanelIngresoExterno extends JPanel {
             scrollPane.setBounds(25, 200, 1300, 400);
             panelIngreso.add(scrollPane);
 
-            // --- Botón "Eliminar" para Ingreso Persona Externa ---
+           
             JButton btnEliminarPersona = new JButton("Eliminar");
             btnEliminarPersona.setBounds(1155, 610, 125, 30);  // Ubicación debajo de la tabla
             btnEliminarPersona.setToolTipText("Haga clic para eliminar un ingreso seleccionado");
@@ -213,7 +213,7 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.removeAll();
 
             // --- Nombres (verticalmente) ---
-            JLabel lblNombre1 = new JLabel("Nombre 1:");
+            JLabel lblNombre1 = new JLabel("Nombre 1: *");
             lblNombre1.setBounds(150, 20, 80, 30);
             panelIngreso.add(lblNombre1);
             JTextField txtNombre1 = new JTextField();
@@ -228,22 +228,22 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.add(txtNombre2);
 
             // --- Apellidos (verticalmente, a la derecha de nombres) ---
-            JLabel lblApellido1 = new JLabel("Apellido 1:");
+            JLabel lblApellido1 = new JLabel("Apellido 1: *");
             lblApellido1.setBounds(480, 20, 80, 30);
             panelIngreso.add(lblApellido1);
             JTextField txtApellido1 = new JTextField();
             txtApellido1.setBounds(570, 20, 200, 30);
             panelIngreso.add(txtApellido1);
 
-            JLabel lblApellido2 = new JLabel("Apellido 2:");
+            JLabel lblApellido2 = new JLabel("Apellido 2: *");
             lblApellido2.setBounds(480, 60, 80, 30);
             panelIngreso.add(lblApellido2);
             JTextField txtApellido2 = new JTextField();
             txtApellido2.setBounds(570, 60, 200, 30);
             panelIngreso.add(txtApellido2);
 
-            // --- ID ---
-            JLabel lblId = new JLabel("ID:");
+         
+            JLabel lblId = new JLabel("ID: *");
             lblId.setBounds(150, 100, 100, 30);
             panelIngreso.add(lblId);
             JTextField txtId = new JTextField();
@@ -251,7 +251,7 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.add(txtId);
 
             // --- Motivo ---
-            JLabel lblMotivo = new JLabel("Motivo:");
+            JLabel lblMotivo = new JLabel("Motivo: *");
             lblMotivo.setBounds(480, 100, 100, 30);
             panelIngreso.add(lblMotivo);
             String[] motivos = {
@@ -270,8 +270,8 @@ public class PanelIngresoExterno extends JPanel {
             comboMotivo.setBounds(570, 100, 200, 30);
             panelIngreso.add(comboMotivo);
 
-            // --- Placa Vehículo ---
-            JLabel lblPlaca = new JLabel("Placa Vehículo:");
+           
+            JLabel lblPlaca = new JLabel("Placa Vehículo: *");
             lblPlaca.setBounds(800, 20, 100, 30);
             panelIngreso.add(lblPlaca);
             JTextField txtPlaca = new JTextField();
@@ -279,7 +279,7 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.add(txtPlaca);
 
             // --- Tipo de Vehículo ---
-            JLabel lblTipoVehiculo = new JLabel("Tipo de Vehículo:");
+            JLabel lblTipoVehiculo = new JLabel("Tipo de Vehículo: *");
             lblTipoVehiculo.setBounds(800, 60, 100, 30);
             panelIngreso.add(lblTipoVehiculo);
             JComboBox<String> vehiculoComboBox = new JComboBox<>(
@@ -288,7 +288,7 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.add(vehiculoComboBox);
 
             // --- Cantidad de Pasajeros ---
-            JLabel lblCantidadPasajeros = new JLabel("Cantidad de Pasajeros:");
+            JLabel lblCantidadPasajeros = new JLabel("Cantidad de Pasajeros: *");
             lblCantidadPasajeros.setBounds(1030, 20, 150, 30);
             panelIngreso.add(lblCantidadPasajeros);
             JTextField txtCantidad = new JTextField();
@@ -296,7 +296,7 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.add(txtCantidad);
 
             // --- Empresa Vehículo ---
-            JLabel lblCompania = new JLabel("Empresa Vehículo:");
+            JLabel lblCompania = new JLabel("Empresa Vehículo: *");
             lblCompania.setBounds(1030, 60, 150, 30);
             panelIngreso.add(lblCompania);
             JTextField txtCompania = new JTextField();

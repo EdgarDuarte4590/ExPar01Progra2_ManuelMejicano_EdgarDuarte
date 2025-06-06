@@ -67,17 +67,7 @@ public JPanel initComponents() throws SQLException  {
     btnBuscar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
     btnBuscar.setBackground(new java.awt.Color(0xFF054FBE));
     btnBuscar.setForeground(Color.WHITE);
-    btnBuscar.addActionListener(e -> {
-        String carnet = txtBusqueda.getText();
-        for (int i = 0; i < vistaOficiales.controlador.getEstudiantes().size(); i++) {
-            if (carnet.equals(vistaOficiales.controlador.getEstudiantes().get(i).getCarnet())) {
-                vistaOficiales.comboEstudiantes.setSelectedIndex(i);
-                return;
-            }
-        }
-        vistaOficiales.comboEstudiantes.setSelectedIndex(-1);
-        JOptionPane.showMessageDialog(null, "No se encontro el estudiante con ese número de carnet: " + carnet);
-    });
+
     panelEstSalidas.add(btnBuscar);
 
     JLabel label2 = new JLabel("Seleccione el estudiante:");

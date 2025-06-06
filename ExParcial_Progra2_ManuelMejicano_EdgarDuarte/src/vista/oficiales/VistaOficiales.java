@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import modelo.Funcionario;
 
 public class VistaOficiales extends javax.swing.JFrame {
 
@@ -303,19 +302,7 @@ public class VistaOficiales extends javax.swing.JFrame {
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    public void generarTablaFuncionarios() {
-        modeloTablaFuncionarios.setRowCount(0);
-        for (Funcionario funcionario : controlador.getFuncionarios()) {
-            modeloTablaFuncionarios.addRow(new Object[]{
-                funcionario.getPuesto(),
-                funcionario.getNombre(),
-                funcionario.getId(),
-                
-                funcionario.getVehiculo().getTipoVehiculo(),
-                funcionario.getVehiculo().getPlaca()
-            });
-        }
-    }
+
 
     public void mostrar() {
         setVisible(true);
