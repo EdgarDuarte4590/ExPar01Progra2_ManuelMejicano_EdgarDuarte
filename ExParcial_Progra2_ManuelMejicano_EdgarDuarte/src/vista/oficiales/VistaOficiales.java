@@ -122,7 +122,7 @@ public class VistaOficiales extends javax.swing.JFrame {
     public JComboBox<String> comboEstudiantes = new JComboBox<>();
     ;
     JTable tablaSalidasEstudiantes = new JTable();
-    DefaultTableModel modeloTablaSalidasEstudiantes = new DefaultTableModel(new String[]{"Nombre Estudiante", "ID",
+    DefaultTableModel modeloTablaSalidasEstudiantes = new DefaultTableModel(new String[]{"ID Salida","Nombre Estudiante", "ID",
         "Motivo de salida", "Fecha de salida", "Hora de salida", "Nombre de oficial"}, 0);
 
     public void generarTablaSalidasEstudiantes() {
@@ -143,6 +143,7 @@ public class VistaOficiales extends javax.swing.JFrame {
                 String motivo = rsSalidas.getString("motivo");
                 String usuarioGuarda = rsSalidas.getString("nombre_usuario_guarda");
                 String nombreGuarda=controlador.buscarGuardaPorUsuario(usuarioGuarda);
+                int idSalida = rsSalidas.getInt("id");
 
                 // Definimos la consulta SQL para el estudiante usando el carnet obtenido
                 String sqlEstudiante = ""
@@ -171,7 +172,7 @@ public class VistaOficiales extends javax.swing.JFrame {
                     }
 
                     // Añadimos la fila al modelo con: nombre completo, cédula, motivo, fecha, hora, usuario guardia
-                    modeloTablaSalidasEstudiantes.addRow(new Object[]{
+                    modeloTablaSalidasEstudiantes.addRow(new Object[]{idSalida,
                         nombreCompleto.trim(),
                         idCedula,
                         motivo,

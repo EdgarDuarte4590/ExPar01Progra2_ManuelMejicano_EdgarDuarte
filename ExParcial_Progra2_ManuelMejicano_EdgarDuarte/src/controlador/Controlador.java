@@ -632,4 +632,20 @@ public class Controlador {
         }
     }
 
+    public void eliminarSalidaEstudiante(String idSalida) {
+        String sql = "DELETE FROM salidas_estudiantes WHERE id = '" + idSalida + "'";
+        try {
+            int i = statement.executeUpdate(sql);
+            if (i > 0) {
+                JOptionPane.showMessageDialog(null, "Salida de estudiante eliminada correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró la salida de estudiante con el ID: " + idSalida);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar salida de estudiante: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado al eliminar salida de estudiante: " + e.getMessage());
+        }
+    }
+
 }

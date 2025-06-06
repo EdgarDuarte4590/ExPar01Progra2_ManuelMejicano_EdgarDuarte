@@ -111,6 +111,13 @@ public JPanel initComponents() throws SQLException  {
     btnRegistrar.setForeground(Color.WHITE);
     btnRegistrar.addActionListener(e -> {
 
+        
+       
+        int confirm = JOptionPane.showConfirmDialog(null, "¿Está seguro de que desea registrar la salida del estudiante?", "Confirmar registro", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) {
+            return; 
+        }
+
         ResultSet rs = vistaOficiales.controlador.consultarEstudiante(vistaOficiales.comboEstudiantes.getSelectedItem().toString());
         if (rs == null) {
             JOptionPane.showMessageDialog(null, "No se encontró el estudiante seleccionado.");
@@ -153,8 +160,21 @@ public JPanel initComponents() throws SQLException  {
     btnEliminar.setBackground(new Color(0xFFB00020));
     btnEliminar.setForeground(Color.WHITE);
     btnEliminar.addActionListener(e -> {
-        
-        
+        int selectedRow = vistaOficiales.tablaSalidasEstudiantes.getSelectedRow();
+        if (selectedRow != -1) {
+            String idSalida = vistaOficiales.modeloTablaSalidasEstudiantes.getValueAt(selectedRow, 0).toString();
+          
+           int confirm = JOptionPane.showConfirmDialog(null, "¿Está seguro de que desea eliminar esta salida?" , "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+            if (confirm != JOptionPane.YES_OPTION) {
+                return; 
+            }
+            vistaOficiales.controlador.eliminarSalidaEstudiante(idSalida);
+            vistaOficiales.generarTablaSalidasEstudiantes();
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione una salida para modeloar");
+        }
+
     });
     panelEstSalidas.add(btnEliminar);
     
