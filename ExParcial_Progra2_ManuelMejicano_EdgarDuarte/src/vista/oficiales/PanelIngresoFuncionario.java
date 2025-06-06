@@ -54,7 +54,7 @@ public class PanelIngresoFuncionario extends JPanel {
                 });
 
         JButton btnBuscar = new JButton("Buscar");
-        btnBuscar.setIcon(new ImageIcon("src/resources/icon_busqueda.png"));
+        btnBuscar.setIcon(new ImageIcon("src/resources/icon_busqueda_24.png"));
         btnBuscar.setBounds(450, 50, 125, 30);
         btnBuscar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
         btnBuscar.setBackground(new Color(0xFF054FBE));
@@ -69,7 +69,8 @@ public class PanelIngresoFuncionario extends JPanel {
         panelIngreso.add(vistaOficiales.comboBoxFuncionarios);
 
         JButton btnAgregar = new JButton("Agregar");
-        btnAgregar.setBounds(450, 100, 100, 30);
+        btnAgregar.setIcon(new ImageIcon("src/resources/icon_create.png"));
+        btnAgregar.setBounds(450, 100, 125, 30);
         btnAgregar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
         btnAgregar.setBackground(new Color(0xFF2BA76B));
         btnAgregar.setForeground(java.awt.Color.white);
@@ -129,6 +130,18 @@ public class PanelIngresoFuncionario extends JPanel {
             }
         });
 
+        JButton btnRefrescar = new JButton("Refrescar");
+        btnRefrescar.setBounds(600, 50, 125, 30);
+        btnRefrescar.setIcon(new ImageIcon("src/resources/icon_recargar.png"));
+        btnRefrescar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+        btnRefrescar.setBackground(new Color(0xFFFFA83E));
+        btnRefrescar.setForeground(java.awt.Color.white);
+        panelIngreso.add(btnRefrescar);
+        btnRefrescar.addActionListener(e -> {
+            vistaOficiales.generarTablaIngresoFuncionarios();
+            txtBusqueda.setText("");
+            vistaOficiales.panelFuncionarios.generarComboFuncionarios();
+        });
         JButton btnEliminar = new JButton("Eliminar");
         btnEliminar.setBounds(600, 100, 125, 30);
         btnEliminar.setIcon(new ImageIcon("src/resources/icon_eliminar.png"));
@@ -149,5 +162,7 @@ public class PanelIngresoFuncionario extends JPanel {
 
         return panelIngreso;
     }
+
+    
 
 }

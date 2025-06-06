@@ -112,7 +112,9 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.add(comboMotivo);
 
             JButton btnGuardar = new JButton("Guardar");
-            btnGuardar.setBounds(930, 150, 100, 30);
+            btnGuardar.setToolTipText("Haga clic para guardar el ingreso de la persona externa");
+            btnGuardar.setIcon(new ImageIcon("src/resources/icon_guardar.png"));
+            btnGuardar.setBounds(930, 150, 125, 30);
             btnGuardar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
             btnGuardar.setBackground(new Color(0xFF2BA76B));
             btnGuardar.setForeground(Color.WHITE);
@@ -185,8 +187,10 @@ public class PanelIngresoExterno extends JPanel {
 
             JButton Regresar = new JButton("Regresar");
             // Permite volver a la selección inicial con los dos radio buttons
-            Regresar.setBounds(450, 150, 100, 30);
-            Regresar.setBackground(new Color(0xFFE0133C));
+            Regresar.setToolTipText("Haga clic para regresar a la selección de tipo de ingreso");
+            Regresar.setIcon(new ImageIcon("src/resources/icon_regresar.png"));
+            Regresar.setBounds(450, 150, 125, 30);
+            Regresar.setBackground(new Color(0xFF054FBE));
             Regresar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
             Regresar.setBorderPainted(false);
             Regresar.setForeground(Color.WHITE);
@@ -300,7 +304,9 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.add(txtCompania);
 
             JButton btnGuardarVehiculo = new JButton("Guardar");
-            btnGuardarVehiculo.setBounds(1180, 100, 100, 30);
+            btnGuardarVehiculo.setBounds(1155, 100, 125, 30);
+            btnGuardarVehiculo.setToolTipText("Haga clic para guardar el ingreso del vehículo externo");
+            btnGuardarVehiculo.setIcon(new ImageIcon("src/resources/icon_guardar.png"));
             btnGuardarVehiculo.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
             btnGuardarVehiculo.setBackground(new Color(0xFF2BA76B));
             btnGuardarVehiculo.setForeground(Color.WHITE);
@@ -388,8 +394,11 @@ public class PanelIngresoExterno extends JPanel {
             vistaOficiales.GenerarTablaIngresoVehiculoExterno();
 
             JButton Regresar = new JButton("Regresar");
-            Regresar.setBounds(900, 100, 100, 30);
-            Regresar.setBackground(new Color(0xFFE0133C));
+
+            Regresar.setBounds(900, 100, 125, 30);
+            Regresar.setBackground(new Color(0xFF054FBE));
+            Regresar.setToolTipText("Haga clic para regresar a la selección de tipo de ingreso");
+            Regresar.setIcon(new ImageIcon("src/resources/icon_regresar.png"));
             Regresar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
             Regresar.setBorderPainted(false);
             Regresar.setForeground(Color.WHITE);

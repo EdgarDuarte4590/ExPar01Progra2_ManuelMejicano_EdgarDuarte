@@ -286,17 +286,13 @@ public class VistaOficiales extends javax.swing.JFrame {
             return;
         }
 
-        System.out.println("Buscando funcionarios con: " + busqueda);
         try {
                 String sql = "SELECT * FROM personas WHERE tipoPersona = 'Funcionario' AND (nombre1 LIKE '%" + busqueda
            + "%' OR nombre2 LIKE '%" + busqueda + "%' OR apellido1 LIKE '%" + busqueda + "%' OR apellido2 LIKE '%"
            + busqueda + "%' OR cedula LIKE '%" + busqueda + "%')";
 
            Statement stmt = controlador.connection.createStatement();
-           System.out.println("hola");
-            ResultSet rs = stmt.executeQuery(sql);
-               
-            System.out.println("adios");
+        ResultSet rs = stmt.executeQuery(sql);
 
             generarComboBusquedaFuncionario(rs);
            
