@@ -1,8 +1,6 @@
 package vista.oficiales;
 
 import controlador.Controlador;
-
-import java.awt.Taskbar.State;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
@@ -15,7 +13,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Funcionario;
-import modelo.VehiculoExterno;
 
 public class VistaOficiales extends javax.swing.JFrame {
 
@@ -71,6 +68,7 @@ public class VistaOficiales extends javax.swing.JFrame {
         panelFuncionarios.generarTablaFuncionarios();
         panelFuncionarios.generarComboFuncionarios();
         generarTablaIngresoFuncionarios();
+      
         
 
     }
@@ -391,7 +389,7 @@ public class VistaOficiales extends javax.swing.JFrame {
         }
     }
 
-    public void GenerarTablaIngresoExterno() {
+    public void generarTablaIngresoExterno() {
 
         modeloTablaIngresoExterno.setRowCount(0);
         String SQL ="SELECT * FROM ingresos  WHERE tipoIngreso='Externo'";
@@ -439,7 +437,7 @@ public class VistaOficiales extends javax.swing.JFrame {
 
     public void GenerarTablaIngresoVehiculoExterno() {
 
-        JOptionPane.showMessageDialog(this, "Cargando ingresos de vehículos externos...");
+        
         modeloTablaVehiculoExterno.setRowCount(0);
             String SQL="SELECT * FROM ingresos WHERE tipoIngreso='VehiculoExterno'";
         

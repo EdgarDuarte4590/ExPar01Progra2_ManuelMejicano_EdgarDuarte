@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -14,8 +15,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import modelo.Vehiculo;
-import modelo.VehiculoExterno;
 
 public class PanelIngresoExterno extends JPanel {
     VistaOficiales vistaOficiales; 
@@ -47,7 +46,9 @@ public class PanelIngresoExterno extends JPanel {
 
         panelIngreso.add(btnIngresoPersona);
         panelIngreso.add(btnIngreso);
+
         
+
         btnIngresoPersona.addActionListener(e -> {
             // Al seleccionar persona externa, se limpia y se crea el formulario con cuatro campos de nombre/apellidos
             panelIngreso.removeAll();
@@ -130,9 +131,8 @@ public class PanelIngresoExterno extends JPanel {
                 String motivo = (String) comboMotivo.getSelectedItem();
                 LocalTime hora = LocalTime.now();
                 LocalDate fecha = LocalDate.now();
-                String nombreUsuarioGuarda =vistaOficiales.controlador.getIdOficialActual();
+                String nombreUsuarioGuarda = vistaOficiales.controlador.getIdOficialActual();
                 vistaOficiales.controlador.registarIngresoExterno(id, fecha, hora, motivo, nombreUsuarioGuarda);
-               
 
                 JOptionPane.showMessageDialog(null, "Ingreso registrado exitosamente");
                 // limpiar campos
@@ -143,10 +143,9 @@ public class PanelIngresoExterno extends JPanel {
                 txtId.setText("");
                 comboMotivo.setSelectedIndex(0);
 
-                vistaOficiales.GenerarTablaIngresoExterno();
+                vistaOficiales.generarTablaIngresoExterno();
             });
 
-           
             vistaOficiales.modeloTablaIngresoExterno = new DefaultTableModel(
                     new String[] {"ID Ingreso", "Nombre", "ID", "Motivo", "Fecha", "Hora", "Nombre de oficial" }, 0);
             vistaOficiales.tablaIngresosExterno = new JTable(vistaOficiales.modeloTablaIngresoExterno);
@@ -154,7 +153,35 @@ public class PanelIngresoExterno extends JPanel {
             scrollPane.setBounds(25, 200, 1300, 400);
             panelIngreso.add(scrollPane);
 
-            
+            // --- Botón "Eliminar" para Ingreso Persona Externa ---
+            JButton btnEliminarPersona = new JButton("Eliminar");
+            btnEliminarPersona.setBounds(1155, 610, 125, 30);  // Ubicación debajo de la tabla
+            btnEliminarPersona.setToolTipText("Haga clic para eliminar un ingreso seleccionado");
+            btnEliminarPersona.setIcon(new javax.swing.ImageIcon("src/resources/icon_eliminar.png"));
+            btnEliminarPersona.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+            btnEliminarPersona.setBackground(new Color(0xFFE0133C));  // fondo rojo
+            btnEliminarPersona.setForeground(Color.WHITE);
+            btnEliminarPersona.setBorderPainted(false);
+            btnEliminarPersona.addActionListener(ev -> {
+                int filaSeleccionada = vistaOficiales.tablaIngresosExterno.getSelectedRow();
+                if (filaSeleccionada == -1) {
+                    JOptionPane.showMessageDialog(panelIngreso,
+                            "Por favor, seleccione un ingreso para eliminar.",
+                            "Ingreso no seleccionado", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                String idIngreso = vistaOficiales.tablaIngresosExterno.getValueAt(filaSeleccionada, 0).toString();
+                int confirm = JOptionPane.showConfirmDialog(panelIngreso,
+                        "¿Está seguro de que desea eliminar el ingreso con ID: " + idIngreso + "?",
+                        "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    
+                    vistaOficiales.controlador.eliminarIngresoExterno(idIngreso);
+                }
+            });
+            panelIngreso.add(btnEliminarPersona);
+            vistaOficiales.generarTablaIngresoExterno();
+            // --- Fin Botón "Eliminar" para Ingreso Persona Externa ---
 
             JButton Regresar = new JButton("Regresar");
             // Permite volver a la selección inicial con los dos radio buttons
@@ -300,12 +327,7 @@ public class PanelIngresoExterno extends JPanel {
                 String compani = txtCompania.getText().trim();
 
                 vistaOficiales.controlador.registrarVehiculoExterno(placa, cantidadP, compani,(String) vehiculoComboBox.getSelectedItem());
-                
-           
-                // Concatenamos los cuatro componentes del nombre en un solo String para la tabla
 
-
-               
                 // limpiar campos
                 txtNombre1.setText("");
                 txtNombre2.setText("");
@@ -321,16 +343,47 @@ public class PanelIngresoExterno extends JPanel {
                 vistaOficiales.GenerarTablaIngresoVehiculoExterno();
             });
 
-            
             vistaOficiales.modeloTablaVehiculoExterno = new DefaultTableModel(new String[] {
-                "ID Ingreso",
+                    "ID Ingreso",
                     "Nombre", "ID", "Motivo", "Fecha", "Hora", "Nombre de oficial", "Placa Vehículo",
                     "Tipo de Vehículo", "Cantidad Pasajeros", "Compañía"
             }, 0);
             vistaOficiales.tablaIngresosExterno = new JTable(vistaOficiales.modeloTablaVehiculoExterno);
-            JScrollPane scrollPane = new JScrollPane(vistaOficiales.tablaIngresosExterno);
-            scrollPane.setBounds(25, 200, 1300, 400);
-            panelIngreso.add(scrollPane);
+            JScrollPane scrollPaneVehiculo = new JScrollPane(vistaOficiales.tablaIngresosExterno);
+            
+            scrollPaneVehiculo.setBounds(25, 200, 1300, 400);
+            panelIngreso.add(scrollPaneVehiculo);
+
+            // --- Botón "Eliminar" para Ingreso Vehículo Externo ---
+            JButton btnEliminarVehiculo = new JButton("Eliminar");
+            btnEliminarVehiculo.setBounds(1155, 610, 125, 30);  // Ubicación debajo de la tabla
+            btnEliminarVehiculo.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+            btnEliminarVehiculo.setToolTipText("Haga clic para eliminar un ingreso seleccionado");
+            btnEliminarVehiculo.setIcon(new ImageIcon("src/resources/icon_eliminar.png"));
+            btnEliminarVehiculo.setBackground(new Color(0xFFE0133C));  // fondo rojo
+            btnEliminarVehiculo.setForeground(Color.WHITE);
+            btnEliminarVehiculo.setBorderPainted(false);
+            btnEliminarVehiculo.addActionListener(ev -> {
+                int filaSeleccionada = vistaOficiales.tablaIngresosExterno.getSelectedRow();
+                if (filaSeleccionada == -1) {
+                    JOptionPane.showMessageDialog(panelIngreso,
+                            "Por favor, seleccione un ingreso para eliminar.",
+                            "Ingreso no seleccionado", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                String idIngreso = vistaOficiales.tablaIngresosExterno.getValueAt(filaSeleccionada, 0).toString();
+                int confirm = JOptionPane.showConfirmDialog(panelIngreso,
+                        "¿Está seguro de que desea eliminar el ingreso con ID: " + idIngreso + "?",
+                        "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    // TODO: Reemplazar con la lógica real de eliminación en el controlador:
+                    // vistaOficiales.controlador.eliminarIngresoVehiculoExterno(idIngreso);
+                    JOptionPane.showMessageDialog(panelIngreso,
+                            "Función de eliminar aún no implementada para ID: " + idIngreso);
+                }
+            });
+            panelIngreso.add(btnEliminarVehiculo);
+            // --- Fin Botón "Eliminar" para Ingreso Vehículo Externo ---
 
             vistaOficiales.GenerarTablaIngresoVehiculoExterno();
 
@@ -355,6 +408,7 @@ public class PanelIngresoExterno extends JPanel {
             panelIngreso.repaint();
         });
 
+        
         return panelIngreso;
     }
 }

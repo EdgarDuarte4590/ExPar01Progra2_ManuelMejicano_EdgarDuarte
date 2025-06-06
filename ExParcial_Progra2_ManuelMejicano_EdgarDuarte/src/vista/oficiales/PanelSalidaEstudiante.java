@@ -147,10 +147,10 @@ public JPanel initComponents() throws SQLException  {
     
     JButton btnEliminar = new JButton("Eliminar Salida");
      btnEliminar.setToolTipText("Haga clic para eliminar un oficial seleccionado");
-        btnEliminar.setIcon(new ImageIcon("src/resources/icon_eliminar.png"));
+    btnEliminar.setIcon(new ImageIcon("src/resources/icon_eliminar.png"));
     btnEliminar.setBounds(1020, 170, 200, 30); // Justo debajo de "Aprobar salida"
     btnEliminar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
-    btnEliminar.setBackground(Color.RED);
+    btnEliminar.setBackground(new Color(0xFFB00020));
     btnEliminar.setForeground(Color.WHITE);
     btnEliminar.addActionListener(e -> {
         

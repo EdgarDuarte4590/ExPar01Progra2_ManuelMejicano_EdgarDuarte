@@ -146,7 +146,7 @@ public class PanelFuncionarios extends JPanel {
     btnEliminar.setToolTipText("Eliminar el funcionario seleccionado de la tabla");
     btnEliminar.setBounds(880, 610, 200, 30); // Ubicado a la izquierda del botón "Editar funcionario"
     btnEliminar.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
-    btnEliminar.setBackground(new Color(0xFFB40404)); // fondo rojo oscuro
+    btnEliminar.setBackground(new Color(0xFFB00020)); // fondo rojo oscuro
     btnEliminar.setForeground(Color.WHITE);
     btnEliminar.addActionListener(e -> {
         int filaSeleccionada = vistaOficiales.tablaFuncionarios.getSelectedRow();

@@ -1,6 +1,5 @@
 package controlador;
 
-import java.awt.Taskbar.State;
 import java.io.InputStreamReader;
 import java.sql.*;
 import java.time.LocalDate;
@@ -612,6 +611,22 @@ public class Controlador {
             JOptionPane.showMessageDialog(null, "Error al registrar vehículo externo: " + e.getMessage());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error inesperado al registrar vehículo externo: " + e.getMessage());
+        }
+    }
+
+    public void eliminarIngresoExterno(String id) {
+        String sql = "DELETE FROM ingresos WHERE id = '" + id + "' AND tipoIngreso = 'Externo'";
+        try {
+            int i = statement.executeUpdate(sql);
+            if (i > 0) {
+                JOptionPane.showMessageDialog(null, "Ingreso externo eliminado correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró el ingreso externo con la cédula: " + id);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar ingreso externo: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado al eliminar ingreso externo: " + e.getMessage());
         }
     }
 
