@@ -50,7 +50,7 @@ public class PanelOficialesAdmin extends JPanel {
         label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14)); // Establecer la fuente del JLabel
         panelOficiales.add(label);
 
-        JLabel label2 = new JLabel("Primer nombre:");
+        JLabel label2 = new JLabel("Primer nombre: *");
         label2.setBounds(40, 100, 500, 30);
         panelOficiales.add(label2); // Agregar el JLabel al panel de oficiales
 
@@ -68,7 +68,7 @@ public class PanelOficialesAdmin extends JPanel {
         textFieldNombre2.setToolTipText("Ejemplo: Carlos");
         panelOficiales.add(textFieldNombre2);
 
-        JLabel label8 = new JLabel("Primer apellido:");
+        JLabel label8 = new JLabel("Primer apellido: *");
         label8.setBounds(40, 200, 500, 30);
         panelOficiales.add(label8); // Agregar el JLabel al panel de oficiales
 
@@ -77,7 +77,7 @@ public class PanelOficialesAdmin extends JPanel {
         textFieldApellido1.setToolTipText("Ejemplo: Pérez");
         panelOficiales.add(textFieldApellido1);
 
-        JLabel label9 = new JLabel("Segundo apellido:");
+        JLabel label9 = new JLabel("Segundo apellido: *");
         label9.setBounds(40, 250, 500, 30);
         panelOficiales.add(label9); // Agregar el JLabel al panel de oficiales
 
@@ -86,7 +86,7 @@ public class PanelOficialesAdmin extends JPanel {
         textFieldApellido2.setToolTipText("Ejemplo: García");
         panelOficiales.add(textFieldApellido2);
 
-        JLabel label3 = new JLabel("Número de identificación:");
+        JLabel label3 = new JLabel("Número de identificación: *");
         label3.setBounds(40, 300, 500, 30);
         panelOficiales.add(label3);
 
@@ -103,7 +103,7 @@ public class PanelOficialesAdmin extends JPanel {
         JLabel label4 = new JLabel("Número de teléfono:");
         label4.setBounds(40, 350, 500, 30);
         panelOficiales.add(label4);
-        JLabel label5 = new JLabel("Nombre de Usuario:");
+        JLabel label5 = new JLabel("Nombre de Usuario: *");
         label5.setBounds(40, 400, 500, 30);
         panelOficiales.add(label5);
 
@@ -112,7 +112,7 @@ public class PanelOficialesAdmin extends JPanel {
         textFieldNombreUsuario.setToolTipText("Ejemplo: juan.perez");
         panelOficiales.add(textFieldNombreUsuario);
 
-        JLabel label6 = new JLabel("Contraseña:");
+        JLabel label6 = new JLabel("Contraseña: *");
         label6.setBounds(40, 450, 500, 30);
         panelOficiales.add(label6);
         

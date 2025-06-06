@@ -86,6 +86,8 @@ public class VistaAdmin extends JFrame {
         panelAdministradores.add(label);
 
         return panelAdministradores;
+
+        
     }
 
     private void mostrarDialogoCerrar() {
@@ -109,8 +111,7 @@ public class VistaAdmin extends JFrame {
             case 1: // Salir
                 this.dispose(); // Cerrar la aplicación
                 break;
-            default: // Cancelar o cerrar diálogo
-                // No hace nada, permanece en la aplicación
+            default: 
                 break;
         }
     }

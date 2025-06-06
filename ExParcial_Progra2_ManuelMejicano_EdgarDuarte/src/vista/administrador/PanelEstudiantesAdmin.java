@@ -38,57 +38,57 @@ public class PanelEstudiantesAdmin extends JPanel {
         panelEstudiantes.setBounds(0, 0, 1366, 720);
 
         JLabel label = new JLabel("Gestión de Estudiantes");
-        label.setBounds(40, 50, 500, 30); // Establecer la posición y el tamaño del JLabel
-        label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14)); // Establecer la fuente del JLabel
+        label.setBounds(40, 50, 500, 30); 
+        label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14)); 
         panelEstudiantes.add(label);
 
-        JLabel label2 = new JLabel("Primer Nombre:");
-        label2.setBounds(40, 100, 500, 30); // Establecer la posición y el tamaño del JLabel
+        JLabel label2 = new JLabel("Primer Nombre: *");
+        label2.setBounds(40, 100, 500, 30); 
         panelEstudiantes.add(label2);
 
         JTextField textFieldNombre1 = new JTextField();
-        textFieldNombre1.setBounds(250, 100, 200, 30); // Establecer la posición y el tamaño del JTextField
+        textFieldNombre1.setBounds(250, 100, 200, 30); 
         textFieldNombre1.setToolTipText("Ejemplo: Juan");
         panelEstudiantes.add(textFieldNombre1);
 
-        JLabel label8 = new JLabel("Segundo Nombre:");
-        label8.setBounds(40, 150, 500, 30); // Establecer la posición y el tamaño del JLabel
+        JLabel label8 = new JLabel("Segundo Nombre: (opcional)");
+        label8.setBounds(40, 150, 500, 30); 
         panelEstudiantes.add(label8);
 
         JTextField textFieldNombre2 = new JTextField();
-        textFieldNombre2.setBounds(250, 150, 200, 30); // Establecer la posición y el tamaño del JTextField
+        textFieldNombre2.setBounds(250, 150, 200, 30); 
         textFieldNombre2.setToolTipText("Ejemplo: Carlos");
         panelEstudiantes.add(textFieldNombre2);
 
-        JLabel label9 = new JLabel("Primer Apellido:");
-        label9.setBounds(40, 200, 500, 30); // Establecer la posición y el tamaño del JLabel
+        JLabel label9 = new JLabel("Primer Apellido: *");
+        label9.setBounds(40, 200, 500, 30); 
         panelEstudiantes.add(label9);
 
         JTextField textFieldApellido1 = new JTextField();
-        textFieldApellido1.setBounds(250, 200, 200, 30); // Establecer la posición y el tamaño del JTextField
+        textFieldApellido1.setBounds(250, 200, 200, 30); 
         textFieldApellido1.setToolTipText("Ejemplo: Pérez");
         panelEstudiantes.add(textFieldApellido1);
 
-        JLabel label10 = new JLabel("Segundo Apellido:");
-        label10.setBounds(40, 250, 500, 30); // Establecer la posición y el tamaño del JLabel
+        JLabel label10 = new JLabel("Segundo Apellido: *");
+        label10.setBounds(40, 250, 500, 30); 
         panelEstudiantes.add(label10);
 
         JTextField textFieldApellido2 = new JTextField();
-        textFieldApellido2.setBounds(250, 250, 200, 30); // Establecer la posición y el tamaño del JTextField
+        textFieldApellido2.setBounds(250, 250, 200, 30); 
         textFieldApellido2.setToolTipText("Ejemplo: González");
         panelEstudiantes.add(textFieldApellido2);
 
-        JLabel label3 = new JLabel("Número de identificación:");
-        label3.setBounds(40, 300, 500, 30); // Establecer la posición y el tamaño del JLabel
+        JLabel label3 = new JLabel("Número de identificación: *");
+        label3.setBounds(40, 300, 500, 30); 
         panelEstudiantes.add(label3);
 
         JTextField textFieldID = new JTextField();
-        textFieldID.setBounds(250, 300, 200, 30); // Establecer la posición y el tamaño del JTextField
+        textFieldID.setBounds(250, 300, 200, 30); 
         textFieldID.setToolTipText("Ejemplo: 101110111");
         panelEstudiantes.add(textFieldID);
 
-        JLabel label4 = new JLabel("Fecha de nacimiento:");
-        label4.setBounds(40, 350, 200, 30); // Establecer la posición y el tamaño del JLabel
+        JLabel label4 = new JLabel("Fecha de nacimiento: *");
+        label4.setBounds(40, 350, 200, 30); 
         panelEstudiantes.add(label4);
 
         JDateChooser jDateChooser = new JDateChooser();
@@ -96,7 +96,7 @@ public class PanelEstudiantesAdmin extends JPanel {
         jDateChooser.setBounds(250, 350, 200, 30);
         panelEstudiantes.add(jDateChooser);
 
-        JLabel jLabel5 = new JLabel("Carnet estudiantil: ");
+        JLabel jLabel5 = new JLabel("Carnet estudiantil: *");
         jLabel5.setBounds(40, 400, 200, 30);
         panelEstudiantes.add(jLabel5);
 
@@ -105,16 +105,15 @@ public class PanelEstudiantesAdmin extends JPanel {
         textFieldCarnet.setToolTipText("Ejemplo: E123456");
         panelEstudiantes.add(textFieldCarnet);
 
-        JLabel label6 = new JLabel("Nacionalidad:");
+        JLabel label6 = new JLabel("Nacionalidad: *");
         label6.setBounds(40, 450, 200, 30);
         panelEstudiantes.add(label6);
         // lista desplegable de la nacionalidad
-        JComboBox jComboBoxEstudiante = new JComboBox<>(new String[] { "Costarricense", "Nicaraguense", "Panameño",
-                "Estadounidense", "Mexicano", "Hondureño", "Salvadoreño" });
+        JComboBox jComboBoxEstudiante = new JComboBox<>(new String[] { "Nacional", "Extranjero" });
         jComboBoxEstudiante.setBounds(250, 450, 200, 30);
         panelEstudiantes.add(jComboBoxEstudiante);
 
-        JLabel label7 = new JLabel("Dirección:");
+        JLabel label7 = new JLabel("Dirección: *");
         label7.setBounds(40, 500, 200, 30);
         panelEstudiantes.add(label7);
 
