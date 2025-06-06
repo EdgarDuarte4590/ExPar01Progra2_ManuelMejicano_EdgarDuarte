@@ -97,7 +97,7 @@ public class PanelIngresoFuncionario extends JPanel {
         });
 
         vistaOficiales.modeloTablaIngresoFuncionarios = new DefaultTableModel(new String[] {
-                "ID Salida", "Nombre Funcionario", "Cédula", "Puesto",
+                "ID Ingreso", "Nombre Funcionario", "Cédula", "Puesto",
                 "Tipo de Vehiculo", "Placa", "Fecha Ingreso", "Hora ingreso", "Nombre de oficial",
         }, 0);
         vistaOficiales.tablaIngresoFuncionarios = new JTable(vistaOficiales.modeloTablaIngresoFuncionarios);

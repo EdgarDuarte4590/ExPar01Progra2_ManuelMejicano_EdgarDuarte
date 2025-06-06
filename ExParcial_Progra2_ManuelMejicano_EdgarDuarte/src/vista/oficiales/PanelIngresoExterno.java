@@ -148,13 +148,13 @@ public class PanelIngresoExterno extends JPanel {
 
            
             vistaOficiales.modeloTablaIngresoExterno = new DefaultTableModel(
-                    new String[] { "Nombre", "ID", "Motivo", "Fecha", "Hora", "Nombre de oficial" }, 0);
+                    new String[] {"ID Ingreso", "Nombre", "ID", "Motivo", "Fecha", "Hora", "Nombre de oficial" }, 0);
             vistaOficiales.tablaIngresosExterno = new JTable(vistaOficiales.modeloTablaIngresoExterno);
             JScrollPane scrollPane = new JScrollPane(vistaOficiales.tablaIngresosExterno);
             scrollPane.setBounds(25, 200, 1300, 400);
             panelIngreso.add(scrollPane);
 
-            vistaOficiales.GenerarTablaIngresoExterno();
+            
 
             JButton Regresar = new JButton("Regresar");
             // Permite volver a la selección inicial con los dos radio buttons
@@ -323,6 +323,7 @@ public class PanelIngresoExterno extends JPanel {
 
             
             vistaOficiales.modeloTablaVehiculoExterno = new DefaultTableModel(new String[] {
+                "ID Ingreso",
                     "Nombre", "ID", "Motivo", "Fecha", "Hora", "Nombre de oficial", "Placa Vehículo",
                     "Tipo de Vehículo", "Cantidad Pasajeros", "Compañía"
             }, 0);

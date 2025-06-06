@@ -415,6 +415,7 @@ public class VistaOficiales extends javax.swing.JFrame {
                             + (apellido1 != null ? apellido1 : "") + " "
                             + (apellido2 != null ? apellido2 : "");
                 }
+                String idIngreso = rs.getString("id");
                 String nombreUsuarioGuarda = rs.getString("nombre_usuario_guarda");
                 String nombreGuarda = controlador.buscarGuardaPorUsuario(nombreUsuarioGuarda);
                 String fechaIngreso = rs.getString("fecha");
@@ -422,7 +423,7 @@ public class VistaOficiales extends javax.swing.JFrame {
                 String motivo = rs.getString("motivo");
 
                 modeloTablaIngresoExterno.addRow(new Object[]{
-                    nombreCompleto.trim(), id, motivo, fechaIngreso, horaIngreso, nombreGuarda
+                    idIngreso, nombreCompleto.trim(), id, motivo, fechaIngreso, horaIngreso, nombreGuarda
                 });
                 
 
@@ -452,6 +453,7 @@ public class VistaOficiales extends javax.swing.JFrame {
                 ResultSet rsPersona=stmte.executeQuery(SQLPersona);
                 String nombreCompleto="";
                 if (rsPersona.next()) {
+                    
                     String nombre1 = rsPersona.getString("nombre1");
                     String nombre2 = rsPersona.getString("nombre2");
                     String apellido1 = rsPersona.getString("apellido1");
@@ -462,6 +464,7 @@ public class VistaOficiales extends javax.swing.JFrame {
                             + (apellido1 != null ? apellido1 : "") + " "
                             + (apellido2 != null ? apellido2 : "");
                 }
+                String idIngreso = rs.getString("id");
                 String fechaIngreso = rs.getString("fecha");
                 String horaIngreso = rs.getString("hora");
                 String motivo = rs.getString("motivo");
@@ -486,6 +489,7 @@ public class VistaOficiales extends javax.swing.JFrame {
                     cantidadPasajeros = 0;
                 }
                 modeloTablaVehiculoExterno.addRow(new Object[]{
+                    idIngreso,  
                     nombreCompleto.trim(), id, motivo, fechaIngreso, horaIngreso, nombreGuarda,
                      placa,tipoVehiculo, cantidadPasajeros, compania
                 });

@@ -180,6 +180,7 @@ public class Controlador {
             } else {
                 //OptionPane.showMessageDialog(null, "Guarda no encontrado con el nombre de usuario: " + nombreUsuario);
             }
+        
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al buscar guarda: " + e.getMessage());
         } catch (Exception e) {
