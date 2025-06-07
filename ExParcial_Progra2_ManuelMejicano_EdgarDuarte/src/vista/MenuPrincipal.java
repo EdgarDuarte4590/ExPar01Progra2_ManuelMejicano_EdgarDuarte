@@ -155,8 +155,8 @@ public class MenuPrincipal extends JFrame {
             }
         });
 
-        JButton btnSporte = new JButton("Soporte Técnico");
-        btnSporte.setIcon(new ImageIcon("src/resources/icon_soporte.png"));
+        JButton btnSporte = new JButton("Derechos de Autor");
+        btnSporte.setIcon(new ImageIcon("src/resources/icon_derechos.png"));
         btnSporte.setBounds(300, 300, 200, 30);
         btnSporte.setFont(new Font("Arial", Font.BOLD, 12));
         btnSporte.setBackground(new Color(0xFF054FBE));

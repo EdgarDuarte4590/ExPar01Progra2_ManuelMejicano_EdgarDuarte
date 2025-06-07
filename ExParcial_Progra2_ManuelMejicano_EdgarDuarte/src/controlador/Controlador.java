@@ -25,7 +25,6 @@ public class Controlador {
     // base de datos, se eliminara este arraylist y se utilizara la base de datos
     // para obtener los oficiales
 
-   
     private boolean sesionInciadaOficial = false;
     private boolean sesionIniciadaAdmin = false;
 
@@ -42,7 +41,7 @@ public class Controlador {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(
-                    "jdbc:mysql://10.153.159.15:3306/proyecto1?verifyServerCertificate=false&useSSL=true",
+                    "jdbc:mysql://10.153.156.11:3306/proyecto1?verifyServerCertificate=false&useSSL=true",
                     "edgar_manuel", "QWERTY12345@");
             connection.setAutoCommit(true);
             statement = connection.createStatement();
@@ -50,7 +49,6 @@ public class Controlador {
         } catch (SQLException e) {
 
         }
-
 
         menuPrincipal = new MenuPrincipal(this);
         menuPrincipal.setVisible(true);
@@ -101,8 +99,6 @@ public class Controlador {
 
     }
 
-    
-
     public String buscarNombrePersona(String cedula) { // Recibe la cédula de la persona
         // Construye la consulta SQL para obtener los nombres y apellidos de la tabla
         // personas
@@ -129,9 +125,6 @@ public class Controlador {
         return null; // Si no se encuentra la persona, devuelve null
     }
 
-   
-
-
     public String buscarGuardaPorUsuario(String nombreUsuario) {
         String sql = "SELECT * FROM usuarios WHERE nombreUsuario = '" + nombreUsuario + "' AND tipoUsuario = 'Guarda'";
         String nombreGuarda = null;
@@ -143,9 +136,10 @@ public class Controlador {
 
                 return nombreGuarda; // Retorna el ResultSet si se encuentra el guarda
             } else {
-                //OptionPane.showMessageDialog(null, "Guarda no encontrado con el nombre de usuario: " + nombreUsuario);
+                // OptionPane.showMessageDialog(null, "Guarda no encontrado con el nombre de
+                // usuario: " + nombreUsuario);
             }
-        
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al buscar guarda: " + e.getMessage());
         } catch (Exception e) {
@@ -155,17 +149,9 @@ public class Controlador {
         return null; // Si no se encuentra el guarda
     }
 
-
-    public void guardar() {
-        InputStreamReader reader = new InputStreamReader(
-                getClass().getResourceAsStream("/modelo/administradores.json"));
-    }
-
     public void setSesionIniciadaAdmin(boolean sesionIniciadaAdmin) {
         this.sesionIniciadaAdmin = sesionIniciadaAdmin;
     }
-
-
 
     public MenuPrincipal getMenuPrincipal() {
         return menuPrincipal;
@@ -216,7 +202,7 @@ public class Controlador {
     public void loginOficial(String idAcceso, String contrasena) {
         try {
             String sql = "SELECT * FROM usuarios WHERE nombreUsuario = '" + idAcceso + "' AND tipoUsuario = 'Guarda'";
-            ;
+            
 
             ResultSet rs = statement.executeQuery(sql);
             if (rs.next()) {
@@ -249,7 +235,7 @@ public class Controlador {
 
     public void loginAdmin(String nombreUsuario, String contrasena) {
         try {
-            String sql = "SELECT * FROM usuarios WHERE nombreUsuario = '" + nombreUsuario + "'" 
+            String sql = "SELECT * FROM usuarios WHERE nombreUsuario = '" + nombreUsuario + "'"
                     + " AND tipoUsuario = 'Administrador'";
             ResultSet rs = statement.executeQuery(sql);
             if (rs.next()) {
@@ -280,8 +266,6 @@ public class Controlador {
         return sesionIniciadaAdmin;
     }
 
-
-
     public boolean isSesionInciadaOficial() {
         return sesionInciadaOficial;
     }
@@ -298,8 +282,6 @@ public class Controlador {
         this.idOficialActual = idOficialActual;
     }
 
-
-
     public DateTimeFormatter getFormato() {
         return formato;
     }
@@ -307,7 +289,6 @@ public class Controlador {
     public void setFormato(DateTimeFormatter formato) {
         this.formato = formato;
     }
-
 
     public void editarOficial(String nombre1, String nombre2, String apellido1, String apellido2, String telefono,
             String nombreUsuario, String contrasena, String id, String nombreUsuarioModi) {
@@ -383,8 +364,6 @@ public class Controlador {
         }
     }
 
-  
-
     public void registrarSalidaEstudiante(String carnetEstudiante, LocalDate fechaSalida, LocalTime horaSalida,
             String motivoSalida, String nombreGuarda) {
         String sql = "INSERT INTO salidas_estudiantes (carnet, fecha, hora, motivo, nombre_usuario_guarda) VALUES ('"
@@ -419,11 +398,12 @@ public class Controlador {
         }
     }
 
-
-    public void registarIngresoExterno(String cedula,LocalDate fecha, LocalTime hora, String motivo, String nombreGuarda) {
-        String tipoIngreso="Externo";
+    public void registarIngresoExterno(String cedula, LocalDate fecha, LocalTime hora, String motivo,
+            String nombreGuarda) {
+        String tipoIngreso = "Externo";
         String sql = "INSERT INTO ingresos (cedula, fecha, hora, motivo, nombre_usuario_guarda,tipoIngreso) VALUES ('"
-                + cedula + "', '" + fecha + "', '" + hora + "', '" + motivo + "', '" + nombreGuarda + "', '" + tipoIngreso + "')";
+                + cedula + "', '" + fecha + "', '" + hora + "', '" + motivo + "', '" + nombreGuarda + "', '"
+                + tipoIngreso + "')";
         try {
             int i = statement.executeUpdate(sql);
             if (i > 0) {
@@ -487,10 +467,12 @@ public class Controlador {
         return tipoVehiculo;
     }
 
-    public void registrarPersonaVehiculoExterno(String cedula, String nombre1, String nombre2, String apellido1, String apellido2, String placa) {
+    public void registrarPersonaVehiculoExterno(String cedula, String nombre1, String nombre2, String apellido1,
+            String apellido2, String placa) {
         String tipoPersona = "ExternaVehiculo";
         String sql = "INSERT INTO personas (cedula, nombre1, nombre2, apellido1, apellido2, tipoPersona, placaVehiculo) VALUES ('"
-                + cedula + "', '" + nombre1 + "', '" + nombre2 + "', '" + apellido1 + "', '" + apellido2 + "', '" + tipoPersona + "', '" + placa + "')";
+                + cedula + "', '" + nombre1 + "', '" + nombre2 + "', '" + apellido1 + "', '" + apellido2 + "', '"
+                + tipoPersona + "', '" + placa + "')";
         try {
             int i = statement.executeUpdate(sql);
             if (i > 0) {
@@ -501,10 +483,12 @@ public class Controlador {
         }
     }
 
-    public void registarIngresoVehiculoExterno(String cedula, LocalDate fecha, LocalTime hora, String motivo, String nombreGuarda, String placa) {
+    public void registarIngresoVehiculoExterno(String cedula, LocalDate fecha, LocalTime hora, String motivo,
+            String nombreGuarda, String placa) {
         String tipoIngreso = "VehiculoExterno";
         String sql = "INSERT INTO ingresos (cedula, fecha, hora, motivo, nombre_usuario_guarda, tipoIngreso, placa_vehiculo) VALUES ('"
-                + cedula + "', '" + fecha + "', '" + hora + "', '" + motivo + "', '" + nombreGuarda + "', '" + tipoIngreso + "', '" + placa + "')";
+                + cedula + "', '" + fecha + "', '" + hora + "', '" + motivo + "', '" + nombreGuarda + "', '"
+                + tipoIngreso + "', '" + placa + "')";
         try {
             int i = statement.executeUpdate(sql);
             if (i > 0) {
@@ -513,11 +497,13 @@ public class Controlador {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al registrar ingreso de vehículo externo: " + e.getMessage());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error inesperado al registrar ingreso de vehículo externo: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,
+                    "Error inesperado al registrar ingreso de vehículo externo: " + e.getMessage());
         }
     }
- 
-    public void registrarVehiculoExterno(String placa,int cantidadPasajeros, String nombreEmpresa,String tipoVehiculo ){
+
+    public void registrarVehiculoExterno(String placa, int cantidadPasajeros, String nombreEmpresa,
+            String tipoVehiculo) {
         String sql = "INSERT INTO vehiculos (placa, cantidadPasajeros, nombreEmpresa, tipoVehiculo) VALUES ('"
                 + placa + "', '" + cantidadPasajeros + "', '" + nombreEmpresa + "', '" + tipoVehiculo + "')";
         try {
